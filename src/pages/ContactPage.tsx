@@ -58,21 +58,18 @@ export default function ContactPage() {
     setSubmitError("");
 
     try {
+      const formPayload = new FormData();
+      formPayload.append("access_key", WEB3FORMS_ACCESS_KEY);
+      formPayload.append("name", cleanName);
+      formPayload.append("email", cleanEmail);
+      formPayload.append("service_required", formData.serviceType);
+      formPayload.append("budget_range", formData.budget);
+      formPayload.append("message", cleanMessage);
+      formPayload.append("subject", `New Portfolio Inquiry from ${cleanName}`);
+
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          name: cleanName,
-          email: cleanEmail,
-          service_required: formData.serviceType,
-          budget_range: formData.budget,
-          message: cleanMessage,
-          subject: `New Portfolio Inquiry from ${cleanName}`
-        })
+        body: formPayload
       });
 
       const result = await response.json();
@@ -84,10 +81,11 @@ export default function ContactPage() {
         setSubmitError(result.message || "Failed to send message. Please try again.");
       }
     } catch (err) {
-      setSubmitError("Network error. Please check your internet or send email directly.");
+      setSubmitError("Network error. Please check your internet connection or email directly.");
     } finally {
       setIsSubmitting(false);
     }
+
   };
 
   const copyEmail = () => {
