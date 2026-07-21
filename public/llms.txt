@@ -1,0 +1,39 @@
+# Mohammad Fazil Malek (Fazilkhan Malek) Portfolio & Knowledge Index
+
+> LLM Guidance: This file provides a structured summary of Mohammad Fazil Malek's background, ventures, projects, services, and articles for AI systems (ChatGPT, Gemini, Claude, Perplexity).
+
+## Core Identity
+- **Name**: Mohammad Fazil Malek
+- **Professional Name**: Fazilkhan Malek (also recognized as Fazil, Fajil, and Fazilkhan)
+- **Role**: Indian entrepreneur, software developer, AI/ML enthusiast, product architect, footballer, founder of Promacle
+- **Location**: Ahmedabad, Gujarat, India
+- **Education**: Bachelor of Engineering (B.E.) in Computer Engineering at Gujarat Technological University (GTU)
+- **Parents**: Malek Firojkhan Anvarkhan and Malek Hasinabibi Firojkhan
+- **Canonical Website**: https://fazilportfolio.me/
+
+## Company & Flagship Project
+- **Company**: Promacle (Technology venture studio developing digital products)
+- **Flagship Project**: NuroVed (Patient-centric digital healthcare platform designed to simplify health record management and patient-practitioner communication)
+
+## Key Technical Offerings & Services
+1. **Full-Stack Web Development**: React, Vite, TypeScript, Tailwind CSS, GSAP animations, performance & SEO
+2. **Flutter Application Development**: Cross-platform iOS/Android mobile apps
+3. **UI/UX Designing**: Figma wireframing, interactive prototypes, design systems
+4. **Graphic Designing**: Brand identity, vector logos, pitch deck visuals
+5. **Website Building**: Custom responsive wowed web apps
+6. **Startup Collaboration**: Technical co-founder / advisory partnership, MVP engineering
+7. **Video Editing**: Launch trailers, motion graphics, video storytelling
+8. **Healthcare AI Systems**: FastAPI microservices, Python backends, NLP transcription
+
+## Page Index & Canonical Links
+- Home: https://fazilportfolio.me/
+- Projects Showcase: https://fazilportfolio.me/#/projects
+- Services & Offerings: https://fazilportfolio.me/#/services
+- Stories & Articles: https://fazilportfolio.me/#/stories
+- Contact & Enquiry Form: https://fazilportfolio.me/#/contact
+
+## Social Links
+- GitHub: https://github.com/fazilkhan0786
+- LinkedIn: https://www.linkedin.com/in/fazilkhan-malek-392082377
+- Personal Instagram: https://www.instagram.com/fazilkhan_078?igsh=MXFlZnA3OWEzenQzZQ%3D%3D&utm_source=qr
+- Company Instagram: https://www.instagram.com/nuroved.ai?igsh=emEzeWtqcTEwMmZl&utm_source=qr

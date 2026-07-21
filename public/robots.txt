@@ -1,0 +1,26 @@
+# https://fazilportfolio.me/robots.txt
+# Directives for Web Crawlers & AI Engine Bots (ChatGPT, Gemini, Claude, Perplexity)
+
+User-agent: *
+Allow: /
+Disallow: /dist/
+Disallow: /node_modules/
+
+# Allow AI Search & Indexing Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemap Reference
+Sitemap: https://fazilportfolio.me/sitemap.xml

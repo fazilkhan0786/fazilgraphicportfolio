@@ -1,71 +1,93 @@
 /**
  * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
- * This codebase is protected under intellectual property laws.
  * Author: Mohammad Fazil Firojkhan Malek
+ * Comprehensive Security, Anti-XSS, Anti-Spam & Hardening Utilities
  */
 
+/**
+ * Sanitizes user input to prevent Cross-Site Scripting (XSS) and HTML injection.
+ */
+export function sanitizeInput(input: string, maxLength = 1000): string {
+  if (typeof input !== "string") return "";
+
+  // 1. Truncate to maximum allowed length
+  const truncated = input.slice(0, maxLength);
+
+  // 2. Escape HTML entities
+  return truncated
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;");
+}
+
+/**
+ * Rate Limiter to prevent brute force or automated spam submissions.
+ */
+const rateLimitMap = new Map<string, number>();
+
+export function checkRateLimit(actionKey: string, cooldownMs = 5000): boolean {
+  const now = Date.now();
+  const lastExecution = rateLimitMap.get(actionKey) || 0;
+
+  if (now - lastExecution < cooldownMs) {
+    return false; // Rate limit exceeded
+  }
+
+  rateLimitMap.set(actionKey, now);
+  return true; // Allowed
+}
+
+/**
+ * Main security initialization function for client protection.
+ */
 export function initSecurity() {
   if (typeof window === "undefined") return;
 
-  // 1. Disable Context Menu (Right Click)
+  // 1. Disable Context Menu (Right Click protection)
   document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-  });
+  }, { passive: false });
 
-  // 2. Disable Keyboard Shortcuts for DevTools / Inspect / View Source
+  // 2. Disable DevTools & View Source Keyboard Shortcuts
   document.addEventListener("keydown", (e) => {
-    // Disable F12
+    // F12
     if (e.key === "F12") {
       e.preventDefault();
       return false;
     }
 
-    // Disable Ctrl+Shift+I / Cmd+Opt+I (Inspect)
+    // Ctrl+Shift+I / Cmd+Opt+I (Inspect)
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "I" || e.key === "i")) {
       e.preventDefault();
       return false;
     }
 
-    // Disable Ctrl+Shift+J / Cmd+Opt+J (Console)
+    // Ctrl+Shift+J / Cmd+Opt+J (Console)
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "J" || e.key === "j")) {
       e.preventDefault();
       return false;
     }
 
-    // Disable Ctrl+Shift+C / Cmd+Opt+C (Inspect Element selector)
+    // Ctrl+Shift+C / Cmd+Opt+C (Inspect Element)
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "C" || e.key === "c")) {
       e.preventDefault();
       return false;
     }
 
-    // Disable Ctrl+U / Cmd+Opt+U (View Source)
+    // Ctrl+U / Cmd+Opt+U (View Source)
     if ((e.ctrlKey || e.metaKey) && (e.key === "U" || e.key === "u")) {
       e.preventDefault();
       return false;
     }
 
-    // Disable Ctrl+S / Cmd+S (Save Page)
+    // Ctrl+S / Cmd+S (Save Page)
     if ((e.ctrlKey || e.metaKey) && (e.key === "S" || e.key === "s")) {
       e.preventDefault();
       return false;
     }
-  });
-
-  // 3. DevTools Detection & Debugger Trap (Anti-Debugging)
-  // This loop runs a debugger statement. If DevTools is open, it pauses execution.
-  // We wrap it in a function that runs recursively.
-  const debugTrap = () => {
-    try {
-      (function anonymous() {
-        (function() {
-          return true;
-        }["constructor"]("debugger")());
-      }());
-    } catch (err) {}
-    setTimeout(debugTrap, 100);
-  };
-  
-  // Start the anti-debug loop
-  debugTrap();
+  }, { passive: false });
 }

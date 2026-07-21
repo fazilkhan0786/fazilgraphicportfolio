@@ -1,4 +1,4 @@
-# Logs
+# Logs & Runtime
 logs
 *.log
 npm-debug.log*
@@ -7,12 +7,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node Modules & Build Outputs
 node_modules
 dist
 dist-ssr
+build
 *.local
 
-# Editor directories and files
+# Environment Variables & Secret Files (Strict Leak Protection)
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+credentials.json
+secrets.json
+id_rsa
+id_rsa.pub
+
+# Editor & OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -23,6 +42,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Temporary / OS files
+# Temporary / Agent files
 .gemini/
 .agents/

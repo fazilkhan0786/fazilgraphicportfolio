@@ -18,6 +18,13 @@ import portrait from "./assets/portrait.png";
 import Notebook from "./Notebook";
 import TrainWork from "./TrainWork";
 import { techLogos } from "./TechLogos";
+import FAQ from "./FAQ";
+import Articles from "./Articles";
+import { analyticsActions } from "./utils/analytics";
+import ProjectsPage from "./pages/ProjectsPage";
+import ServicesPage from "./pages/ServicesPage";
+import StoriesPage from "./pages/StoriesPage";
+import ContactPage from "./pages/ContactPage";
 
 /* =============== SVG DOODLES =============== */
 const Wavy = ({ color = "#e63946", w = "100%", h = "8px", className = "" }: { color?: string; w?: string; h?: string; className?: string }) => (
@@ -113,35 +120,52 @@ function CustomCursor() {
 }
 
 /* =============== NAV =============== */
-function Nav() {
+function Nav({ currentRoute }: { currentRoute: string }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = [
-    { label: "about", href: "#about" },
-    { label: "notebook", href: "#notebook" },
-    { label: "ventures", href: "#ventures" },
-    { label: "work", href: "#work" },
-    { label: "skills", href: "#skills" },
-    { label: "journey", href: "#journey" },
-    { label: "contact", href: "#contact" },
+  const navPages = [
+    { label: "home", href: "#/" },
+    { label: "projects", href: "#/projects" },
+    { label: "services", href: "#/services" },
+    { label: "stories & blog", href: "#/stories" },
+    { label: "contact me", href: "#/contact" },
   ];
 
   return (
-    <nav className={`fixed top-0 inset-x-0 z-50 px-4 py-3 md:px-8 transition-all duration-500 ${scrolled ? "bg-[#faf6ee]/90 backdrop-blur-md shadow-sm border-b border-black/10" : "bg-transparent"}`}>
+    <nav className={`fixed top-0 inset-x-0 z-50 px-4 py-3 md:px-8 transition-all duration-500 ${scrolled ? "bg-[#faf6ee]/95 backdrop-blur-md shadow-sm border-b border-black/10" : "bg-transparent"}`}>
       <div className="mx-auto max-w-7xl flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 group">
+        <a href="#/" className="flex items-center gap-2 group">
           <span className="inline-flex items-center justify-center w-10 h-10 rounded-full border-[2.5px] border-black bg-[#fffef7] font-[Permanent_Marker] text-lg group-hover:bg-[#e63946] group-hover:text-white group-hover:border-[#e63946] transition-all duration-300" style={{ transform: "rotate(-4deg)" }}>F</span>
           <span className="hidden md:block font-[Caveat] font-bold text-2xl group-hover:text-[#e63946] transition-colors">fazilkhan.</span>
         </a>
         <div className="hidden lg:flex items-center gap-1">
-          {links.map((l) => (<a key={l.href} href={l.href} className="nav-link">{l.label}</a>))}
-          <a href="https://github.com/fazilkhan0786" target="_blank" rel="noreferrer" className="ml-3 btn-hand btn-filled !py-1.5 !px-5 !text-sm">github ↗</a>
+          {navPages.map((p) => {
+            const isActive = (currentRoute === "" && p.href === "#/") || (currentRoute !== "" && p.href.includes(currentRoute));
+            return (
+              <a
+                key={p.href}
+                href={p.href}
+                className={`nav-link ${isActive ? "!text-[#e63946] font-bold underline decoration-[#e63946]" : ""}`}
+              >
+                {p.label}
+              </a>
+            );
+          })}
+          <a
+            href="https://github.com/fazilkhan0786"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-3 btn-hand btn-filled !py-1.5 !px-5 !text-sm"
+          >
+            github ↗
+          </a>
         </div>
         <button className="lg:hidden w-10 h-10 border-2 border-black rounded-lg bg-[#fffef7] flex flex-col items-center justify-center gap-1.5" onClick={() => setOpen(!open)} aria-label="menu">
           <span className={`w-5 h-[2.5px] bg-black rounded transition-all ${open ? "rotate-45 translate-y-[5px]" : ""}`} />
@@ -151,13 +175,23 @@ function Nav() {
       </div>
       {open && (
         <div className="lg:hidden mt-3 mx-auto max-w-7xl wiggle-box bg-[#fffef7] p-5 space-y-1">
-          {links.map((l) => (<a key={l.href} href={l.href} className="block font-[Patrick_Hand] text-xl px-3 py-2 hover:text-[#e63946] transition-colors" onClick={() => setOpen(false)}>→ {l.label}</a>))}
-          <a href="https://github.com/fazilkhan0786" target="_blank" rel="noreferrer" className="block font-[Patrick_Hand] text-xl px-3 py-2 text-[#e63946] font-bold">github ↗</a>
+          {navPages.map((p) => (
+            <a
+              key={p.href}
+              href={p.href}
+              className="block font-[Patrick_Hand] text-xl px-3 py-2 hover:text-[#e63946] transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              → {p.label}
+            </a>
+          ))}
+          <a href="https://github.com/fazilkhan0786" target="_blank" rel="me noopener noreferrer" className="block font-[Patrick_Hand] text-xl px-3 py-2 text-[#e63946] font-bold">github ↗</a>
         </div>
       )}
     </nav>
   );
 }
+
 
 /* =============== HERO =============== */
 function Hero() {
@@ -201,8 +235,9 @@ function Hero() {
             <div className="reveal mt-8 flex flex-wrap gap-4 items-center">
               <a href="#ventures" className="btn-hand btn-filled" ref={mag.ref as React.RefObject<HTMLAnchorElement>} onMouseMove={mag.onMove as React.MouseEventHandler<HTMLAnchorElement>} onMouseLeave={mag.onLeave}>see my ventures →</a>
               <a href="#contact" className="btn-hand btn-red">let's build together</a>
-              <a href="https://www.linkedin.com/in/fazilkhan-malek-392082377" target="_blank" rel="noreferrer" className="font-[Patrick_Hand] text-lg underline-hand" style={{ textDecorationColor: "#e63946" }}>linkedin ↗</a>
+              <a href="https://www.linkedin.com/in/fazilkhan-malek-392082377" target="_blank" rel="me noopener noreferrer" className="font-[Patrick_Hand] text-lg underline-hand" style={{ textDecorationColor: "#e63946" }}>linkedin ↗</a>
             </div>
+
 
             <div className="reveal mt-10 flex flex-wrap gap-8 md:gap-10">
               <MetricCounter end={10000} suffix="+" label="patterns tested" />
@@ -328,24 +363,31 @@ function About() {
 
           {/* Right — text + cards */}
           <div className="md:col-span-7 space-y-5 font-[Kalam] text-lg md:text-xl leading-relaxed">
-            <p className="reveal">i'm a <span className="font-bold">builder first</span>, everything else second. i care about systems that shape behavior — where the UI is the easy part, and the <span className="hl-pink">hard part is understanding why humans do what they do</span>.</p>
-            <p className="reveal">right now my time goes into <b>Promacle</b>, shipping products across healthcare, edtech, cleantech & behavioral AI. i write <span className="hl-blue">Python</span>, <span className="hl-blue">TypeScript</span>, and enough <span className="hl-blue">Dart</span> to be dangerous with Flutter.</p>
-            <p className="reveal">i don't optimize for demos. i optimize for <span className="hl-yellow font-bold">outcomes</span>. daily active usage over downloads. resilience over polish. leverage over hype.</p>
+            <p className="reveal">
+              i'm <span className="font-bold">Mohammad Fazil Malek</span> (known as <b>Fazilkhan</b>, <i>Fazil</i>, or <i>Fajil</i>) — an Indian entrepreneur, software developer, AI/ML enthusiast, product architect, and passionate footballer based in <span className="hl-yellow font-bold">Ahmedabad, Gujarat</span>.
+            </p>
+            <p className="reveal">
+              born to <b>Malek Firojkhan Anvarkhan</b> and <b>Malek Hasinabibi Firojkhan</b>, i'm pursuing my <b>B.E. in Computer Engineering</b> at <b>Gujarat Technological University (GTU)</b> while founding <span className="hl-pink font-bold">Promacle</span> and building <b>NuroVed</b> (patient-centric digital healthcare platform).
+            </p>
+            <p className="reveal">
+              my technical craft spans <span className="hl-blue">Full-Stack Web</span>, <span className="hl-blue">Flutter Mobile</span>, <span className="hl-blue">UI/UX &amp; Graphic Design</span>, <span className="hl-blue">Website Building</span>, <span className="hl-blue">Video Editing</span>, and <span className="hl-blue">Startup Collaboration</span>. Sports taught me that discipline, teamwork, and resilience win championships — and the same applies to software.
+            </p>
 
             <div className="reveal sketch-card !mt-8" style={{ transform: "rotate(-1deg)" }}>
-              <h3 className="font-[Permanent_Marker] text-lg mb-3 flex items-center gap-2"><Sparkle className="w-5 h-5 text-[#f4a261]" /> optimizing for</h3>
+              <h3 className="font-[Permanent_Marker] text-lg mb-3 flex items-center gap-2"><Sparkle className="w-5 h-5 text-[#f4a261]" /> core philosophy &amp; focus</h3>
               <ul className="grid sm:grid-cols-2 gap-2 stagger font-[Patrick_Hand] text-base">
-                {[["outcome", "output"], ["daily usage", "downloads"], ["resilience", "demo polish"], ["behavior change", "vanity metrics"]].map(([g, b]) => (
+                {[["real-world outcomes", "demo polish"], ["daily active usage", "vanity downloads"], ["resilient architecture", "over-engineering"], ["teamwork & leadership", "solo silos"]].map(([g, b]) => (
                   <li key={g} className="flex items-start gap-2"><CheckMark className="w-4 h-4 text-green-700 shrink-0 mt-1" /><span><b className="text-green-800">{g}</b> <span className="text-neutral-400 line-through">{b}</span></span></li>
                 ))}
               </ul>
             </div>
 
             <div className="reveal sticky-note sticky-orange !p-4 !mt-4" style={{ transform: "rotate(1.5deg)" }}>
-              <p className="font-[Gochi_Hand] text-lg">💡 3 questions i ask daily:</p>
-              <p className="font-[Kalam] text-sm mt-1">why do users drop off? · how does this scale 10x? · where does AI add signal, not noise?</p>
+              <p className="font-[Gochi_Hand] text-lg">💡 GTU Computer Engineering + Founder Mode:</p>
+              <p className="font-[Kalam] text-sm mt-1">building NuroVed healthcare systems · hackathons &amp; innovation programs · football discipline</p>
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -672,8 +714,14 @@ function GitHubStats() {
 /* =============== CONTACT =============== */
 function Contact() {
   const [copied, setCopied] = useState(false);
-  const email = "fazilkhan@promacle.com";
-  const copy = () => { navigator.clipboard?.writeText(email); setCopied(true); setTimeout(() => setCopied(false), 2000); };
+  const email = "malekfazilkhan07@gmail.com";
+  const copy = () => {
+    navigator.clipboard?.writeText(email);
+    setCopied(true);
+    analyticsActions.trackCopyEmail();
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section id="contact" className="relative py-28 px-6 md:px-10">
       <div className="absolute top-6 right-6 ghost-num text-[16rem] hidden lg:block">08</div>
@@ -686,15 +734,37 @@ function Contact() {
           <Star className="absolute -top-6 -right-10 w-10 h-10 float hidden md:block" color="#ffd93d" />
           <Sparkle className="absolute bottom-2 -left-8 w-6 h-6 text-[#f4a261] float-slow hidden md:block" />
         </div>
-        <p className="reveal font-[Kalam] text-lg md:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">serious builders working on problems that matter — product-first, AI-enabled, systems-aware. <span className="hl-pink">not chasing hype. looking for leverage.</span></p>
+        <p className="reveal font-[Kalam] text-lg md:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">
+          serious builders working on problems that matter — product-first, AI-enabled, systems-aware. <span className="hl-pink">based in Ahmedabad, Gujarat, India.</span>
+        </p>
         <div className="reveal mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <a href={`mailto:malekfazilkhan07@gmail.com?subject=let's build something`} className="btn-hand btn-filled text-xl">✉️ drop me an email →</a>
-          <button onClick={() => navigator.clipboard?.writeText("malekfazilkhan07@gmail.com")} className="btn-hand text-xl">{copied ? "✓ copied!" : "📋 copy email"}</button>
+          <a
+            href={`mailto:malekfazilkhan07@gmail.com?subject=let's build something`}
+            onClick={() => analyticsActions.trackSendEmail()}
+            className="btn-hand btn-filled text-xl"
+          >
+            ✉️ drop me an email →
+          </a>
+          <button onClick={copy} className="btn-hand text-xl">
+            {copied ? "✓ copied!" : "📋 copy email"}
+          </button>
         </div>
         <div className="reveal mt-6 font-[Patrick_Hand] text-neutral-500">or find me here ↓</div>
         <div className="reveal mt-3 flex justify-center gap-4 flex-wrap">
-          {[{ label: "github", url: "https://github.com/fazilkhan0786", icon: "🐙" }, { label: "linkedin", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377", icon: "💼" }].map((s) => (
-            <a key={s.label} href={s.url} target="_blank" rel="noreferrer" className="tag-pill !text-lg !px-6 !py-2">{s.icon} {s.label} ↗</a>
+          {[
+            { label: "github", url: "https://github.com/fazilkhan0786", icon: "🐙" },
+            { label: "linkedin", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377", icon: "💼" }
+          ].map((s) => (
+            <a
+              key={s.label}
+              href={s.url}
+              target="_blank"
+              rel="me noopener noreferrer"
+              onClick={() => analyticsActions.trackSocialClick(s.label, s.url)}
+              className="tag-pill !text-lg !px-6 !py-2"
+            >
+              {s.icon} {s.label} ↗
+            </a>
           ))}
         </div>
         <div className="reveal mt-16 relative inline-block">
@@ -711,43 +781,126 @@ function Contact() {
   );
 }
 
+
 /* =============== FOOTER =============== */
 function Footer() {
   return (
-    <footer className="relative px-6 md:px-10 py-8 border-t-[2.5px] border-black/80">
-      <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-6"><p className="font-[Shadows_Into_Light] text-xl text-neutral-600">"the best time to build was yesterday. the second best is <span className="text-[#e63946]">right now</span>."</p></div>
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3 font-[Patrick_Hand] text-base">
-          <p className="flex items-center gap-2"><span className="font-[Permanent_Marker]">⚡</span> hand-crafted with care & caffeine</p>
-          <p>founder mode: <span className="inline-flex items-center gap-1 bg-[#e63946] text-white px-2 py-0.5 rounded text-sm font-bold">ON <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" /></span></p>
-          <p className="text-neutral-500">© {new Date().getFullYear()} Fazilkhan Malek</p>
+    <footer className="relative px-6 md:px-10 py-10 border-t-[2.5px] border-black/80 bg-[#fffdf5]">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <div className="text-center">
+          <p className="font-[Shadows_Into_Light] text-xl text-neutral-600">
+            "the best time to build was yesterday. the second best is <span className="text-[#e63946]">right now</span>."
+          </p>
         </div>
-        <div className="text-center mt-6"><a href="#top" className="inline-flex items-center gap-2 font-[Patrick_Hand] text-sm text-neutral-500 hover:text-[#e63946] transition-colors">↑ back to top</a></div>
+
+        {/* Quick Page Links */}
+        <div className="flex flex-wrap justify-center gap-4 font-[Patrick_Hand] text-lg">
+          <a href="#/" className="hover:text-[#e63946] transition-colors">Home</a>
+          <span>•</span>
+          <a href="#/projects" className="hover:text-[#e63946] transition-colors">Projects Showcase</a>
+          <span>•</span>
+          <a href="#/services" className="hover:text-[#e63946] transition-colors">Freelance &amp; Services</a>
+          <span>•</span>
+          <a href="#/stories" className="hover:text-[#e63946] transition-colors">Stories &amp; Blog</a>
+          <span>•</span>
+          <a href="#/contact" className="hover:text-[#e63946] transition-colors">Contact &amp; Enquiry Form</a>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 font-[Patrick_Hand] text-base border-t border-black/10 pt-6">
+          <p className="flex items-center gap-2">
+            <span className="font-[Permanent_Marker]">⚡</span> hand-crafted with care &amp; caffeine in Ahmedabad, India
+          </p>
+          <p>
+            founder mode:{" "}
+            <span className="inline-flex items-center gap-1 bg-[#e63946] text-white px-2 py-0.5 rounded text-sm font-bold">
+              ON <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+            </span>
+          </p>
+          <p className="text-neutral-500">© {new Date().getFullYear()} Mohammad Fazil Malek</p>
+        </div>
+
+        <div className="text-center">
+          <a href="#top" className="inline-flex items-center gap-2 font-[Patrick_Hand] text-sm text-neutral-500 hover:text-[#e63946] transition-colors">
+            ↑ back to top
+          </a>
+        </div>
       </div>
     </footer>
   );
 }
 
-/* =============== APP =============== */
+/* =============== APP WITH ROUTER =============== */
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const [route, setRoute] = useState<string>(() => window.location.hash.replace("#", ""));
   const progress = useScrollProgress();
   useReveal();
   const handleLoaded = useCallback(() => setLoaded(true), []);
-  const observed = useRef(false);
 
   useEffect(() => {
-    if (!loaded || observed.current) return;
-    observed.current = true;
+    const handleHashChange = () => {
+      const currentHash = window.location.hash.replace("#", "");
+      setRoute(currentHash);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      analyticsActions.trackArticleRead("page_view", currentHash || "home");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
     const timer = setTimeout(() => {
       const els = document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate, .stagger, .draw-line");
       const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } });
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            io.unobserve(e.target);
+          }
+        });
       }, { threshold: 0.1 });
       els.forEach((el) => io.observe(el));
-    }, 80);
+    }, 100);
     return () => clearTimeout(timer);
-  }, [loaded]);
+  }, [loaded, route]);
+
+  // Page Routing Logic
+  const renderPageContent = () => {
+    if (route.startsWith("/projects")) {
+      return <ProjectsPage onNavigateContact={() => { window.location.hash = "/contact"; }} />;
+    }
+    if (route.startsWith("/services")) {
+      return <ServicesPage onNavigateContact={() => { window.location.hash = "/contact"; }} />;
+    }
+    if (route.startsWith("/stories")) {
+      return <StoriesPage />;
+    }
+    if (route.startsWith("/contact")) {
+      return <ContactPage />;
+    }
+
+    // Default Home Page View
+    return (
+      <>
+        <Hero />
+        <Marquee />
+        <About />
+        <Notebook />
+        <Ventures />
+        <TrainWork />
+        <Skills />
+        <Journey />
+        <Articles />
+        <FAQ />
+        <Currently />
+        <FunFacts />
+        <GitHubStats />
+        <Contact />
+      </>
+    );
+  };
 
   return (
     <>
@@ -755,23 +908,13 @@ export default function App() {
       <CustomCursor />
       <div className="scroll-progress" style={{ width: `${progress}%` }} />
       <div className="paper-bg paper-noise margin-line relative min-h-screen">
-        <Nav />
-        <main>
-          <Hero />
-          <Marquee />
-          <About />
-          <Notebook />
-          <Ventures />
-          <TrainWork />
-          <Skills />
-          <Journey />
-          <Currently />
-          <FunFacts />
-          <GitHubStats />
-          <Contact />
+        <Nav currentRoute={route} />
+        <main className="pt-8">
+          {renderPageContent()}
         </main>
         <Footer />
       </div>
     </>
   );
 }
+
