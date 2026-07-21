@@ -2,12 +2,14 @@
  * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
  * Author: Mohammad Fazil Firojkhan Malek
- * Dedicated Contact & Enquiry Form Page with Full Social Matrix (Updated)
+ * Dedicated Contact & Enquiry Form Page with Web3Forms & Full Social Matrix
  */
 
 import React, { useState } from "react";
 import { analyticsActions } from "../utils/analytics";
 import { sanitizeInput, checkRateLimit } from "../utils/security";
+
+const WEB3FORMS_ACCESS_KEY = "9af2abb9-1185-449c-9df9-320ba94e8808";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -19,7 +21,9 @@ export default function ContactPage() {
     honeypot: ""
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [rateLimitError, setRateLimitError] = useState(false);
   const [copied, setCopied] = useState(false);
   const email = "malekfazilkhan07@gmail.com";
@@ -27,9 +31,10 @@ export default function ContactPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setRateLimitError(false);
+    setSubmitError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.honeypot) return; // Anti-spam honeypot bot trap
 
@@ -49,10 +54,41 @@ export default function ContactPage() {
       return;
     }
 
-    analyticsActions.trackSendEmail();
-    setSubmitted(true);
-  };
+    setIsSubmitting(true);
+    setSubmitError("");
 
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: cleanName,
+          email: cleanEmail,
+          service_required: formData.serviceType,
+          budget_range: formData.budget,
+          message: cleanMessage,
+          subject: `New Portfolio Inquiry from ${cleanName}`
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        analyticsActions.trackSendEmail();
+        setSubmitted(true);
+      } else {
+        setSubmitError(result.message || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setSubmitError("Network error. Please check your internet or send email directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const copyEmail = () => {
     navigator.clipboard?.writeText(email);
@@ -89,19 +125,29 @@ export default function ContactPage() {
             Project Inquiry &amp; Working Enquiry Form
           </h2>
           <p className="font-[Patrick_Hand] text-neutral-600 text-base mb-6">
-            Fill out the details below. I usually respond within 12 hours.
+            Fill out the details below. Messages are delivered straight to my email (malekfazilkhan07@gmail.com).
           </p>
 
           {submitted ? (
             <div className="bg-green-100 border-2 border-green-500 p-8 rounded-xl text-center space-y-4 font-[Kalam]">
               <div className="text-5xl">🎉</div>
-              <h3 className="font-[Permanent_Marker] text-2xl text-green-800">Inquiry Received!</h3>
+              <h3 className="font-[Permanent_Marker] text-2xl text-green-800">Inquiry Delivered!</h3>
               <p className="text-green-900 text-lg">
-                Thank you, <strong>{formData.fullName}</strong>. I've received your request regarding{" "}
-                <strong>{formData.serviceType}</strong> and will reach out to <strong>{formData.email}</strong> shortly.
+                Thank you, <strong>{formData.fullName}</strong>. Your message regarding{" "}
+                <strong>{formData.serviceType}</strong> has been sent directly to my inbox. I will reply to <strong>{formData.email}</strong> shortly.
               </p>
               <button
-                onClick={() => setSubmitted(false)}
+                onClick={() => {
+                  setSubmitted(false);
+                  setFormData({
+                    fullName: "",
+                    email: "",
+                    serviceType: "Website Building & UI/UX Design",
+                    budget: "₹1k - ₹5k",
+                    message: "",
+                    honeypot: ""
+                  });
+                }}
                 className="btn-hand btn-filled !py-2 !px-6 text-sm mt-4"
               >
                 Send another message
@@ -119,6 +165,18 @@ export default function ContactPage() {
                 tabIndex={-1}
                 autoComplete="off"
               />
+
+              {rateLimitError && (
+                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm font-[Kalam]">
+                  ⏳ Please wait a few seconds before submitting another request.
+                </div>
+              )}
+
+              {submitError && (
+                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-xl text-sm font-[Kalam]">
+                  ⚠️ {submitError}
+                </div>
+              )}
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
@@ -183,10 +241,10 @@ export default function ContactPage() {
                     onChange={handleChange}
                     className="w-full p-3 border-2 border-black rounded-xl font-[Patrick_Hand] text-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#e63946]"
                   >
-                    <option value="<₹1k">Under ₹1,000</option>
-                    <option value="₹1k - ₹5k">₹1,000 - ₹5,000</option>
-                    <option value="₹5k - ₹10k">₹5,000 - ₹10,000</option>
-                    <option value="₹10k+">₹10,000+</option>
+                    <option value="<₹5k">Under ₹5,000</option>
+                    <option value="₹5k - ₹25k">₹5,000 - ₹25,000</option>
+                    <option value="₹25k - ₹1L">₹25,000 - ₹1,00,000</option>
+                    <option value="₹1L+">₹1,00,000+</option>
                   </select>
                 </div>
               </div>
@@ -206,8 +264,12 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button type="submit" className="btn-hand btn-filled w-full text-xl !py-3">
-                ✉️ Submit Enquiry →
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-hand btn-filled w-full text-xl !py-3 disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? "⏳ Sending Inquiry..." : "✉️ Submit Enquiry →"}
               </button>
             </form>
           )}
