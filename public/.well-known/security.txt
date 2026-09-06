@@ -1,0 +1,10 @@
+# Security policy for https://fazilportfolio.me
+# RFC 9116 Vulnerability Disclosure
+
+Contact: mailto:malekfazilkhan07@gmail.com
+Contact: mailto:fazilkhan@promacle.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://fazilportfolio.me/.well-known/security.txt
+Policy: https://fazilportfolio.me/#contact
+Hiring: https://fazilportfolio.me/#contact

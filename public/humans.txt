@@ -1,0 +1,21 @@
+/* TEAM & DEVELOPER */
+Developer: Mohammad Fazil Malek
+Professional Name: Fazilkhan Malek
+Aliases: Fazil, Fajil, Fazilkhan
+Role: Founder, AI Engineer, Software Developer, Product Architect
+Company: Promacle
+Flagship Project: NuroVed
+Education: B.E. in Computer Engineering @ Gujarat Technological University (GTU)
+Parents: Malek Firojkhan Anvarkhan & Malek Hasinabibi Firojkhan
+Location: Ahmedabad, Gujarat, India
+Website: https://fazilportfolio.me
+Contact: malekfazilkhan07@gmail.com
+GitHub: https://github.com/fazilkhan0786
+LinkedIn: https://www.linkedin.com/in/fazilkhan-malek-392082377
+
+/* SITE & TECH STACK */
+Languages: TypeScript, JavaScript, Python, Dart, HTML5, CSS3
+Frameworks & Libraries: React 19, Vite, Tailwind CSS, GSAP, FastAPI, Flutter
+Tools & Security: Git, Docker, Supabase, PostgreSQL, RFC 9116 security.txt
+Standards: Semantic HTML5, Schema JSON-LD, PWA Manifest, Clean URLs
+Design: Custom Paper-Texture Sketch & Doodle Theme
