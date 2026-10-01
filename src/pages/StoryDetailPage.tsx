@@ -239,7 +239,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
               {story.authorRole}
             </p>
             <p className="font-[Kalam] text-sm text-neutral-700 leading-relaxed mb-3">
-              Indian entrepreneur and Computer Engineering student at Gujarat Technological University (GTU). Founder of Promacle, builder of NuroVed, and footballer based in Ahmedabad.
+              Indian entrepreneur and Computer Engineering student at Sal College Of Engineering backed by Gujarat Technological University (GTU),. Founder of Promacle, builder of NuroVed, and footballer based in Ahmedabad.
             </p>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 font-[Patrick_Hand] text-sm">
               <a
