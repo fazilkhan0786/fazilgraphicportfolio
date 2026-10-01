@@ -1,5 +1,5 @@
 /**
- * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
+ * © 2026 Mohammad Fazilkhan Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
  * Author: Fazil Malek
  * Publishing Data Store — Stories, Notebook Entries & Reflections
@@ -64,7 +64,7 @@ export const stories: Story[] = [
     title: "Why I Started NuroVed: Fixing the Small Fractures in Everyday Healthcare",
     subtitle: "How seeing doctors battle disjointed software and patients lose vital records convinced me to build a simpler, patient-centric healthcare platform.",
     category: "Startups",
-    author: "Fazil Malek",
+    author: "Mohammad Fazilkhan Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "June 2026",
@@ -83,7 +83,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "In medical software, an incorrect record sync can compromise care. That responsibility forces you to build with extreme care.",
-        attribution: "Fazil Malek"
+        attribution: "Fazilkhan Malek"
       }
     ],
     takeaways: [
@@ -108,7 +108,7 @@ export const stories: Story[] = [
     title: "Building While Being a Student: Managing Code, Classes, and Founder Mode",
     subtitle: "What balancing a Computer Engineering degree at GTU with building Promacle has taught me about focus, time constraints, and hands-on execution.",
     category: "Lessons",
-    author: "Fazil Malek",
+    author: "Mohammad Fazilkhan Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "July 2026",
@@ -127,7 +127,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "Constraints force clarity. When your time is divided, you no longer have the luxury of aimless tinkering.",
-        attribution: "Fazil Malek"
+        attribution: "Fazilkhan Malek"
       }
     ],
     takeaways: [
@@ -152,7 +152,7 @@ export const stories: Story[] = [
     title: "How I Approach Building Products: Starting on Paper Before Writing Code",
     subtitle: "Why sketching user flows with an ink pen on grid paper saves weeks of wasted frontend engineering and keeps the focus strictly on human outcomes.",
     category: "Design",
-    author: "Fazil Malek",
+    author: "Mohammad Fazilkhan Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "May 2026",
@@ -171,7 +171,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "If a doctor has to stay on a screen longer than necessary, that is not high engagement—it is operational friction.",
-        attribution: "Fazil Malek"
+        attribution: "Fazilkhan Malek"
       }
     ],
     takeaways: [
@@ -196,7 +196,7 @@ export const stories: Story[] = [
     title: "Architecting NuroVed: Zero-Fragmentation Medical Systems with FastAPI & Flutter",
     subtitle: "A technical walkthrough of our asynchronous Python backend, cross-platform mobile frontend, and zero-trust record storage model.",
     category: "Technology",
-    author: "Fazil Malek",
+    author: "Mohammad Fazilkhan Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "April 2026",
@@ -215,7 +215,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "Data integrity cannot be compromised, even under erratic network conditions typical of hospital basements or rural clinics.",
-        attribution: "Fazil Malek"
+        attribution: "Fazilkhan Malek"
       }
     ],
     takeaways: [
@@ -240,7 +240,7 @@ export const stories: Story[] = [
     title: "Building Technology with Purpose: Discipline, Sport, and Long-Term Vision",
     subtitle: "How growing up playing football shaped my resilience as an engineer and why I believe technology should solve human problems, not just chase hype.",
     category: "Personal",
-    author: "Fazil Malek",
+    author: "Mohammad Fazilkhan Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "March 2026",
@@ -259,7 +259,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "In football, when you fall behind in the 80th minute, you sprint back, defend, and reset. That resilience translates directly to software.",
-        attribution: "Fazil Malek"
+        attribution: "Fazilkhan Malek"
       }
     ],
     takeaways: [
@@ -281,7 +281,6 @@ export const stories: Story[] = [
   }
 ];
 
-// Helper functions for querying and navigation
 export function getStoryBySlug(slug: string): Story | undefined {
   const clean = slug.replace(/^#?\/?stories\/?/, "").replace(/\/$/, "");
   return stories.find((s) => s.slug === clean);
