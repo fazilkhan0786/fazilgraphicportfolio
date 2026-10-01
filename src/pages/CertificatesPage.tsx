@@ -1,7 +1,7 @@
 /**
- * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
+ * © 2026 Mohammad Fazilkhan Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
- * Author: Mohammad Fazil Firojkhan Malek
+ * Author: Mohammad Fazilkhan Firojkhan Malek
  * Dedicated Certificates & Achievements Page
  */
 
@@ -33,10 +33,10 @@ const certificatesData: Certificate[] = [
     verifyUrl: "https://cs50.harvard.edu/x"
   },
   {
-    id: "harvard-cs50p",
-    title: "CS50P: Introduction to Programming with Python",
+    id: "harvard-cs50s",
+    title: "CS50: Introduction to Programming with Python",
     issuer: "Harvard University (HarvardX)",
-    date: "Nov 2024",
+    date: "Nov 2025",
     image: "images/CS50_Introduction-Python_Certificate.png",
     category: "Computer Science",
     description: "An intensive introduction to programming using Python. Covered writing and testing code; functions, arguments, and return values; variables and types; conditionals and loops; exceptions; libraries; unit tests; file I/O; regular expressions; and object-oriented programming.",
@@ -47,7 +47,7 @@ const certificatesData: Certificate[] = [
     id: "aws-ml-academy",
     title: "AWS Academy Graduate - Machine Learning",
     issuer: "Amazon Web Services (AWS)",
-    date: "Dec 2024",
+    date: "Dec 2025",
     image: "images/AWS_ML_Certificate.png",
     category: "AI & Machine Learning",
     description: "In-depth academy course on the machine learning pipeline, focusing on AWS SageMaker. Hands-on learning of data engineering, exploratory data analysis, modeling (supervised and unsupervised), training, evaluation, and deploying ML models to production on cloud architecture.",
@@ -78,7 +78,7 @@ const certificatesData: Certificate[] = [
   },
   {
     id: "dprofiz-internship-completion",
-    title: "Software Developer & IoT Intern",
+    title: "Lead Software Developer & IoT Intern",
     issuer: "Dprofiz Ltd",
     date: "Nov 2023",
     image: "images/Internship_Fazil_Internship_Certificate.png",
@@ -94,7 +94,7 @@ const certificatesData: Certificate[] = [
     image: "images/Dprofiz_Fazil_Internship-Offer_Letter.png",
     category: "Experience & Vol.",
     description: "Official selection and appointment offer as a Software Developer Intern at Dprofiz Ltd. Marked the beginning of professional startup engineering collaborations.",
-    skills: ["Professional Engineering", "Agile Methodologies", "Project Planning"]
+    skills: ["Lead Software Developer", "Professional Engineering", "Agile Methodologies", "Project Planning"]
   },
   {
     id: "hts25-hack-x",
