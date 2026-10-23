@@ -74,7 +74,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
             href="#/stories"
             className="btn-hand btn-filled inline-block"
           >
-            ← Return to All Stories
+            Return to All Stories
           </a>
         </div>
       </div>
@@ -92,7 +92,6 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
           href="#/stories"
           className="inline-flex items-center gap-2 font-[Patrick_Hand] text-base md:text-lg text-neutral-600 hover:text-[#e63946] transition-colors"
         >
-          <span>←</span>
           <span className="underline-hand" style={{ textDecorationColor: "#e63946" }}>
             All Stories &amp; Notebook Archive
           </span>
@@ -117,7 +116,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
           </div>
 
           <div className="font-[Patrick_Hand] text-sm text-neutral-500 flex items-center gap-2">
-            <span>⏱ {story.readTime}</span>
+            <span>{story.readTime}</span>
             <span>•</span>
             <span className="text-[#e63946] font-semibold">Author: {story.author}</span>
           </div>
@@ -180,7 +179,6 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
           <div className="my-12 p-6 md:p-8 bg-[#fff9db] border-[2px] border-black rounded-lg shadow-[4px_5px_0_rgba(26,26,26,0.1)] relative">
             <div className="tape absolute -top-3 left-8 w-24 h-5 rotate-[-2deg]" />
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl">📌</span>
               <h3 className="font-[Permanent_Marker] text-xl md:text-2xl text-neutral-900">
                 What I Learned
               </h3>
@@ -226,6 +224,8 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
           <img
             src={portraitImg}
             alt="Fazil Malek"
+            width="80"
+            height="80"
             className="w-20 h-20 rounded-full border-2 border-black object-cover shadow-[3px_3px_0_rgba(0,0,0,0.1)] shrink-0"
           />
           <div className="text-center sm:text-left">
@@ -239,7 +239,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
               {story.authorRole}
             </p>
             <p className="font-[Kalam] text-sm text-neutral-700 leading-relaxed mb-3">
-              Indian entrepreneur and Computer Engineering student at Sal College Of Engineering backed by Gujarat Technological University (GTU),. Founder of Promacle, builder of NuroVed, and footballer based in Ahmedabad.
+              Indian entrepreneur and Computer Engineering student at Sal College Of Engineering backed by Gujarat Technological University (GTU). Founder of Promacle, builder of NuroVed, and footballer based in Ahmedabad.
             </p>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 font-[Patrick_Hand] text-sm">
               <a
@@ -249,7 +249,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
                 className="underline-hand hover:text-[#e63946]"
                 style={{ textDecorationColor: "#1a1a1a" }}
               >
-                GitHub ↗
+                GitHub
               </a>
               <span>•</span>
               <a
@@ -259,7 +259,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
                 className="underline-hand hover:text-[#e63946]"
                 style={{ textDecorationColor: "#1a1a1a" }}
               >
-                LinkedIn ↗
+                LinkedIn
               </a>
               <span>•</span>
               <a
@@ -267,7 +267,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
                 className="underline-hand hover:text-[#e63946]"
                 style={{ textDecorationColor: "#e63946" }}
               >
-                fazilportfolio.me ↗
+                fazilportfolio.me
               </a>
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
               className="p-4 bg-[#fffdf5] border-2 border-black rounded-lg hover:-translate-y-0.5 hover:shadow-[4px_5px_0_rgba(26,26,26,0.12)] transition-all group"
             >
               <span className="font-[Patrick_Hand] text-xs text-neutral-500 block mb-1">
-                ← Previous Entry ({prev.category})
+                Previous Entry ({prev.category})
               </span>
               <h5 className="font-[Permanent_Marker] text-sm md:text-base text-neutral-900 group-hover:text-[#e63946] transition-colors leading-snug">
                 {prev.title}
@@ -299,7 +299,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
               className="p-4 bg-[#fffdf5] border-2 border-black rounded-lg hover:-translate-y-0.5 hover:shadow-[4px_5px_0_rgba(26,26,26,0.12)] transition-all group text-right"
             >
               <span className="font-[Patrick_Hand] text-xs text-neutral-500 block mb-1">
-                Next Entry ({next.category}) →
+                Next Entry ({next.category})
               </span>
               <h5 className="font-[Permanent_Marker] text-sm md:text-base text-neutral-900 group-hover:text-[#e63946] transition-colors leading-snug">
                 {next.title}
@@ -346,7 +346,7 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
                 </div>
                 <div className="mt-4 pt-3 border-t border-black/10 flex items-center justify-between font-[Patrick_Hand] text-xs text-neutral-500">
                   <span>{rel.date}</span>
-                  <span className="text-[#e63946] font-bold">Read story →</span>
+                  <span className="text-[#e63946] font-bold">Read story</span>
                 </div>
               </a>
             ))}

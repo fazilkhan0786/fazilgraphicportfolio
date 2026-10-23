@@ -64,7 +64,7 @@ export const stories: Story[] = [
     title: "Why I Started NuroVed: Fixing the Small Fractures in Everyday Healthcare",
     subtitle: "How seeing doctors battle disjointed software and patients lose vital records convinced me to build a simpler, patient-centric healthcare platform.",
     category: "Startups",
-    author: "Mohammad Fazilkhan Malek",
+    author: "Fazil Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "June 2026",
@@ -83,7 +83,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "In medical software, an incorrect record sync can compromise care. That responsibility forces you to build with extreme care.",
-        attribution: "Fazilkhan Malek"
+        attribution: "Fazil Malek"
       }
     ],
     takeaways: [
@@ -108,7 +108,7 @@ export const stories: Story[] = [
     title: "Building While Being a Student: Managing Code, Classes, and Founder Mode",
     subtitle: "What balancing a Computer Engineering degree at GTU with building Promacle has taught me about focus, time constraints, and hands-on execution.",
     category: "Lessons",
-    author: "Mohammad Fazilkhan Malek",
+    author: "Fazil Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "July 2026",
@@ -127,7 +127,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "Constraints force clarity. When your time is divided, you no longer have the luxury of aimless tinkering.",
-        attribution: "Fazilkhan Malek"
+        attribution: "Fazil Malek"
       }
     ],
     takeaways: [
@@ -152,7 +152,7 @@ export const stories: Story[] = [
     title: "How I Approach Building Products: Starting on Paper Before Writing Code",
     subtitle: "Why sketching user flows with an ink pen on grid paper saves weeks of wasted frontend engineering and keeps the focus strictly on human outcomes.",
     category: "Design",
-    author: "Mohammad Fazilkhan Malek",
+    author: "Fazil Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "May 2026",
@@ -171,7 +171,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "If a doctor has to stay on a screen longer than necessary, that is not high engagement—it is operational friction.",
-        attribution: "Fazilkhan Malek"
+        attribution: "Fazil Malek"
       }
     ],
     takeaways: [
@@ -196,7 +196,7 @@ export const stories: Story[] = [
     title: "Architecting NuroVed: Zero-Fragmentation Medical Systems with FastAPI & Flutter",
     subtitle: "A technical walkthrough of our asynchronous Python backend, cross-platform mobile frontend, and zero-trust record storage model.",
     category: "Technology",
-    author: "Mohammad Fazilkhan Malek",
+    author: "Fazil Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "April 2026",
@@ -215,7 +215,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "Data integrity cannot be compromised, even under erratic network conditions typical of hospital basements or rural clinics.",
-        attribution: "Fazilkhan Malek"
+        attribution: "Fazil Malek"
       }
     ],
     takeaways: [
@@ -240,14 +240,14 @@ export const stories: Story[] = [
     title: "Building Technology with Purpose: Discipline, Sport, and Long-Term Vision",
     subtitle: "How growing up playing football shaped my resilience as an engineer and why I believe technology should solve human problems, not just chase hype.",
     category: "Personal",
-    author: "Mohammad Fazilkhan Malek",
+    author: "Fazil Malek",
     authorRole: "Founder @ Promacle • B.E. Computer Engineering @ GTU",
     authorUrl: "https://fazilportfolio.me",
     date: "March 2026",
     isoDate: "2026-03-10",
     modifiedDate: "2026-07-21",
     readTime: "6 min read",
-    excerpt: "A personal reflection by Mohammad Fazil Malek on football discipline, values instilled by family in Ahmedabad, and the enduring motivation behind Promacle.",
+    excerpt: "A personal reflection by Fazil Malek on football discipline, values instilled by family in Ahmedabad, and the enduring motivation behind Promacle.",
     featuredVisualCaption: "Handwritten note on personal principles: endurance, clarity, and service.",
     content: [
       "Before I wrote my first line of Python or configured my first Git repository, my world was defined by the football pitch. Playing football throughout my school years taught me lessons that no computer engineering textbook could ever replicate.",
@@ -259,7 +259,7 @@ export const stories: Story[] = [
     pullQuotes: [
       {
         quote: "In football, when you fall behind in the 80th minute, you sprint back, defend, and reset. That resilience translates directly to software.",
-        attribution: "Fazilkhan Malek"
+        attribution: "Fazil Malek"
       }
     ],
     takeaways: [

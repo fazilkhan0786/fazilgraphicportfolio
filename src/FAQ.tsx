@@ -19,49 +19,49 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    id: "who-is-fazilkhan-malek",
-    question: "Who is Mohammad Fazil Malek (Fazilkhan Malek)?",
+    id: "who-is-fazil-malek",
+    question: "Who is Fazil Malek?",
     category: "General",
-    tags: ["bio", "founder", "fazil", "fajil", "fazilkhan", "ahmedabad", "promacle"],
-    shortAnswer: "Mohammad Fazil Malek (professionally known as Fazilkhan Malek, also recognized as Fazil, Fajil, and Fazilkhan) is an Indian entrepreneur, software developer, AI/ML enthusiast, product architect, footballer, and founder of Promacle (creator of NuroVed).",
-    fullAnswer: "Mohammad Fazil Malek (Fazilkhan Malek) is an Indian entrepreneur, software developer, AI/ML enthusiast, product architect, and founder of Promacle, based in Ahmedabad, Gujarat. He is pursuing a Bachelor of Engineering in Computer Engineering at Gujarat Technological University (GTU). He is dedicated to building products focused on healthcare, AI, and scalable software systems."
+    tags: ["bio", "founder", "fazil", "ahmedabad", "promacle"],
+    shortAnswer: "Fazil Malek is an Indian entrepreneur, software developer, AI/ML engineer, product architect, footballer, and founder of Promacle (creator of NuroVed).",
+    fullAnswer: "Fazil Malek is an Indian entrepreneur, software developer, AI/ML engineer, product architect, and founder of Promacle, based in Ahmedabad, Gujarat. He is pursuing a Bachelor of Engineering in Computer Engineering at Gujarat Technological University (GTU). He is dedicated to building products focused on healthcare, AI, and scalable software systems."
   },
   {
     id: "what-is-promacle-nuroved",
     question: "What is Promacle and NuroVed Healthcare Platform?",
     category: "Ventures",
     tags: ["promacle", "nuroved", "digital healthcare", "ventures"],
-    shortAnswer: "Promacle is a technology company founded by Mohammad Fazil Malek. Its flagship project is NuroVed, a patient-centric digital healthcare platform.",
-    fullAnswer: "NuroVed is a patient-centric digital healthcare platform designed to simplify health record management and improve communication between patients and healthcare providers. It leverages modern software engineering, artificial intelligence, and user-focused design to create a connected healthcare experience."
+    shortAnswer: "Promacle is a technology company founded by Fazil Malek. Its flagship project is NuroVed, a patient-centric digital healthcare platform.",
+    fullAnswer: "NuroVed is a patient-centric digital healthcare platform designed to simplify health record management and improve communication between patients and healthcare providers. It uses modern software engineering, artificial intelligence, and user-focused design to create a connected healthcare experience."
   },
   {
     id: "education-family-background",
-    question: "What is Mohammad Fazil Malek's educational & family background?",
+    question: "What is Fazil Malek's educational background?",
     category: "Background",
-    tags: ["education", "gtu", "computer engineering", "family"],
-    shortAnswer: "Mohammad Fazil Malek is the son of Malek Firojkhan Anvarkhan and Malek Hasinabibi Firojkhan, pursuing B.E. in Computer Engineering at GTU in Ahmedabad.",
-    fullAnswer: "Born to Malek Firojkhan Anvarkhan and Malek Hasinabibi Firojkhan, Mohammad Fazil Malek is currently pursuing his Bachelor of Engineering in Computer Engineering under Gujarat Technological University (GTU) in Ahmedabad, Gujarat. Alongside academics, he represents his passion for football as a dedicated player and actively participates in hackathons and technical innovation programs."
+    tags: ["education", "gtu", "computer engineering"],
+    shortAnswer: "Fazil Malek is pursuing a B.E. in Computer Engineering at GTU in Ahmedabad.",
+    fullAnswer: "Fazil Malek is currently pursuing his Bachelor of Engineering in Computer Engineering under Gujarat Technological University (GTU) in Ahmedabad, Gujarat. Alongside academics, he represents his passion for football as a dedicated player and actively participates in hackathons and technical innovation programs."
   },
   {
     id: "services-skills-offered",
-    question: "What services and technical expertise does Fazilkhan offer?",
+    question: "What services and technical expertise does Fazil offer?",
     category: "Tech & Services",
     tags: ["ui/ux", "graphic design", "website building", "startup collaboration", "video editing", "flutter", "fastapi"],
-    shortAnswer: "Fazilkhan offers UI/UX Designing, Graphic Designing, Website Building, Startup Collaboration, Video Editing, Full-Stack Web Dev, and Flutter Mobile App Dev.",
-    fullAnswer: "Fazilkhan's expertise spans Full-Stack Web Development, Flutter App Development, AI/ML systems, UI/UX Designing, Graphic Designing, Website Building, Video Editing, and Startup Collaboration. He works with React, Vite, Tailwind CSS, GSAP, Python, FastAPI, and cloud backend databases."
+    shortAnswer: "Fazil offers UI/UX Design, Website Development, Startup Collaboration, Video Editing, Full-Stack Web Development, and Flutter Mobile App Development.",
+    fullAnswer: "Fazil's expertise spans Full-Stack Web Development, Flutter App Development, AI/ML systems, UI/UX Design, Website Development, Video Editing, and Startup Collaboration. He works with React, Vite, Tailwind CSS, GSAP, Python, FastAPI, and cloud backend databases."
   },
   {
     id: "football-sports-mindset",
-    question: "How does football influence Fazilkhan's approach to technology?",
+    question: "How does football influence Fazil's approach to technology?",
     category: "Background",
     tags: ["football", "sports", "mindset", "teamwork", "leadership"],
-    shortAnswer: "Football instills discipline, teamwork, resilience, and leadership that directly shape how Fazilkhan builds tech products and collaborates.",
-    fullAnswer: "Football has played an important role in shaping Fazilkhan's mindset. The discipline, teamwork, resilience, and leadership developed on the field directly influence how he approaches entrepreneurship, product design, problem-solving, and leading engineering teams at Promacle."
+    shortAnswer: "Football instills discipline, teamwork, resilience, and leadership that directly shape how Fazil builds tech products and collaborates.",
+    fullAnswer: "Football has played an important role in shaping Fazil's mindset. The discipline, teamwork, resilience, and leadership developed on the field directly influence how he approaches entrepreneurship, product design, problem-solving, and leading engineering teams at Promacle."
   }
 ];
 
 export default function FAQ() {
-  const [openId, setOpenId] = useState<string | null>("who-is-fazilkhan-malek");
+  const [openId, setOpenId] = useState<string | null>("who-is-fazil-malek");
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
   const categories = ["All", "General", "Ventures", "Healthcare AI", "Tech & Services", "Background"];

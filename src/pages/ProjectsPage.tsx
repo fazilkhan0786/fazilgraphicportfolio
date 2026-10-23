@@ -14,7 +14,6 @@ interface Project {
   tagline: string;
   category: "Healthcare AI" | "Computer Vision" | "EdTech" | "CleanTech" | "Behavioral AI" | "Infrastructure";
   status: "v1 Active" | "In Production" | "Scaling" | "R&D Phase";
-  emoji: string;
   color: string;
   rot: number;
   description: string;
@@ -33,7 +32,6 @@ const projects: Project[] = [
     tagline: "Healthcare Infrastructure & Clinical Workflow System",
     category: "Healthcare AI",
     status: "v1 Active",
-    emoji: "🏥",
     color: "sticky-pink",
     rot: -1.5,
     description: "Unified healthcare infrastructure platform eliminating patient data fragmentation and operational bottlenecks across clinics and hospitals.",
@@ -50,7 +48,6 @@ const projects: Project[] = [
     tagline: "Context-Aware Clinical Symptom & Health Risk Evaluator",
     category: "Healthcare AI",
     status: "R&D Phase",
-    emoji: "🩺",
     color: "sticky-pink",
     rot: -1.4,
     description: "Intelligent clinical triage assistant that analyzes user-reported symptoms in natural language, incorporating demographic and health context.",
@@ -66,7 +63,6 @@ const projects: Project[] = [
     tagline: "Personalized Medical-Grade Nutrition Architect",
     category: "Healthcare AI",
     status: "v1 Active",
-    emoji: "🥗",
     color: "sticky-green",
     rot: 1.3,
     description: "A personalized meal generator that designs diet plans based on caloric targets, culinary preferences, and underlying medical conditions.",
@@ -82,7 +78,6 @@ const projects: Project[] = [
     tagline: "Real-Time Facial Expression & Sentiment Recognition",
     category: "Computer Vision",
     status: "v1 Active",
-    emoji: "🎭",
     color: "sticky-orange",
     rot: -1.2,
     description: "A deep learning system built to recognize human emotions from real-time video streams using advanced neural networks.",
@@ -98,12 +93,11 @@ const projects: Project[] = [
     tagline: "Real-Time Sign Language Interpreter & Communicator",
     category: "Computer Vision",
     status: "v1 Active",
-    emoji: "🤟",
     color: "sticky-blue",
     rot: 0.8,
     description: "An assistive technology tool utilizing hand landmark tracking to translate sign language gestures into readable text in real-time.",
     problem: "Communicative barriers persist between hearing-impaired signers and non-signers due to lack of accessible interpreters.",
-    solution: "Leveraged MediaPipe Hands to capture 21 3D hand coordinates, feeding a pre-trained gesture classifier for accurate sign-to-text conversion.",
+    solution: "Used MediaPipe Hands to capture 21 3D hand coordinates, feeding a pre-trained gesture classifier for accurate sign-to-text conversion.",
     impactMetrics: ["Translates 26 alphabets with 98% tracking accuracy", "Instant text response on screen", "No external sensors or hardware required"],
     stack: ["Python", "MediaPipe", "OpenCV", "Scikit-Learn", "NumPy"],
     githubUrl: "https://github.com/fazilkhan0786/Hand_Sign_Language_Translator.git"
@@ -114,7 +108,6 @@ const projects: Project[] = [
     tagline: "Immersive Motion-to-Canvas Spatial Sketchpad",
     category: "Computer Vision",
     status: "In Production",
-    emoji: "🎨",
     color: "sticky-green",
     rot: -0.7,
     description: "A touchless digital canvas allowing users to draw and sketch in a 3D interface using fingertip gestures.",
@@ -130,7 +123,6 @@ const projects: Project[] = [
     tagline: "Interactive Color Masking & Digital Paint Mirror",
     category: "Computer Vision",
     status: "v1 Active",
-    emoji: "🪞",
     color: "sticky-purple",
     rot: 1.1,
     description: "A webcam-based drawing application that tracks specific colored markers to paint on a live mirrored display.",
@@ -146,7 +138,6 @@ const projects: Project[] = [
     tagline: "EdTech Operations & AI Student Credibility System",
     category: "EdTech",
     status: "Scaling",
-    emoji: "🎓",
     color: "sticky-blue",
     rot: 1.2,
     description: "End-to-end academic management system powered by AI credibility scoring to evaluate student growth beyond traditional exams.",
@@ -162,13 +153,12 @@ const projects: Project[] = [
     tagline: "Interactive Personal Library & Reading Dashboard",
     category: "EdTech",
     status: "In Production",
-    emoji: "📚",
     color: "sticky-blue",
     rot: -0.9,
     description: "A responsive, beautifully animated reading dashboard and cataloging web app integrated with public book metadata APIs.",
     problem: "Keeping track of read books and reviews across multiple platforms is clunky and lacks custom visual styling.",
     solution: "Developed a web portal using React and TypeScript, integrating Google Books API for auto-fetching book details and covers.",
-    impactMetrics: ["Real-time search and custom rating tags", "Interactive reading stats visualization", "Seamless cross-device responsive layout"],
+    impactMetrics: ["Real-time search and custom rating tags", "Interactive reading stats visualization", "Cross-device responsive layout"],
     stack: ["React", "TypeScript", "Google Books API", "Tailwind CSS", "Framer Motion"],
     githubUrl: "https://github.com/fazilkhan0786/Book_Portfolio.git"
   },
@@ -178,7 +168,6 @@ const projects: Project[] = [
     tagline: "CleanTech IoT Community Waste Reporting Platform",
     category: "CleanTech",
     status: "In Production",
-    emoji: "🌱",
     color: "sticky-green",
     rot: -1,
     description: "Community-driven environmental reporting network converting municipal citizens into active change-makers with geo-tagged IoT tracking.",
@@ -194,7 +183,6 @@ const projects: Project[] = [
     tagline: "Behavioral Design AI & Focus Modification Engine",
     category: "Behavioral AI",
     status: "R&D Phase",
-    emoji: "🧠",
     color: "sticky-purple",
     rot: 1.5,
     description: "Attacks the digital dopamine loop directly, rewiring psychological triggers that cause focus drift.",
@@ -245,7 +233,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
           projects &amp; <span className="text-[#e63946]">systems</span>
         </h1>
         <p className="font-[Kalam] text-xl text-neutral-600 max-w-2xl mx-auto mt-4 leading-relaxed">
-          a showcase of high-leverage products shipped across healthcare, education, clean technology, and behavioral AI.
+          a showcase of real-world products shipped across healthcare, education, clean technology, and behavioral AI.
         </p>
       </div>
 
@@ -276,8 +264,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
             <div className="tape absolute -top-3 left-6 w-16 h-5" style={{ transform: `rotate(${-proj.rot * 2}deg)` }} />
             
             <div className="space-y-3">
-              <div className="flex items-start justify-between">
-                <span className="text-3xl">{proj.emoji}</span>
+              <div className="flex items-start justify-end">
                 <span className="font-[Patrick_Hand] text-xs px-2.5 py-0.5 border border-black/60 rounded bg-[#fff9b0]">
                   {proj.status}
                 </span>
@@ -305,7 +292,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
                   </span>
                 ))}
               </div>
-              <span className="text-[#e63946] font-bold shrink-0 hover:underline">Details →</span>
+              <span className="text-[#e63946] font-bold shrink-0 hover:underline">Details</span>
             </div>
           </div>
         ))}
@@ -329,7 +316,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
             {/* Close Button */}
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 w-9 h-9 border-2 border-black rounded-full bg-[#fff9b0] font-bold text-lg flex items-center justify-center hover:bg-[#e63946] hover:text-white transition-colors cursor-pointer z-10"
+              className="absolute top-4 right-4 w-11 h-11 min-w-[44px] min-h-[44px] border-2 border-black rounded-full bg-[#fff9b0] font-bold text-lg flex items-center justify-center hover:bg-[#e63946] hover:text-white transition-colors cursor-pointer z-10"
               aria-label="Close details"
             >
               ✕
@@ -343,7 +330,6 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
               {/* Left Details Panel */}
               <div className="md:col-span-7 space-y-4">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-4xl">{selectedProject.emoji}</span>
                   <div>
                     <h2 className="font-[Permanent_Marker] text-2xl md:text-3xl text-neutral-900 leading-none">
                       {selectedProject.name}
@@ -383,7 +369,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
               <div className="md:col-span-5 bg-[#fffdf5] p-6 border-2 border-black rounded-xl space-y-4 flex flex-col justify-between">
                 <div>
                   <h3 className="font-[Permanent_Marker] text-lg text-[#e63946] flex items-center gap-2 mb-3">
-                    <span>⚡</span> Key Impact &amp; Metrics
+                    Key Impact &amp; Metrics
                   </h3>
 
                   <ul className="space-y-2 font-[Patrick_Hand] text-base text-neutral-800">
@@ -406,9 +392,9 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
                         analyticsActions.trackSocialClick("github_project", selectedProject.githubUrl!);
                         setSelectedProject(null);
                       }}
-                      className="btn-hand !py-2 !px-4 !text-sm flex items-center justify-center gap-1.5 w-full"
+                      className="btn-hand !py-2 !px-4 !text-sm flex items-center justify-center gap-1.5 w-full min-h-[44px]"
                     >
-                      <span>🐙</span> GitHub Repository
+                      GitHub Repository
                     </a>
                   )}
                   {selectedProject.liveUrl && (
@@ -420,9 +406,9 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
                         analyticsActions.trackSocialClick("live_project", selectedProject.liveUrl!);
                         setSelectedProject(null);
                       }}
-                      className="btn-hand !py-2 !px-4 !text-sm flex items-center justify-center gap-1.5 w-full bg-blue-50/50"
+                      className="btn-hand !py-2 !px-4 !text-sm flex items-center justify-center gap-1.5 w-full bg-blue-50/50 min-h-[44px]"
                     >
-                      <span>🔗</span> Live Project Demo
+                      Live Project Demo
                     </a>
                   )}
                   <button
@@ -430,9 +416,9 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
                       setSelectedProject(null);
                       onNavigateContact();
                     }}
-                    className="btn-hand btn-filled !py-2 !px-4 !text-sm w-full"
+                    className="btn-hand btn-filled !py-2 !px-4 !text-sm w-full min-h-[44px]"
                   >
-                    Build similar system →
+                    Build similar system
                   </button>
                 </div>
               </div>
@@ -449,7 +435,7 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
           from zero-to-one prototyping to complex healthcare microservices, let's architect software that works.
         </p>
         <button onClick={onNavigateContact} className="btn-hand btn-red text-xl">
-          discuss project requirements →
+          discuss project requirements
         </button>
       </div>
     </div>

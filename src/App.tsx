@@ -9,8 +9,6 @@ import { useEffect, useState, useCallback } from "react";
 import {
   useReveal,
   useScrollProgress,
-  useTypewriter,
-  useCountUp,
   useMouse,
   useMagnetic,
 } from "./hooks";
@@ -66,6 +64,12 @@ const CheckMark = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+const WhatsAppIcon = ({ className = "w-5 h-5", fill = "currentColor" }: { className?: string; fill?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill={fill} aria-hidden="true">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.32 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16ZM16.57 14.41C16.32 14.28 15.1 13.68 14.88 13.6C14.65 13.52 14.49 13.48 14.32 13.73C14.15 13.98 13.68 14.54 13.54 14.7C13.4 14.87 13.26 14.89 13.01 14.76C12.76 14.63 11.97 14.37 11.03 13.54C10.3 12.89 9.8 12.08 9.66 11.83C9.52 11.58 9.64 11.45 9.77 11.32C9.88 11.21 10.02 11.03 10.16 10.87C10.3 10.71 10.35 10.58 10.44 10.42C10.53 10.25 10.49 10.11 10.42 9.98C10.35 9.86 9.77 8.44 9.53 7.86C9.3 7.3 9.06 7.37 8.89 7.37C8.73 7.36 8.54 7.36 8.35 7.36C8.16 7.36 7.85 7.43 7.6 7.71C7.35 7.98 6.64 8.65 6.64 10.02C6.64 11.39 7.64 12.71 7.78 12.89C7.92 13.08 9.75 15.89 12.54 17.1C13.2 17.39 13.72 17.56 14.12 17.69C14.79 17.9 15.4 17.87 15.88 17.8C16.42 17.72 17.54 17.12 17.77 16.47C18.01 15.83 18.01 15.28 17.94 15.16C17.87 15.04 17.71 14.97 17.46 14.84L16.57 14.41Z" />
+  </svg>
+);
+
 
 function Loader({ onDone }: { onDone: () => void }) {
   const [progress, setProgress] = useState(0);
@@ -73,17 +77,25 @@ function Loader({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     const end = 100;
-    const duration = 750;     const stepTime = duration / end;
-    
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= end) {
           clearInterval(timer);
-          setTimeout(() => setExit(true), 150);           setTimeout(onDone, 650);           return end;
+          setTimeout(() => setExit(true), 60);
+          setTimeout(onDone, 320);
+          return end;
         }
-        return prev + 1;
+        const increment = Math.floor(Math.random() * 3) + 4;
+        const next = prev + increment;
+        if (next >= end) {
+          clearInterval(timer);
+          setTimeout(() => setExit(true), 60);
+          setTimeout(onDone, 320);
+          return end;
+        }
+        return next;
       });
-    }, stepTime);
+    }, 12);
 
     return () => clearInterval(timer);
   }, [onDone]);
@@ -93,7 +105,7 @@ function Loader({ onDone }: { onDone: () => void }) {
       <div className="loader-card">
         <div className="loader-progress-num">{progress}%</div>
         <p className="loader-name">
-          Fazilkhan<span className="text-[#e63946]">.</span>
+          Fazil Malek<span className="text-[#e63946]">.</span>
         </p>
         <div className="loader-bar-bg">
           <div className="loader-bar-fill" style={{ width: `${progress}%` }} />
@@ -137,7 +149,16 @@ function Nav({ currentRoute }: { currentRoute: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -156,7 +177,7 @@ function Nav({ currentRoute }: { currentRoute: string }) {
       <div className="mx-auto max-w-7xl flex items-center justify-between">
         <a href="#/" className="flex items-center gap-2 group">
           <span className="inline-flex items-center justify-center w-10 h-10 rounded-full border-[2.5px] border-black bg-[#fffef7] font-[Permanent_Marker] text-lg group-hover:bg-[#e63946] group-hover:text-white group-hover:border-[#e63946] transition-all duration-300" style={{ transform: "rotate(-4deg)" }}>F</span>
-          <span className="hidden md:block font-[Caveat] font-bold text-2xl group-hover:text-[#e63946] transition-colors">fazilkhan.</span>
+          <span className="hidden md:block font-[Caveat] font-bold text-2xl group-hover:text-[#e63946] transition-colors">fazil.</span>
         </a>
         <div className="hidden lg:flex items-center gap-1">
           {navPages.map((p) => {
@@ -177,10 +198,10 @@ function Nav({ currentRoute }: { currentRoute: string }) {
             rel="noopener noreferrer"
             className="ml-3 btn-hand btn-filled !py-1.5 !px-5 !text-sm"
           >
-            github ↗
+            github
           </a>
         </div>
-        <button className="lg:hidden w-10 h-10 border-2 border-black rounded-lg bg-[#fffef7] flex flex-col items-center justify-center gap-1.5" onClick={() => setOpen(!open)} aria-label="menu">
+        <button className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] border-2 border-black rounded-lg bg-[#fffef7] flex flex-col items-center justify-center gap-1.5" onClick={() => setOpen(!open)} aria-label="Toggle navigation menu">
           <span className={`w-5 h-[2.5px] bg-black rounded transition-all ${open ? "rotate-45 translate-y-[5px]" : ""}`} />
           <span className={`w-5 h-[2.5px] bg-black rounded transition-all ${open ? "opacity-0" : ""}`} />
           <span className={`w-5 h-[2.5px] bg-black rounded transition-all ${open ? "-rotate-45 -translate-y-[5px]" : ""}`} />
@@ -192,13 +213,13 @@ function Nav({ currentRoute }: { currentRoute: string }) {
             <a
               key={p.href}
               href={p.href}
-              className="block font-[Patrick_Hand] text-xl px-3 py-2 hover:text-[#e63946] transition-colors"
+              className="block font-[Patrick_Hand] text-xl px-3 py-2 hover:text-[#e63946] transition-colors min-h-[44px] flex items-center"
               onClick={() => setOpen(false)}
             >
-              → {p.label}
+              {p.label}
             </a>
           ))}
-          <a href="https://github.com/fazilkhan0786" target="_blank" rel="me noopener noreferrer" className="block font-[Patrick_Hand] text-xl px-3 py-2 text-[#e63946] font-bold">github ↗</a>
+          <a href="https://github.com/fazilkhan0786" target="_blank" rel="me noopener noreferrer" className="block font-[Patrick_Hand] text-xl px-3 py-2 text-[#e63946] font-bold min-h-[44px] flex items-center">github</a>
         </div>
       )}
     </nav>
@@ -208,88 +229,143 @@ function Nav({ currentRoute }: { currentRoute: string }) {
 
 
 function Hero() {
-  const typed = useTypewriter(["founder.", "builder.", "systems thinker.", "AI engineer.", "product architect."], 90, 1700);
   const mag = useMagnetic(0.22);
 
+  const handleScrollToWork = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const workEl = document.getElementById("work") || document.getElementById("projects") || document.getElementById("ventures");
+    if (workEl) {
+      workEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.location.hash = "/projects";
+    }
+  };
+
   return (
-    <section id="top" className="relative min-h-screen pt-28 pb-16 px-6 md:px-10 flex items-center overflow-hidden">
-      <Star className="absolute top-24 right-[14%] w-9 h-9 float-slow opacity-40 hidden md:block" color="#ffd93d" />
-      <Sparkle className="absolute top-40 left-[9%] w-6 h-6 text-[#f4a261] float-fast opacity-40 hidden md:block" />
-      <Sparkle className="absolute bottom-36 right-[24%] w-5 h-5 text-[#2a9d8f] float-slow opacity-35 hidden md:block" />
+    <section id="top" className="relative min-h-[92vh] pt-28 pb-16 px-4 sm:px-6 md:px-10 flex items-center overflow-hidden">
+      <Star className="absolute top-24 right-[12%] w-8 h-8 float-slow opacity-35 hidden md:block" color="#ffd93d" />
+      <Sparkle className="absolute top-36 left-[8%] w-6 h-6 text-[#f4a261] float-fast opacity-35 hidden md:block" />
+      <Sparkle className="absolute bottom-28 right-[20%] w-5 h-5 text-[#2a9d8f] float-slow opacity-30 hidden md:block" />
 
       <div className="mx-auto max-w-7xl w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-7 order-2 lg:order-1">
-            <div className="reveal inline-flex items-center gap-2 mb-6 bg-green-100 text-green-800 px-3 py-1 rounded-full border border-green-300 font-[Patrick_Hand] text-base">
-              <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse" />
-              available for serious builds
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Text Content: order-2 on mobile (under image), order-1 on desktop (left side) */}
+          <div className="lg:col-span-7 order-2 lg:order-1 flex flex-col items-start">
+            <div className="hero-enter inline-flex items-center gap-2 mb-4 bg-emerald-50 text-emerald-800 px-3.5 py-1 rounded-full border border-emerald-300 font-[Patrick_Hand] text-sm sm:text-base">
+              <span className="w-2 h-2 bg-emerald-600 rounded-full animate-pulse" aria-hidden="true" />
+              <span>Available for websites in Gujarat &amp; Remote</span>
             </div>
 
-            <h1 className="reveal font-[Caveat] font-bold leading-[0.92] tracking-tight" style={{ fontSize: "clamp(3.2rem, 10vw, 8rem)" }}>
-              hey, i'm<br />
-              <span className="relative inline-block">
-                <span className="relative z-10">Fazilkhan</span>
-                <Wavy className="absolute left-0 right-0 -bottom-1 z-0" h="10px" />
+            <h1 className="hero-enter font-[Caveat] font-bold leading-[1.08] tracking-tight text-[#1a1a1a] text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+              Hi, I'm{" "}
+              <span className="relative inline-block text-[#e63946]">
+                <span className="relative z-10">Fazil</span>
+                <Wavy className="absolute left-0 right-0 -bottom-1 z-0" h="8px" />
               </span>
-              <span className="text-[#e63946]">.</span>
+              . I build fast, modern websites for local businesses.
             </h1>
 
-            <div className="reveal mt-4 font-[Permanent_Marker] text-xl md:text-3xl text-neutral-700">
-              i'm a <span className="text-[#e63946]">{typed}</span><span className="tw-cursor" />
-            </div>
-
-            <p className="reveal font-[Kalam] text-lg md:text-xl max-w-xl mt-5 leading-relaxed">
-              <span className="hl-yellow font-bold">Founder & CEO @ Promacle</span> — building{" "}
-              <span className="underline-hand" style={{ textDecorationColor: "#2a9d8f" }}>healthcare systems</span>, AI-powered products & operational software that changes{" "}
-              <span className="hl-pink">behavior, not just screens</span>.
+            <p className="hero-enter hero-enter-delay-1 mt-5 font-[Kalam] text-lg sm:text-xl text-neutral-800 max-w-2xl leading-relaxed">
+              Computer Engineering student at <span className="font-semibold text-neutral-900">GTU</span>. I help{" "}
+              <span className="hl-yellow font-medium">clinics, cafes, gyms and shops</span> get more customers with clean, mobile-friendly websites, plus full-stack apps with{" "}
+              <span className="font-medium text-neutral-900">React, Next.js and AI</span>.
             </p>
 
-            <div className="reveal mt-8 flex flex-wrap gap-4 items-center">
-              <a href="#ventures" className="btn-hand btn-filled" ref={mag.ref as React.RefObject<HTMLAnchorElement>} onMouseMove={mag.onMove as React.MouseEventHandler<HTMLAnchorElement>} onMouseLeave={mag.onLeave}>see my ventures →</a>
-              <a href="#contact" className="btn-hand btn-red">let's build together</a>
-              <a href="https://www.linkedin.com/in/fazilkhan-malek-392082377" target="_blank" rel="me noopener noreferrer" className="font-[Patrick_Hand] text-lg underline-hand" style={{ textDecorationColor: "#e63946" }}>linkedin ↗</a>
+            <div className="hero-enter hero-enter-delay-2 mt-8 flex flex-wrap gap-4 items-center">
+              <a
+                href="https://wa.me/917990632170?text=Hi%20Fazil%2C%20I%20saw%20your%20portfolio%20and%20want%20a%20website"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-whatsapp inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-lg font-[Patrick_Hand] text-lg sm:text-xl font-bold cursor-pointer"
+                aria-label="Chat with Fazil on WhatsApp (opens in new tab)"
+                ref={mag.ref as React.RefObject<HTMLAnchorElement>}
+                onMouseMove={mag.onMove as React.MouseEventHandler<HTMLAnchorElement>}
+                onMouseLeave={mag.onLeave}
+              >
+                <WhatsAppIcon className="w-5 h-5 shrink-0" fill="#ffffff" />
+                <span>Chat on WhatsApp</span>
+              </a>
+
+              <a
+                href="#work"
+                onClick={handleScrollToWork}
+                className="btn-hand inline-flex items-center justify-center gap-1.5 px-6 py-3 font-[Patrick_Hand] text-lg sm:text-xl font-bold"
+              >
+                <span>View my work</span>
+              </a>
             </div>
 
+            <div className="hero-enter hero-enter-delay-3 mt-7 pt-5 border-t-2 border-dashed border-neutral-300 w-full flex flex-wrap items-center gap-x-5 gap-y-2.5 text-sm sm:text-base font-[Patrick_Hand] text-neutral-700">
+              <div className="inline-flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-600" aria-hidden="true" />
+                <span className="font-semibold text-neutral-900">5+ live projects</span>
+              </div>
+              <span className="hidden sm:inline text-neutral-300 font-sans" aria-hidden="true">|</span>
+              <div className="inline-flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-500" aria-hidden="true" />
+                <span>Reply within 24 hours</span>
+              </div>
+              <span className="hidden sm:inline text-neutral-300 font-sans" aria-hidden="true">|</span>
+              <div className="inline-flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-rose-500" aria-hidden="true" />
+                <span>Free sample design before you pay</span>
+              </div>
+            </div>
 
-            <div className="reveal mt-10 flex flex-wrap gap-8 md:gap-10">
-              <MetricCounter end={10000} suffix="+" label="patterns tested" />
-              <MetricCounter end={78} suffix="%" label="ops uplift" />
-              <MetricCounter end={4} suffix="" label="active ventures" />
-              <MetricCounter end={7} suffix="+" label="shipped systems" />
+            <div className="hero-enter hero-enter-delay-4 mt-5 flex flex-wrap items-center gap-4 sm:gap-5 font-[Patrick_Hand] text-base text-neutral-600">
+              <span className="text-neutral-500 font-medium">Direct links:</span>
+              <a
+                href="https://github.com/fazilkhan0786"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-[#e63946] underline decoration-neutral-400 hover:decoration-[#e63946] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a1a1a]"
+                aria-label="GitHub profile (opens in new tab)"
+              >
+                <span>GitHub</span>
+              </a>
+              <span className="text-neutral-300 font-sans" aria-hidden="true">•</span>
+              <a
+                href="https://www.linkedin.com/in/fazilkhan-malek-392082377"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:text-[#e63946] underline decoration-neutral-400 hover:decoration-[#e63946] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a1a1a]"
+                aria-label="LinkedIn profile (opens in new tab)"
+              >
+                <span>LinkedIn</span>
+              </a>
+              <span className="text-neutral-300 font-sans" aria-hidden="true">•</span>
+              <a
+                href="mailto:malekfazilkhan07@gmail.com"
+                className="inline-flex items-center gap-1 hover:text-[#e63946] underline decoration-neutral-400 hover:decoration-[#e63946] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a1a1a]"
+                aria-label="Email Fazil Malek"
+              >
+                <span>Email</span>
+              </a>
             </div>
           </div>
 
           <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="reveal-scale photo-wrap float-slow" style={{ ["--rot" as string]: "-2deg" }}>
-              <svg viewBox="0 0 400 480" className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] -z-10 opacity-60 hidden md:block" fill="none">
-                <ellipse cx="200" cy="240" rx="185" ry="225" stroke="#e63946" strokeWidth={2.5} strokeDasharray="8 10" opacity="0.4" />
-              </svg>
-
-              <div className="photo-frame w-[280px] sm:w-[320px] lg:w-[360px]" style={{ transform: "rotate(-3deg)" }}>
-                <div className="tape absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-7 rotate-[-2deg]" />
-                <img src={portrait} alt="Fazilkhan Malek" className="w-full aspect-[4/5] object-cover" />
-                <div className="photo-inner-border" />
-                <p className="photo-caption">that's me 👋 — building at 2am</p>
+            <div className="hero-enter relative">
+              <div className="hero-portrait-frame w-[220px] sm:w-[260px] md:w-[290px] lg:w-[330px] xl:w-[360px]">
+                <img
+                  src={portrait}
+                  alt="Fazil Malek — Web Developer for local businesses"
+                  className="w-full aspect-[4/5] object-cover block"
+                  loading="eager"
+                  // @ts-ignore
+                  fetchPriority="high"
+                  width="360"
+                  height="450"
+                />
+                <div className="py-2.5 px-4 bg-[#fffdf5] border-t-2 border-[#1a1a1a] flex items-center justify-between font-[Patrick_Hand] text-sm text-neutral-700">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
+                    Fazil Malek
+                  </span>
+                  <span className="text-neutral-500">Ahmedabad, Gujarat</span>
+                </div>
               </div>
-
-              <div className="sticky-note sticky-pink absolute -bottom-6 -left-8 md:-left-14 w-[160px] float" style={{ transform: "rotate(-6deg)", ["--rot" as string]: "-6deg" }}>
-                <p className="font-[Gochi_Hand] text-base leading-tight">currently:<br /><b>NuroVed v1</b> 🏥</p>
-                <p className="font-[Kalam] text-xs mt-1">usability &gt; polish</p>
-              </div>
-
-              <div className="sticky-note sticky-blue absolute -top-6 -right-6 md:-right-12 w-[135px] float-slow" style={{ transform: "rotate(6deg)", ["--rot" as string]: "6deg" }}>
-                <p className="font-[Gochi_Hand] text-sm leading-tight">founder<br />mode: <span className="text-[#e63946]">ON</span> 🔥</p>
-              </div>
-
-              <Star className="absolute -bottom-10 right-6 w-9 h-9 float-fast" color="#ffd93d" />
             </div>
-          </div>
-        </div>
-
-        <div className="reveal mt-14 text-center">
-          <p className="font-[Architects_Daughter] text-neutral-400 text-sm mb-2">scroll to explore</p>
-          <div className="bounce-arrow mx-auto w-6 text-neutral-500">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"><path d="M12 4 L12 20 M5 13 L12 20 L19 13" /></svg>
           </div>
         </div>
       </div>
@@ -297,13 +373,18 @@ function Hero() {
   );
 }
 
-function MetricCounter({ end, suffix, label }: { end: number; suffix: string; label: string }) {
-  const { count, ref } = useCountUp(end, 2000);
+function FloatingWhatsApp() {
   return (
-    <div ref={ref}>
-      <div className="font-[Permanent_Marker] text-3xl md:text-4xl text-[#e63946]">{count.toLocaleString()}{suffix}</div>
-      <div className="font-[Patrick_Hand] text-sm text-neutral-600 -mt-1">{label}</div>
-    </div>
+    <a
+      href="https://wa.me/917990632170?text=Hi%20Fazil%2C%20I%20saw%20your%20portfolio%20and%20want%20a%20website"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Fazil on WhatsApp"
+      className="floating-wa-btn md:hidden"
+    >
+      <WhatsAppIcon className="w-5 h-5 shrink-0" fill="#ffffff" />
+      <span>Chat on WhatsApp</span>
+    </a>
   );
 }
 
@@ -369,7 +450,7 @@ function About() {
 
           <div className="md:col-span-7 space-y-5 font-[Kalam] text-lg md:text-xl leading-relaxed">
             <p className="reveal">
-              i'm <span className="font-bold">Mohammad Fazil Malek</span> (known as <b>Fazilkhan</b>, <i>Fazil</i>, or <i>Fajil</i>) — an Indian entrepreneur, software developer, AI/ML enthusiast, product architect, and passionate footballer based in <span className="hl-yellow font-bold">Ahmedabad, Gujarat</span>.
+              i'm <span className="font-bold">Fazil Malek</span> — a Computer Engineering student at GTU, software developer, and founder based in <span className="hl-yellow font-bold">Ahmedabad, Gujarat</span>.
             </p>
             <p className="reveal">
               born to <b>Malek Firojkhan Anvarkhan</b> and <b>Malek Hasinabibi Firojkhan</b>, i'm pursuing my <b>B.E. in Computer Engineering</b> at <b>Gujarat Technological University (GTU)</b> while founding <span className="hl-pink font-bold">Promacle</span> and building <b>NuroVed</b> (patient-centric digital healthcare platform).
@@ -388,7 +469,7 @@ function About() {
             </div>
 
             <div className="reveal sticky-note sticky-orange !p-4 !mt-4" style={{ transform: "rotate(1.5deg)" }}>
-              <p className="font-[Gochi_Hand] text-lg">💡 GTU Computer Engineering + Founder Mode:</p>
+              <p className="font-[Gochi_Hand] text-lg">GTU Computer Engineering + Founder Mode:</p>
               <p className="font-[Kalam] text-sm mt-1">building NuroVed healthcare systems · hackathons &amp; innovation programs · football discipline</p>
             </div>
           </div>
@@ -402,10 +483,10 @@ function About() {
 
 function Ventures() {
   const ventures = [
-    { name: "NuroVed", emoji: "🏥", tagline: "Healthcare Infrastructure", status: "v1 Active", color: "sticky-pink", rot: -1.0, desc: "Eliminates fragmentation in patient experience, clinical workflows, and accessibility.", stack: ["FastAPI", "Flutter", "NLP", "AI/ML"] },
-    { name: "Educle", emoji: "🎓", tagline: "EdTech + AI Credibility", status: "Building", color: "sticky-blue", rot: 1.2, desc: "End-to-end operations management with AI-driven student credibility systems.", stack: ["React", "Supabase", "Analytics", "AI"] },
-    { name: "Trashee", emoji: "🌱", tagline: "CleanTech Community", status: "Building", color: "sticky-green", rot: -0.8, desc: "Community-driven environmental reporting at scale. Turns citizens into change-makers.", stack: ["IoT", "Geo-mapping", "Firebase", "Gamification"] },
-    { name: "Actora", emoji: "🧠", tagline: "Behavioral Design AI", status: "Building", color: "sticky-purple", rot: 1.0, desc: "Attacks the dopamine loop directly. Rewires triggers that cause drift.", stack: ["Behavioral AI", "React Native", "Habit Loops"] },
+    { name: "NuroVed", tagline: "Healthcare Infrastructure", status: "v1 Active", color: "sticky-pink", rot: -1.0, desc: "Eliminates fragmentation in patient experience, clinical workflows, and accessibility.", stack: ["FastAPI", "Flutter", "NLP", "AI/ML"] },
+    { name: "Educle", tagline: "EdTech + AI Credibility", status: "Building", color: "sticky-blue", rot: 1.2, desc: "End-to-end operations management with AI-driven student credibility systems.", stack: ["React", "Supabase", "Analytics", "AI"] },
+    { name: "Trashee", tagline: "CleanTech Community", status: "Building", color: "sticky-green", rot: -0.8, desc: "Community-driven environmental reporting at scale. Turns citizens into change-makers.", stack: ["IoT", "Geo-mapping", "Firebase", "Gamification"] },
+    { name: "Actora", tagline: "Behavioral Design AI", status: "Building", color: "sticky-purple", rot: 1.0, desc: "Attacks the dopamine loop directly. Rewires triggers that cause drift.", stack: ["Behavioral AI", "React Native", "Habit Loops"] },
   ];
   return (
     <section id="ventures" className="relative py-28 px-6 md:px-10 crosshatch-bg">
@@ -425,10 +506,7 @@ function Ventures() {
                 <div className={i === 0 ? "md:grid md:grid-cols-12 md:gap-8 items-center" : ""}>
                   <div className={i === 0 ? "md:col-span-7" : ""}>
                     <div className="flex items-start justify-between mb-3">
-                      <div className="text-4xl">{v.emoji}</div>
-                      {i !== 0 && (
-                        <span className={`font-[Patrick_Hand] text-xs px-3 py-1 border-2 border-black rounded-full ${v.status === "v1 Active" ? "bg-black text-[#fff9b0]" : "bg-white/70"}`}>{v.status}</span>
-                      )}
+                      <span className="font-[Patrick_Hand] text-xs px-3 py-1 border-2 border-black rounded-full bg-black text-[#fff9b0]">{v.status}</span>
                     </div>
                     <h3 className="font-[Permanent_Marker] text-3xl leading-none">{v.name}</h3>
                     <p className="font-[Patrick_Hand] text-base text-neutral-600 mt-1">{v.tagline}</p>
@@ -436,11 +514,6 @@ function Ventures() {
                   </div>
                   
                   <div className={i === 0 ? "md:col-span-5 mt-4 md:mt-0 flex flex-col justify-between h-full" : ""}>
-                    {i === 0 && (
-                      <div className="hidden md:flex justify-end mb-4">
-                        <span className="font-[Patrick_Hand] text-xs px-3 py-1 border-2 border-black rounded-full bg-black text-[#fff9b0]">{v.status}</span>
-                      </div>
-                    )}
                     <p className="font-[Kalam] text-base leading-snug">{v.desc}</p>
                   </div>
                 </div>
@@ -459,17 +532,17 @@ function Ventures() {
 
 function Skills() {
   const groups = [
-    { title: "Languages", items: ["Python", "TypeScript", "JavaScript", "Dart", "SQL"], color: "#e63946", icon: "⌨️" },
-    { title: "Frontend & Mobile", items: ["React", "React Native", "Flutter", "Tailwind"], color: "#2a9d8f", icon: "🎨" },
-    { title: "Backend & Cloud", items: ["FastAPI", "Node.js", "Supabase", "Firebase", "PostgreSQL"], color: "#264653", icon: "⚙️" },
-    { title: "AI / ML / Data", items: ["PyTorch", "NLP", "Computer Vision", "MediaPipe", "OpenCV"], color: "#6a4c93", icon: "🧠" },
-    { title: "DevOps & Tools", items: ["Git", "Docker", "AWS", "GCP", "Linux"], color: "#f4a261", icon: "🔧" },
+    { title: "Languages", items: ["Python", "TypeScript", "JavaScript", "Dart", "SQL"], color: "#e63946" },
+    { title: "Frontend & Mobile", items: ["React", "React Native", "Flutter", "Tailwind"], color: "#2a9d8f" },
+    { title: "Backend & Cloud", items: ["FastAPI", "Node.js", "Supabase", "Firebase", "PostgreSQL"], color: "#264653" },
+    { title: "AI / ML / Data", items: ["PyTorch", "NLP", "Computer Vision", "MediaPipe", "OpenCV"], color: "#6a4c93" },
+    { title: "DevOps & Tools", items: ["Git", "Docker", "AWS", "GCP", "Linux"], color: "#f4a261" },
   ];
   return (
     <section id="skills" className="relative py-28 px-6 md:px-10">
       <div className="absolute bottom-6 right-6 ghost-num text-[16rem] hidden lg:block">05</div>
       <div className="mx-auto max-w-7xl relative z-10">
-        <SectionHeader num="05" label="tech i wield" note="weapons of mass creation." />
+        <SectionHeader num="05" label="tech i wield" note="tools and frameworks in active use." />
 
         <div className="reveal mt-10 relative overflow-hidden border-y-2 border-dashed border-black/25 py-5">
           <div className="flex logo-marquee whitespace-nowrap gap-10 items-center">
@@ -489,7 +562,6 @@ function Skills() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
           {groups.map((g, i) => (
             <div key={g.title} className="reveal wiggle-box bg-[#fffef7] p-5 relative card-3d" style={{ transitionDelay: `${i * 70}ms`, transform: `rotate(${i % 2 ? -0.8 : 0.8}deg)` }}>
-              <div className="text-2xl mb-2">{g.icon}</div>
               <div className="flex items-center gap-2 mb-3"><span className="w-3 h-3 rounded-full" style={{ background: g.color }} /><h3 className="font-[Permanent_Marker] text-base leading-none">{g.title}</h3></div>
               <ul className="space-y-1.5 font-[Patrick_Hand] text-base">
                 {g.items.map((it) => (<li key={it} className="flex items-center gap-2 group"><span className="text-[#e63946] text-xs group-hover:translate-x-1 transition-transform">▸</span><span className="group-hover:text-[#e63946] transition-colors">{it}</span></li>))}
@@ -498,9 +570,9 @@ function Skills() {
           ))}
         </div>
         <div className="mt-12 reveal">
-          <p className="font-[Gochi_Hand] text-2xl mb-3 flex items-center gap-2"><Sparkle className="w-5 h-5 text-[#f4a261]" /> also pretty good at:</p>
+          <p className="font-[Gochi_Hand] text-2xl mb-3 flex items-center gap-2"><Sparkle className="w-5 h-5 text-[#f4a261]" /> also experienced with:</p>
           <div className="flex flex-wrap stagger">
-            {["system design", "product strategy", "behavioral design", "rapid prototyping", "0→1 shipping", "team leadership", "technical writing", "Figma", "talking to users", "late-night debugging"].map((t) => (<span key={t} className="tag-pill">{t}</span>))}
+            {["system design", "product strategy", "behavioral design", "rapid prototyping", "production shipping", "team leadership", "technical writing", "Figma", "user research", "debugging"].map((t) => (<span key={t} className="tag-pill">{t}</span>))}
           </div>
         </div>
       </div>
@@ -511,16 +583,16 @@ function Skills() {
 
 function Journey() {
   const timeline = [
-    { year: "Present", role: "Founder & Product Architect", company: "Promacle", desc: "Full lifecycle ownership — ideation, system design, AI integration to production. Building 4 ventures simultaneously.", tags: ["Leadership", "System Design", "AI/ML"], note: "founder mode: ON 🔥", highlight: true },
+    { year: "Present", role: "Founder & Product Architect", company: "Promacle", desc: "Full lifecycle ownership — ideation, system design, AI integration to production. Building 4 ventures simultaneously.", tags: ["Leadership", "System Design", "AI/ML"], note: "founder mode: ON", highlight: true },
     { year: "2023", role: "Lead Developer", company: "Dprofiz Ltd", desc: "IoT waste management + community reward architecture. Scaled operations for real-world impact.", tags: ["IoT", "Firebase", "Gamification"] },
     { year: "2022", role: "AI/ML Engineer", company: "MiroFish AI", desc: "End-to-end AI pipelines. Context-aware automation systems. Learned to ship ML in production.", tags: ["Python", "ML Pipelines"] },
-    { year: "2021", role: "Started Coding", company: "Self-taught", desc: "Began the journey. Python first, then everything else. Built things nobody asked for — and learned everything.", tags: ["Python", "Learning"], note: "where it all began ✨" },
+    { year: "2021", role: "Started Coding", company: "Self-taught", desc: "Began the journey. Python first, then everything else. Built things nobody asked for — and learned everything.", tags: ["Python", "Learning"], note: "where it all began" },
   ];
   return (
     <section id="journey" className="relative py-28 px-6 md:px-10 crosshatch-bg">
       <div className="absolute top-6 left-6 ghost-num text-[16rem] hidden lg:block">06</div>
       <div className="mx-auto max-w-7xl relative z-10">
-        <SectionHeader num="06" label="the journey" note="an open book. unfiltered." />
+        <SectionHeader num="06" label="the journey" note="career path and background." />
         <div className="mt-12 relative">
           <div className="absolute left-[18px] md:left-[22px] top-2 bottom-2 w-[3px] bg-black/20 rounded-full" />
           <div className="space-y-10">
@@ -549,15 +621,15 @@ function Journey() {
 
 function Currently() {
   const focuses = [
-    { emoji: "🏥", label: "NuroVed v1", desc: "real-world usability as the benchmark", progress: 82, tag: "shipping", color: "#e63946" },
-    { emoji: "🎓", label: "Educle", desc: "AI-driven student credibility layer", progress: 55, tag: "building", color: "#2a9d8f" },
-    { emoji: "🧠", label: "Actora", desc: "behavioral design that sticks", progress: 40, tag: "building", color: "#6a4c93" },
-    { emoji: "🔁", label: "AI behavior loops", desc: "how model outputs shape retention", progress: 65, tag: "researching", color: "#f4a261" },
-    { emoji: "🏗️", label: "System design", desc: "distributed architecture & failure modes", progress: 70, tag: "learning", color: "#3178c6" },
+    { label: "NuroVed v1", desc: "real-world usability as the benchmark", progress: 82, tag: "shipping", color: "#e63946" },
+    { label: "Educle", desc: "AI-driven student credibility layer", progress: 55, tag: "building", color: "#2a9d8f" },
+    { label: "Actora", desc: "behavioral design that sticks", progress: 40, tag: "building", color: "#6a4c93" },
+    { label: "AI behavior loops", desc: "how model outputs shape retention", progress: 65, tag: "researching", color: "#f4a261" },
+    { label: "System design", desc: "distributed architecture & failure modes", progress: 70, tag: "learning", color: "#3178c6" },
   ];
   const ticker = [
-    "☕ 3rd coffee of the day", "🎧 lo-fi on repeat", "🧩 debugging NuroVed sync", "📈 reading retention curves",
-    "✍️ sketching Actora's habit loop", "🌙 it's late, still building", "🚀 shipping > perfecting",
+    "3rd coffee of the day", "lo-fi on repeat", "debugging NuroVed sync", "reading retention curves",
+    "sketching Actora's habit loop", "it's late, still building", "shipping > perfecting",
   ];
   return (
     <section className="relative py-28 px-6 md:px-10 dark-section overflow-hidden">
@@ -593,11 +665,10 @@ function Currently() {
           {focuses.map((f, i) => (
             <div key={f.label} className="reveal now-card group" style={{ transitionDelay: `${i * 80}ms` }}>
               <div className="flex items-start justify-between">
-                <div className="text-3xl transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-6">{f.emoji}</div>
+                <h3 className="font-[Permanent_Marker] text-base">{f.label}</h3>
                 <span className="now-tag" style={{ borderColor: f.color, color: f.color }}>{f.tag}</span>
               </div>
-              <h3 className="font-[Permanent_Marker] text-base mt-3">{f.label}</h3>
-              <p className="font-[Patrick_Hand] text-sm text-neutral-400 mt-1 leading-snug">{f.desc}</p>
+              <p className="font-[Patrick_Hand] text-sm text-neutral-400 mt-2 leading-snug">{f.desc}</p>
               <div className="mt-4">
                 <div className="flex justify-between font-[Patrick_Hand] text-[11px] text-neutral-500 mb-1">
                   <span>progress</span><span style={{ color: f.color }}>{f.progress}%</span>
@@ -615,7 +686,7 @@ function Currently() {
             <div className="bg-black/60 border border-white/10 rounded-lg p-6 font-mono text-sm h-full">
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-3 h-3 rounded-full bg-[#e63946]" /><span className="w-3 h-3 rounded-full bg-[#ffd93d]" /><span className="w-3 h-3 rounded-full bg-[#2a9d8f]" />
-                <span className="ml-2 text-neutral-500 font-[Patrick_Hand] text-xs">fazilkhan@promacle:~</span>
+                <span className="ml-2 text-neutral-500 font-[Patrick_Hand] text-xs">fazil@promacle:~</span>
               </div>
               <div className="space-y-1 text-neutral-300">
                 <p><span className="text-[#2a9d8f]">$</span> cat status.txt</p>
@@ -636,7 +707,7 @@ function Currently() {
                 </div>
                 <div>
                   <p className="font-[Patrick_Hand] text-xs text-neutral-400">now playing</p>
-                  <p className="font-[Permanent_Marker] text-base">deep focus — lo-fi beats 🎧</p>
+                  <p className="font-[Permanent_Marker] text-base">deep focus — lo-fi beats</p>
                 </div>
               </div>
               <div className="mt-4 now-bar"><div className="now-bar-fill" style={{ ["--w" as string]: "45%", background: "#2a9d8f" }} /></div>
@@ -646,7 +717,7 @@ function Currently() {
             <div className="now-mood">
               <p className="font-[Gochi_Hand] text-lg text-[#ffd93d]">today's mood</p>
               <p className="font-[Shadows_Into_Light] text-xl mt-1 leading-snug">
-                "locked in. shipping mode. don't disturb (unless it's a bug 🐛)."
+                "locked in. shipping mode. don't disturb (unless it's a bug)."
               </p>
             </div>
           </div>
@@ -659,12 +730,12 @@ function Currently() {
 
 function FunFacts() {
   const facts = [
-    { emoji: "☕", title: "fuel", desc: "coffee → code → ship → repeat. that's the loop." },
-    { emoji: "🌙", title: "schedule", desc: "most productive 10pm–3am. best ideas come in the dark." },
-    { emoji: "📚", title: "learning", desc: "deep-diving distributed systems & behavioral psychology." },
-    { emoji: "🎯", title: "mission", desc: "build for the next billion. India-first, world-ready." },
-    { emoji: "🛠️", title: "process", desc: "whiteboard → notebook → prototype → ship. no 50-page PRDs." },
-    { emoji: "💬", title: "motto", desc: "\"if it doesn't change behavior, it's just another app.\"" },
+    { title: "fuel", desc: "coffee → code → ship → repeat. that's the loop." },
+    { title: "schedule", desc: "most productive 10pm–3am. best ideas come in the dark." },
+    { title: "learning", desc: "deep-diving distributed systems & behavioral psychology." },
+    { title: "mission", desc: "build for the next billion. India-first, world-ready." },
+    { title: "process", desc: "whiteboard → notebook → prototype → ship. no 50-page PRDs." },
+    { title: "motto", desc: "\"if it doesn't change behavior, it's just another app.\"" },
   ];
   const colors = ["sticky-pink", "sticky-blue", "sticky-green", "sticky-orange", "sticky-purple", ""];
   const rots = [-2, 1.5, -1, 2, -1.5, 1];
@@ -678,7 +749,6 @@ function FunFacts() {
             <div key={f.title} className="reveal" style={{ transitionDelay: `${i * 70}ms` }}>
               <div className={`sticky-note ${colors[i]} !p-5 card-3d min-h-[160px]`} style={{ transform: `rotate(${rots[i]}deg)` }}>
                 <div className="tape absolute -top-3 left-6 w-14 h-5" style={{ transform: `rotate(${-rots[i]}deg)` }} />
-                <div className="text-3xl mb-2">{f.emoji}</div>
                 <h3 className="font-[Permanent_Marker] text-xl">{f.title}</h3>
                 <p className="font-[Kalam] text-base mt-2 leading-snug">{f.desc}</p>
               </div>
@@ -716,10 +786,10 @@ function GitHubStats() {
         </div>
         <div className="reveal grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
           <div className="sketch-card !p-4 text-center" style={{ transform: "rotate(-1deg)" }}>
-            <img src="https://github-readme-stats.vercel.app/api?username=fazilkhan0786&show_icons=true&hide_border=true&bg_color=fffef7&title_color=e63946&icon_color=e63946&text_color=1a1a1a" alt="GitHub Stats" className="w-full" loading="lazy" />
+            <img src="https://github-readme-stats.vercel.app/api?username=fazilkhan0786&show_icons=true&hide_border=true&bg_color=fffef7&title_color=e63946&icon_color=e63946&text_color=1a1a1a" alt="GitHub Stats" className="w-full" loading="lazy" width="495" height="195" />
           </div>
           <div className="sketch-card !p-4 text-center" style={{ transform: "rotate(1deg)" }}>
-            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=fazilkhan0786&layout=compact&hide_border=true&bg_color=fffef7&title_color=e63946&text_color=1a1a1a" alt="Top Languages" className="w-full" loading="lazy" />
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=fazilkhan0786&layout=compact&hide_border=true&bg_color=fffef7&title_color=e63946&text_color=1a1a1a" alt="Top Languages" className="w-full" loading="lazy" width="495" height="195" />
           </div>
         </div>
       </div>
@@ -764,23 +834,23 @@ function Contact() {
             onClick={() => analyticsActions.trackSendEmail()}
             className="btn-hand btn-filled text-xl"
           >
-            ✉️ drop me an email →
+            drop me an email
           </a>
           <button onClick={copy} className="btn-hand text-xl">
-            {copied ? "✓ copied!" : "📋 copy email"}
+            {copied ? "copied!" : "copy email"}
           </button>
           <a
             href="tel:+917990632170"
             className="btn-hand btn-red text-xl"
           >
-            📞 call me directly
+            call me directly
           </a>
         </div>
-        <div className="reveal mt-6 font-[Patrick_Hand] text-neutral-500">or find me here ↓</div>
+        <div className="reveal mt-6 font-[Patrick_Hand] text-neutral-500">or find me here</div>
         <div className="reveal mt-3 flex justify-center gap-4 flex-wrap">
           {[
-            { label: "github", url: "https://github.com/fazilkhan0786", icon: "🐙" },
-            { label: "linkedin", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377", icon: "💼" }
+            { label: "github", url: "https://github.com/fazilkhan0786" },
+            { label: "linkedin", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377" }
           ].map((s) => (
             <a
               key={s.label}
@@ -790,17 +860,17 @@ function Contact() {
               onClick={() => analyticsActions.trackSocialClick(s.label, s.url)}
               className="tag-pill !text-lg !px-6 !py-2"
             >
-              {s.icon} {s.label} ↗
+              {s.label}
             </a>
           ))}
         </div>
         <div className="reveal mt-16 relative inline-block">
-          <p className="font-[Caveat] font-bold text-4xl md:text-5xl" style={{ transform: "rotate(-3deg)" }}>— Mohammad Fazil Malek</p>
+          <p className="font-[Caveat] font-bold text-4xl md:text-5xl" style={{ transform: "rotate(-3deg)" }}>— Fazil Malek</p>
           <Scribble className="w-40 h-5 absolute -bottom-3 left-1/2 -translate-x-1/2 opacity-60" />
         </div>
         <div className="reveal mt-12 inline-block">
           <div className="sticky-note sticky-pink !p-4 !inline-block" style={{ transform: "rotate(3deg)" }}>
-            <p className="font-[Gochi_Hand] text-lg">p.s. — if you've scrolled this far,<br />we should definitely talk. 😄</p>
+            <p className="font-[Gochi_Hand] text-lg">p.s. — if you've scrolled this far,<br />we should definitely talk.</p>
           </div>
         </div>
       </div>
@@ -823,7 +893,7 @@ function PrivacyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
           ✕
         </button>
         <h3 className="font-[Permanent_Marker] text-2xl text-[#e63946] mb-4">
-          🔒 Privacy &amp; Data Notice
+          Privacy &amp; Data Notice
         </h3>
         <div className="space-y-4">
           <p>
@@ -835,13 +905,13 @@ function PrivacyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
             <li><strong>Local Safety:</strong> All features run fully client-side inside your browser sandbox.</li>
           </ul>
           <p className="text-sm text-neutral-500 font-[Architects_Daughter] mt-4">
-            Mohammad Fazil Malek — Ahmedabad, Gujarat
+            Fazil Malek — Ahmedabad, Gujarat
           </p>
         </div>
         <div className="mt-6 text-center">
           <button 
             onClick={onClose}
-            className="btn-hand btn-filled text-base px-6 py-2 rounded font-bold"
+            className="btn-hand btn-filled text-base px-6 py-2 rounded font-bold min-h-[44px]"
           >
             I Understand
           </button>
@@ -881,7 +951,7 @@ function Footer({ onPrivacyClick }: { onPrivacyClick: () => void }) {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 font-[Patrick_Hand] text-base border-t border-black/10 pt-6">
           <p className="flex items-center gap-2">
-            <span className="font-[Permanent_Marker]">⚡</span> hand-crafted with care &amp; caffeine in Ahmedabad, India
+            hand-crafted with care &amp; caffeine in Ahmedabad, India
           </p>
           <p>
             founder mode:{" "}
@@ -889,12 +959,12 @@ function Footer({ onPrivacyClick }: { onPrivacyClick: () => void }) {
               ON <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
             </span>
           </p>
-          <p className="text-neutral-500">© {new Date().getFullYear()} Mohammad Fazil Malek</p>
+          <p className="text-neutral-500">© {new Date().getFullYear()} Fazil Malek</p>
         </div>
 
         <div className="text-center">
           <a href="#top" className="inline-flex items-center gap-2 font-[Patrick_Hand] text-sm text-neutral-500 hover:text-[#e63946] transition-colors">
-            ↑ back to top
+            back to top
           </a>
         </div>
       </div>
@@ -908,8 +978,6 @@ function NotFoundPage() {
       <div className="reveal wiggle-box bg-[#fffef7] p-10 md:p-14 border-[2.5px] border-black rounded-lg relative shadow-[6px_8px_0_rgba(26,26,26,0.12)]" style={{ transform: "rotate(-1deg)" }}>
         <div className="tape absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-7 rotate-[1deg]" />
         
-        <span className="text-7xl block mb-4">🔍</span>
-        
         <h1 className="font-[Permanent_Marker] text-4xl md:text-5xl text-[#e63946] mb-4">
           404 - Page Lost in Margins
         </h1>
@@ -922,7 +990,7 @@ function NotFoundPage() {
           href="#/"
           className="btn-hand btn-filled text-xl inline-block"
         >
-          ← return to home page
+          return to home page
         </a>
         
         <div className="absolute -bottom-5 -right-5 w-10 h-10 hidden md:block">
@@ -1026,6 +1094,7 @@ export default function App() {
           {renderPageContent()}
         </main>
         <Footer onPrivacyClick={() => setShowPrivacy(true)} />
+        <FloatingWhatsApp />
       </div>
     </>
   );

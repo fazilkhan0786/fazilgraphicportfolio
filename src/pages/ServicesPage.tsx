@@ -8,7 +8,6 @@
 import { useState } from "react";
 
 interface Service {
-  icon: string;
   title: string;
   subtitle: string;
   deliverables: string[];
@@ -18,7 +17,6 @@ interface Service {
 
 const services: Service[] = [
   {
-    icon: "🎨",
     title: "UI/UX Designing",
     subtitle: "User-centered interface design, wireframing, interactive prototypes & design systems.",
     deliverables: [
@@ -31,7 +29,6 @@ const services: Service[] = [
     recommendedFor: "Startups & apps seeking intuitive, accessible, and high-converting interfaces."
   },
   {
-    icon: "🖌️",
     title: "Graphic Designing",
     subtitle: "Brand identity, logo design, marketing collateral & visual storytelling assets.",
     deliverables: [
@@ -44,7 +41,6 @@ const services: Service[] = [
     recommendedFor: "Brands needing distinct, memorable, and premium visual identities."
   },
   {
-    icon: "🌐",
     title: "Website Building",
     subtitle: "Custom, ultra-fast, responsive websites built with modern web technologies & SEO.",
     deliverables: [
@@ -57,7 +53,6 @@ const services: Service[] = [
     recommendedFor: "Businesses, founders, and creators needing high-impact, wowed web presence."
   },
   {
-    icon: "🤝",
     title: "Startup Collaboration",
     subtitle: "Technical co-founding, MVP execution blueprinting & product architecture partnership.",
     deliverables: [
@@ -70,7 +65,6 @@ const services: Service[] = [
     recommendedFor: "Early-stage founders needing technical leadership & rapid execution."
   },
   {
-    icon: "🎬",
     title: "Video Editing",
     subtitle: "Product demo trailers, motion graphics, video storytelling & promotional edits.",
     deliverables: [
@@ -83,7 +77,6 @@ const services: Service[] = [
     recommendedFor: "Products launching campaigns or needing compelling video demos."
   },
   {
-    icon: "🏥",
     title: "Healthcare Systems & Clinical AI",
     subtitle: "End-to-end clinical management, async microservices & patient data infrastructure.",
     deliverables: [
@@ -96,7 +89,6 @@ const services: Service[] = [
     recommendedFor: "HealthTech founders, clinics, hospitals & medical automation startups."
   },
   {
-    icon: "🚀",
     title: "Flutter & Mobile App Development",
     subtitle: "Cross-platform mobile apps for iOS and Android with single codebase efficiency.",
     deliverables: [
@@ -158,7 +150,6 @@ export default function ServicesPage({ onNavigateContact }: { onNavigateContact:
           >
             <div className="tape absolute -top-4 right-6 w-20 h-6 rotate-[3deg]" />
             <div>
-              <div className="text-4xl mb-3">{srv.icon}</div>
               <h2 className="font-[Permanent_Marker] text-2xl text-neutral-900 mb-1">
                 {srv.title}
               </h2>
@@ -194,9 +185,9 @@ export default function ServicesPage({ onNavigateContact }: { onNavigateContact:
 
               <button
                 onClick={onNavigateContact}
-                className="btn-hand btn-filled w-full !py-2 !text-sm text-center"
+                className="btn-hand btn-filled w-full !py-2 !text-sm text-center min-h-[44px]"
               >
-                Inquire about this service →
+                Inquire about this service
               </button>
             </div>
           </div>
@@ -265,7 +256,7 @@ export default function ServicesPage({ onNavigateContact }: { onNavigateContact:
 
         <div className="text-center mt-8">
           <button onClick={onNavigateContact} className="btn-hand btn-red text-xl">
-            get an exact project quote →
+            get an exact project quote
           </button>
         </div>
       </div>

@@ -1,12 +1,10 @@
-# Mohammad Fazil Malek (Fazilkhan Malek) Portfolio & Knowledge Index
+# Fazil Malek Portfolio & Knowledge Index
 
-> LLM Guidance: This file provides a structured summary of Mohammad Fazil Malek's background, ventures, projects, services, and articles for AI systems (ChatGPT, Gemini, Claude, Perplexity).
+> LLM Guidance: This file provides a structured summary of Fazil Malek's background, ventures, projects, services, and articles for AI systems (ChatGPT, Gemini, Claude, Perplexity).
 
 ## Core Identity
-- **Name**: Mohammad Fazil Malek
-- **Professional Name**: Fazilkhan Malek (also recognized as Fazil, Fajil, and Fazilkhan)
-- **Author Identity**: Fazil Malek
-- **Role**: Indian entrepreneur, software developer, AI/ML enthusiast, product architect, footballer, founder of Promacle
+- **Name**: Fazil Malek
+- **Role**: Indian entrepreneur, software developer, AI/ML engineer, product architect, footballer, founder of Promacle
 - **Location**: Ahmedabad, Gujarat, India
 - **Education**: Bachelor of Engineering (B.E.) in Computer Engineering at Gujarat Technological University (GTU)
 - **Parents**: Malek Firojkhan Anvarkhan and Malek Hasinabibi Firojkhan

@@ -254,6 +254,8 @@ export default function CertificatesPage() {
                     <img
                       src={cert.image}
                       alt={cert.title}
+                      width="340"
+                      height="255"
                       className="w-full aspect-[4/3] object-cover"
                       loading="lazy"
                     />
@@ -300,7 +302,7 @@ export default function CertificatesPage() {
             {/* Close Button */}
             <button
               onClick={() => setSelectedCert(null)}
-              className="absolute top-4 right-4 w-9 h-9 border-2 border-black rounded-full bg-[#fff9b0] font-bold text-lg flex items-center justify-center hover:bg-[#e63946] hover:text-white transition-colors cursor-pointer z-10"
+              className="absolute top-4 right-4 w-11 h-11 min-w-[44px] min-h-[44px] border-2 border-black rounded-full bg-[#fff9b0] font-bold text-lg flex items-center justify-center hover:bg-[#e63946] hover:text-white transition-colors cursor-pointer z-10"
               aria-label="Close details"
             >
               ✕
@@ -361,9 +363,9 @@ export default function CertificatesPage() {
                       href={selectedCert.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-hand btn-filled w-full text-center block text-lg font-bold"
+                      className="btn-hand btn-filled w-full text-center block text-lg font-bold min-h-[44px]"
                     >
-                      verify credential ↗
+                      verify credential
                     </a>
                   </div>
                 )}

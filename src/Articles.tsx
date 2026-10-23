@@ -35,7 +35,7 @@ export default function Articles() {
                   <span className="bg-[#1a1a1a] text-white px-2.5 py-0.5 rounded font-bold">
                     {story.category}
                   </span>
-                  <span>⏱ {story.readTime}</span>
+                  <span>{story.readTime}</span>
                 </div>
 
                 <h3 className="font-[Permanent_Marker] text-xl leading-snug mb-3">
@@ -61,7 +61,7 @@ export default function Articles() {
                   className="font-[Patrick_Hand] text-sm text-[#e63946] font-bold hover:underline underline-hand"
                   style={{ textDecorationColor: "#e63946" }}
                 >
-                  Read entry →
+                  Read entry
                 </a>
               </div>
             </article>
@@ -75,7 +75,6 @@ export default function Articles() {
             className="btn-hand btn-filled inline-flex items-center gap-2 text-base md:text-lg"
           >
             <span>Browse all notebook writings &amp; categories ({stories.length} published)</span>
-            <span>→</span>
           </a>
         </div>
       </div>

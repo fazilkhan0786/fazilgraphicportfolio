@@ -1,7 +1,5 @@
 /* TEAM & DEVELOPER */
-Developer: Mohammad Fazil Malek
-Professional Name: Fazilkhan Malek
-Aliases: Fazil, Fajil, Fazilkhan
+Developer: Fazil Malek
 Role: Founder, AI Engineer, Software Developer, Product Architect
 Company: Promacle
 Flagship Project: NuroVed

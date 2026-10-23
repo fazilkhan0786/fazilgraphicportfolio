@@ -160,16 +160,11 @@ export default function Notebook() {
   return (
     <section id="notebook" ref={rootRef} className="relative">
       <div className="nb-pin">
-        <div className="nb-cue" ref={cueRef}>
-          <p className="font-[Patrick_Hand] text-[#6a4a25] text-lg">keep scrolling to open the notebook</p>
-          <div className="mt-1 mx-auto w-6 text-[#6a4a25] bounce-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"><path d="M12 4 L12 20 M5 13 L12 20 L19 13" /></svg>
-          </div>
-        </div>
+        <div className="nb-cue" ref={cueRef} />
 
         <div className="nb-mobile-head text-center mb-6">
           <p className="font-[Gochi_Hand] text-[#e63946] text-base">// from my notebook</p>
-          <h2 className="font-[Caveat] font-bold text-4xl leading-none text-[#3a2d1a]">The Notebook 📓</h2>
+          <h2 className="font-[Caveat] font-bold text-4xl leading-none text-[#3a2d1a]">The Notebook</h2>
           <p className="font-[Architects_Daughter] text-[#6a4a25] text-sm mt-1">stories, sketches & scribbles</p>
         </div>
 
@@ -185,7 +180,7 @@ export default function Notebook() {
                   <div className="nb-item">
                     <p className="font-[Gochi_Hand] text-[#e63946] nb-label">// chapter two</p>
                     <h3 className="font-[Caveat] font-bold nb-h leading-none relative inline-block">
-                      how i work
+                       how i work
                       <Wavy className="absolute left-0 right-0 -bottom-1 h-2" color="#1a1a1a" />
                     </h3>
                   </div>
@@ -197,11 +192,14 @@ export default function Notebook() {
                   </div>
 
                   <div className="nb-item nb-sketch">
-                    <p className="font-[Permanent_Marker] text-[#1a1a1a] nb-mark mb-2">my build loop ↻</p>
+                    <p className="font-[Permanent_Marker] text-[#1a1a1a] nb-mark mb-2">my build loop</p>
                     <div className="flex flex-wrap gap-2 items-center font-[Patrick_Hand] nb-chip text-[#2a2118]">
-                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">whiteboard</span>→
-                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">notebook</span>→
-                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">prototype</span>→
+                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">whiteboard</span>
+                      <span className="text-neutral-400">·</span>
+                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">notebook</span>
+                      <span className="text-neutral-400">·</span>
+                      <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">prototype</span>
+                      <span className="text-neutral-400">·</span>
                       <span className="px-2 py-0.5 bg-white/70 border border-black/30 rounded">ship</span>
                     </div>
                   </div>
@@ -239,7 +237,7 @@ export default function Notebook() {
 
                   <div className="nb-item flex items-start gap-3">
                     <div className="nb-photo shrink-0" style={{ transform: "rotate(-3deg)" }}>
-                      <div className="w-[20cqw] max-w-20 aspect-[5/6] bg-[#f2e6cf] border-[1.5px] border-[#8c6d48]/40 shadow-[1px_2px_0_rgba(0,0,0,0.12)] rounded-sm flex items-center justify-center text-[6cqw] md:text-3xl">🧑‍💻</div>
+                      <div className="w-[20cqw] max-w-20 aspect-[5/6] bg-[#f2e6cf] border-[1.5px] border-[#8c6d48]/40 shadow-[1px_2px_0_rgba(0,0,0,0.12)] rounded-sm flex items-center justify-center font-[Permanent_Marker] text-2xl text-[#8c6d48]">FM</div>
                       <p className="font-[Shadows_Into_Light] text-[#555] nb-chip text-center pt-1">day one</p>
                     </div>
                     <p className="font-[Kalam] text-[#2a2118] nb-body">
@@ -249,7 +247,7 @@ export default function Notebook() {
                   </div>
 
                   <div className="nb-item">
-                    <p className="font-[Permanent_Marker] text-[#1a1a1a] nb-mark mb-1">then came Promacle 🚀</p>
+                    <p className="font-[Permanent_Marker] text-[#1a1a1a] nb-mark mb-1">then came Promacle</p>
                     <p className="font-[Kalam] text-[#2a2118] nb-body">
                       one company, four ventures — healthcare, edtech, cleantech & behavioral AI.
                       built to <span className="hl-green">change behavior, not just screens.</span>
@@ -275,7 +273,7 @@ export default function Notebook() {
                   <div className="w-14 h-14 rounded-full border-2 border-[#ffdcb4]/60 flex items-center justify-center font-[Permanent_Marker] text-2xl text-[#ffe8d0]">F</div>
                   <h3 className="font-[Caveat] font-bold text-4xl md:text-5xl text-[#ffe8d0] leading-none">The Notebook</h3>
                   <p className="font-[Patrick_Hand] text-[#ffdcb4]/80 text-base">stories, sketches & scribbles</p>
-                  <p className="font-[Shadows_Into_Light] text-[#ffdcb4]/60 text-sm mt-2">— Fazilkhan Malek</p>
+                  <p className="font-[Shadows_Into_Light] text-[#ffdcb4]/60 text-sm mt-2">— Fazil Malek</p>
                 </div>
               </div>
               <div className="nb-cover-back" />

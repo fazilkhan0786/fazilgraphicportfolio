@@ -1,10 +1,3 @@
-/**
- * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
- * Watermark-ID: MF-FIROJKHAN-MALEK-2026
- * This codebase is protected under intellectual property laws.
- * Author: Mohammad Fazil Firojkhan Malek
- */
-
 import { useEffect, useRef, useState, useCallback } from "react";
 
 export function useReveal() {
@@ -30,81 +23,21 @@ export function useReveal() {
 export function useScrollProgress() {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
+    let ticking = false;
     const onScroll = () => {
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(h > 0 ? (window.scrollY / h) * 100 : 0);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          setProgress(h > 0 ? (window.scrollY / h) * 100 : 0);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return progress;
-}
-
-export function useTypewriter(words: string[], speed = 100, pause = 2000) {
-  const [text, setText] = useState("");
-  const [wordIdx, setWordIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const word = words[wordIdx];
-    const timeout = setTimeout(
-      () => {
-        if (!deleting) {
-          setText(word.slice(0, charIdx + 1));
-          if (charIdx + 1 === word.length) {
-            setTimeout(() => setDeleting(true), pause);
-          } else {
-            setCharIdx(charIdx + 1);
-          }
-        } else {
-          setText(word.slice(0, charIdx));
-          if (charIdx === 0) {
-            setDeleting(false);
-            setWordIdx((wordIdx + 1) % words.length);
-          } else {
-            setCharIdx(charIdx - 1);
-          }
-        }
-      },
-      deleting ? speed / 2 : speed
-    );
-    return () => clearTimeout(timeout);
-  }, [charIdx, deleting, wordIdx, words, speed, pause]);
-
-  return text;
-}
-
-export function useCountUp(end: number, duration = 2000, trigger = true) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!trigger || started) return;
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        setStarted(true);
-        io.disconnect();
-      }
-    }, { threshold: 0.3 });
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
-  }, [trigger, started]);
-
-  useEffect(() => {
-    if (!started) return;
-    let start = 0;
-    const step = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const progress = Math.min((timestamp - start) / duration, 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [started, end, duration]);
-
-  return { count, ref };
 }
 
 export function useMouse() {
@@ -116,8 +49,6 @@ export function useMouse() {
   }, []);
   return pos;
 }
-
-
 
 export function useMagnetic(strength = 0.3) {
   const ref = useRef<HTMLElement>(null);

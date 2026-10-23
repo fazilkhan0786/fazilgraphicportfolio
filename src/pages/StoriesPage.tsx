@@ -122,7 +122,7 @@ export default function StoriesPage() {
                 <span className="mx-2">•</span>
                 <span>{featuredStory.date}</span>
                 <span className="mx-2">•</span>
-                <span>⏱ {featuredStory.readTime}</span>
+                <span>{featuredStory.readTime}</span>
               </div>
             </div>
 
@@ -152,7 +152,7 @@ export default function StoriesPage() {
                 className="text-[#e63946] font-bold text-base md:text-lg flex items-center gap-1 hover:underline underline-hand"
                 style={{ textDecorationColor: "#e63946" }}
               >
-                Read full notebook entry →
+                Read full notebook entry
               </a>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function StoriesPage() {
                   <span className="bg-[#1a1a1a] text-white px-2.5 py-0.5 rounded font-bold">
                     {post.category}
                   </span>
-                  <span>⏱ {post.readTime}</span>
+                  <span>{post.readTime}</span>
                 </div>
 
                 <h3 className="font-[Permanent_Marker] text-xl md:text-2xl leading-snug mb-3">
@@ -197,7 +197,7 @@ export default function StoriesPage() {
                   href={`#/stories/${post.slug}`}
                   className="text-sm text-[#e63946] font-bold hover:underline"
                 >
-                  Read entry →
+                  Read entry
                 </a>
               </div>
             </article>
@@ -209,7 +209,6 @@ export default function StoriesPage() {
       {filteredStories.length === 0 && (
         <div className="reveal text-center py-20 bg-[#fffef7] border-2 border-dashed border-black/25 rounded-lg max-w-2xl mx-auto p-8 shadow-[4px_4px_0_rgba(0,0,0,0.06)] relative">
           <div className="tape absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-5 rotate-[1deg]" />
-          <span className="text-3xl mb-2 block">📓</span>
           <h3 className="font-[Permanent_Marker] text-2xl text-neutral-900 mb-2">
             No entries yet in "{filterCategory}"
           </h3>
@@ -218,9 +217,9 @@ export default function StoriesPage() {
           </p>
           <button
             onClick={() => setFilterCategory("All")}
-            className="btn-hand btn-filled text-sm"
+            className="btn-hand btn-filled text-sm min-h-[44px]"
           >
-            ← View All Stories ({stories.length})
+            View All Stories ({stories.length})
           </button>
         </div>
       )}

@@ -12,7 +12,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export type Project = {
-  icon: string;
   name: string;
   type: string;
   tech: string;
@@ -28,7 +27,7 @@ export type Project = {
 
 const projects: Project[] = [
   {
-    icon: "✋", name: "Air Drawing & 3D Canvas", type: "Computer Vision", tech: "MediaPipe · OpenCV · Depth Estimation",
+    name: "Air Drawing & 3D Canvas", type: "Computer Vision", tech: "MediaPipe · OpenCV · Depth Estimation",
     note: "Gesture-to-drawing without hardware. Extended a 2D canvas into full 3D interactive space.", status: "Production", station: "Vision Junction",
     problem: "Digital drawing tools all need a stylus, tablet, or touchscreen. I wanted people to draw in the air using just a webcam — no hardware at all.",
     build: "Used MediaPipe hand-tracking + OpenCV to detect finger positions in real time, then mapped gestures to brush strokes. Added depth estimation to lift the 2D canvas into a rotatable 3D object you can manipulate with your hands.",
@@ -37,7 +36,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786/3D_Interractive_Air_Drawing.git",
   },
   {
-    icon: "🩺", name: "Health Record Analyser", type: "NLP Clinical Engine", tech: "PyTorch · PDF Parsing",
+    name: "Health Record Analyser", type: "NLP Clinical Engine", tech: "PyTorch · PDF Parsing",
     note: "Multi-visit clinical pattern detection with anomaly flagging across visits.", status: "Deployed", station: "Clinic Halt",
     problem: "Patients accumulate dozens of reports across visits, but no one connects the dots between them. Important trends get missed.",
     build: "Built an NLP pipeline that parses PDF health records, extracts clinical entities, and tracks them across multiple visits. It flags anomalies and surfaces multi-visit patterns doctors would otherwise miss.",
@@ -46,7 +45,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786/Nurocare_patient_FE.git",
   },
   {
-    icon: "🔬", name: "AI Symptom Analyser", type: "Diagnostic AI", tech: "Medical Ontologies · Inference",
+    name: "AI Symptom Analyser", type: "Diagnostic AI", tech: "Medical Ontologies · Inference",
     note: "10,000+ disease patterns validated. Symptom co-occurrence modeling beyond keywords.", status: "Active", station: "Diagnose Central",
     problem: "Most symptom checkers just keyword-match, so they're noisy and unreliable. I wanted something that actually reasons about how symptoms co-occur.",
     build: "Modeled symptom co-occurrence using medical ontologies and contextual data, then validated against 10,000+ disease patterns. It weighs combinations of symptoms rather than matching single keywords.",
@@ -55,7 +54,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786/Context_Aware_Ai_Symptom_Analyser.git",
   },
   {
-    icon: "🥗", name: "AI Diet Planner", type: "Nutrition AI", tech: "PyTorch · Personalization",
+    name: "AI Diet Planner", type: "Nutrition AI", tech: "PyTorch · Personalization",
     note: "500+ dietary scenarios handled with context-aware, personalized recommendations.", status: "Shipped", station: "Nutri Stop",
     problem: "Generic diet plans ignore health conditions, lifestyle, and preferences — so people abandon them fast.",
     build: "Created a personalization engine that generates diet plans from a user's context: conditions, goals, lifestyle & preferences. Handles 500+ dietary scenarios with adaptive recommendations.",
@@ -64,7 +63,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786/Context_Aware_Ai_Diet_Planner.git",
   },
   {
-    icon: "🧪", name: "Food Product Scanner", type: "NLP + OCR", tech: "NLP · OCR · Ingredient Graph",
+    name: "Food Product Scanner", type: "NLP + OCR", tech: "NLP · OCR · Ingredient Graph",
     note: "Real-time, offline food label analysis right from your camera.", status: "Shipped", station: "Scanner Point",
     problem: "Reading and understanding food labels in the store is slow, and most apps need internet to do it.",
     build: "Combined OCR + NLP to read ingredient labels directly from the camera, then mapped them onto an ingredient graph for instant analysis — all working offline.",
@@ -73,7 +72,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786",
   },
   {
-    icon: "🤖", name: "MAVIS AI Assistant", type: "LLM Automation", tech: "LLM · Context Management",
+    name: "MAVIS AI Assistant", type: "LLM Automation", tech: "LLM · Context Management",
     note: "A multi-intent automation engine with context-aware task handling.", status: "Active", station: "Assist Yard",
     problem: "Assistants break the moment you ask for more than one thing at once, or reference something you said earlier.",
     build: "Built a multi-intent automation engine on top of an LLM with a context-management layer, so MAVIS can chain tasks, remember context, and route intents intelligently.",
@@ -82,7 +81,7 @@ const projects: Project[] = [
     repo: "https://github.com/fazilkhan0786",
   },
   {
-    icon: "📊", name: "Pharmacy Dashboard", type: "Operations", tech: "React · FastAPI · Supabase",
+    name: "Pharmacy Dashboard", type: "Operations", tech: "React · FastAPI · Supabase",
     note: "78% operational uplift for pharmacies that use it every single day.", status: "In Prod", station: "Terminus",
     problem: "Pharmacies were running operations on paper and spreadsheets — slow, error-prone, and impossible to scale.",
     build: "Shipped an end-to-end operations dashboard: inventory, billing, and analytics in one place. Built on React + FastAPI + Supabase and hardened through real daily use.",
@@ -204,7 +203,6 @@ export default function TrainWork() {
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-30 text-center px-4">
           <p className="font-[Gochi_Hand] text-[#e63946] text-lg">// all aboard</p>
           <h2 className="font-[Caveat] font-bold text-5xl md:text-6xl leading-none">shipped work</h2>
-          <p className="font-[Architects_Daughter] text-neutral-400 text-sm mt-1">scroll to ride through every station →</p>
         </div>
 
         <div className="tr-sky" />
@@ -220,8 +218,7 @@ export default function TrainWork() {
 
               <div className="tr-card">
                 <button type="button" className="tr-ticket tr-ticket-btn" onClick={() => setActive(p)} aria-label={`Read more about ${p.name}`}>
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="text-4xl">{p.icon}</div>
+                  <div className="flex items-start justify-end mb-2">
                     <span className="font-[Patrick_Hand] text-[10px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
                   </div>
                   <h3 className="font-[Permanent_Marker] text-xl leading-tight text-[#1a1a1a] text-left">{p.name}</h3>
@@ -230,7 +227,7 @@ export default function TrainWork() {
                   <div className="mt-3 pt-2 border-t-2 border-dashed border-neutral-400 flex items-center justify-between">
                     <p className="font-[Patrick_Hand] text-xs text-neutral-600 text-left">{p.tech}</p>
                   </div>
-                  <span className="tr-tap font-[Patrick_Hand]">tap to read →</span>
+                  <span className="tr-tap font-[Patrick_Hand]">tap to read</span>
                   <span className="tr-punch tr-punch-l" />
                   <span className="tr-punch tr-punch-r" />
                 </button>
@@ -300,15 +297,14 @@ export default function TrainWork() {
 
       <div className="tr-fallback-grid mx-auto max-w-7xl px-6 py-20">
         <div className="text-center mb-10">
-          <p className="font-[Gochi_Hand] text-[#e63946] text-base">// shipped work 🚄</p>
+          <p className="font-[Gochi_Hand] text-[#e63946] text-base">// shipped work</p>
           <h2 className="font-[Caveat] font-bold text-5xl">every station, a project</h2>
           <p className="font-[Architects_Daughter] text-neutral-400 mt-1">the stuff that actually left my laptop.</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((p) => (
             <button type="button" key={p.name} className="tr-ticket tr-ticket-btn !static text-left" onClick={() => setActive(p)}>
-              <div className="flex items-start justify-between mb-2">
-                <div className="text-3xl">{p.icon}</div>
+              <div className="flex items-start justify-end mb-2">
                 <span className="font-[Patrick_Hand] text-[10px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
               </div>
               <h3 className="font-[Permanent_Marker] text-lg text-[#1a1a1a]">{p.name}</h3>
@@ -316,7 +312,7 @@ export default function TrainWork() {
               <p className="font-[Kalam] text-sm mt-2 text-[#2a2118]">{p.note}</p>
               <div className="mt-2 pt-2 border-t-2 border-dashed border-neutral-400 flex items-center justify-between">
                 <p className="font-[Patrick_Hand] text-xs text-neutral-600">{p.tech}</p>
-                <span className="tr-tap-static font-[Patrick_Hand] text-xs text-[#e63946]">tap →</span>
+                <span className="tr-tap-static font-[Patrick_Hand] text-xs text-[#e63946]">tap</span>
               </div>
             </button>
           ))}
@@ -337,8 +333,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
         <span className="pm-tape" />
         <button className="pm-close" onClick={onClose} aria-label="close">✕</button>
 
-        <div className="flex items-start gap-4 pr-8">
-          <div className="pm-icon">{p.icon}</div>
+        <div className="flex items-start justify-between pr-8">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-[Patrick_Hand] text-[11px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
@@ -352,15 +347,15 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
 
         <div className="pm-body">
           <div className="pm-block">
-            <h4 className="pm-h">🎯 the problem</h4>
+            <h4 className="pm-h">the problem</h4>
             <p className="pm-text">{p.problem}</p>
           </div>
           <div className="pm-block">
-            <h4 className="pm-h">🔧 what i built</h4>
+            <h4 className="pm-h">what i built</h4>
             <p className="pm-text">{p.build}</p>
           </div>
           <div className="pm-block">
-            <h4 className="pm-h">🚀 impact</h4>
+            <h4 className="pm-h">impact</h4>
             <ul className="pm-list">
               {p.impact.map((it) => (
                 <li key={it}><span className="pm-check">✓</span>{it}</li>
@@ -368,7 +363,7 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
             </ul>
           </div>
           <div className="pm-block">
-            <h4 className="pm-h">🧰 built with</h4>
+            <h4 className="pm-h">built with</h4>
             <div className="flex flex-wrap gap-2 mt-1">
               {p.stack.map((s) => (<span key={s} className="pm-chip">{s}</span>))}
             </div>
@@ -380,7 +375,6 @@ function ProjectModal({ project, onClose }: { project: Project | null; onClose: 
             <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.5-.3-5.2-1.3-5.2-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.2 5.7.4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
           </svg>
           view on github
-          <span className="pm-arrow">↗</span>
         </a>
         <p className="pm-hint font-[Architects_Daughter]">press <kbd>esc</kbd> or click outside to close</p>
       </div>

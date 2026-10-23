@@ -13,6 +13,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -205,7 +206,7 @@ body {
   box-shadow: 1px 2px 0 rgba(26, 26, 26, 0.1);
 }
 .loader-exit {
-  animation: loaderFadeScaleOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: loaderFadeScaleOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 @keyframes loaderFadeScaleOut {
   0% { transform: scale(1); opacity: 1; }
@@ -370,6 +371,81 @@ body {
 .btn-filled:hover { background: #e63946; border-color: #e63946; color: #fff; }
 .btn-red { background: #e63946; border-color: #e63946; color: #fff; }
 .btn-red:hover { background: #1a1a1a; border-color: #1a1a1a; }
+.btn-whatsapp {
+  background-color: #0d7647;
+  color: #ffffff;
+  border: 2px solid #1a1a1a;
+  box-shadow: 3px 3px 0 rgba(26, 26, 26, 0.2);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+.btn-whatsapp:hover {
+  background-color: #0b613a;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 rgba(26, 26, 26, 0.3);
+}
+.btn-whatsapp:focus-visible,
+.btn-hand:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 3px;
+}
+.floating-wa-btn {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.15rem;
+  background-color: #0d7647;
+  color: #ffffff;
+  border: 2px solid #1a1a1a;
+  border-radius: 9999px;
+  font-family: "Patrick Hand", cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 4px 5px 0 rgba(26, 26, 26, 0.25);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+  text-decoration: none;
+}
+.floating-wa-btn:hover {
+  background-color: #0b613a;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 6px 7px 0 rgba(26, 26, 26, 0.32);
+}
+.floating-wa-btn:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 3px;
+}
+.hero-portrait-frame {
+  position: relative;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 1.5rem;
+  background: #fffdf5;
+  box-shadow: 6px 6px 0 rgba(26, 26, 26, 0.16);
+  overflow: hidden;
+}
+
+@keyframes heroFadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-enter {
+  animation: heroFadeSlide 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-enter-delay-1 { animation-delay: 60ms; }
+.hero-enter-delay-2 { animation-delay: 120ms; }
+.hero-enter-delay-3 { animation-delay: 180ms; }
+.hero-enter-delay-4 { animation-delay: 240ms; }
+
 
 
 .hl-yellow { background: linear-gradient(180deg, transparent 50%, rgba(255, 217, 61, 0.55) 50%, rgba(255, 217, 61, 0.55) 90%, transparent 90%); padding: 0 4px; }
@@ -1409,12 +1485,15 @@ body {
   position: absolute;
   top: 12px;
   right: 14px;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2.5px solid #1a1a1a;
   border-radius: 50%;
   background: #fff;
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
   transition: all 0.25s ease;

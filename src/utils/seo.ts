@@ -7,8 +7,8 @@
 
 import { Story } from "../data/stories";
 
-const BASE_TITLE = "Mohammad Fazil Malek (Fazilkhan) — Founder @ Promacle | Computer Engineer & Systems Architect";
-const BASE_DESC = "Mohammad Fazil Malek (Fazilkhan, Fazil, Fajil) is an Indian youngest entrepreneur, Computer Engineering student at GTU, founder and CEO of Promacle (NuroVed), software developer, AI/ML Developer, UI/UX Designer, Graphic Designer,footballer, and product architect based in Ahmedabad, Gujarat.";
+const BASE_TITLE = "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat";
+const BASE_DESC = "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.";
 const BASE_CANONICAL = "https://fazilportfolio.me/";
 const BASE_IMAGE = "https://fazilportfolio.me/images/portrait.png";
 
@@ -109,17 +109,17 @@ export function resetBaseSEO() {
   document.title = BASE_TITLE;
 
   setOrCreateMeta("name", "description", BASE_DESC);
-  setOrCreateMeta("name", "author", "Mohammad Fazil Malek");
+  setOrCreateMeta("name", "author", "Fazil Malek");
   setOrCreateCanonical(BASE_CANONICAL);
 
   setOrCreateMeta("property", "og:type", "profile");
-  setOrCreateMeta("property", "og:title", "Mohammad Fazil Malek (Fazilkhan) — Founder @ Promacle & Product Architect");
-  setOrCreateMeta("property", "og:description", "Indian entrepreneur, Computer Engineer at GTU, founder of Promacle & NuroVed. Building healthcare AI, full-stack websites, UI/UX design, and scalable software in Ahmedabad.");
+  setOrCreateMeta("property", "og:title", "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat");
+  setOrCreateMeta("property", "og:description", "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.");
   setOrCreateMeta("property", "og:url", BASE_CANONICAL);
   setOrCreateMeta("property", "og:image", BASE_IMAGE);
 
-  setOrCreateMeta("name", "twitter:title", "Mohammad Fazil Malek (Fazilkhan) — Founder @ Promacle & Product Architect");
-  setOrCreateMeta("name", "twitter:description", "Founder @ Promacle (NuroVed), Computer Engineering student at GTU, footballer, and AI systems architect in Ahmedabad, India.");
+  setOrCreateMeta("name", "twitter:title", "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat");
+  setOrCreateMeta("name", "twitter:description", "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.");
   setOrCreateMeta("name", "twitter:image", BASE_IMAGE);
 
   // Remove Article Schema

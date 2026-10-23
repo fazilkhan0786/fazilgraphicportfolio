@@ -98,10 +98,10 @@ export default function ContactPage() {
   };
 
   const socialLinks = [
-    { label: "Personal LinkedIn", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377", icon: "💼", tag: "@fazilkhan-malek" },
-    { label: "Personal GitHub", url: "https://github.com/fazilkhan0786", icon: "🐙", tag: "@fazilkhan0786" },
-    { label: "Personal Instagram", url: "https://www.instagram.com/fazilkhan_078?igsh=MXFlZnA3OWEzenQzZQ%3D%3D&utm_source=qr", icon: "📸", tag: "@fazilkhan_078" },
-    { label: "Company Instagram", url: "https://www.instagram.com/nuroved.ai?igsh=emEzeWtqcTEwMmZl&utm_source=qr", icon: "🏢", tag: "@promacle" },
+    { label: "Personal LinkedIn", url: "https://www.linkedin.com/in/fazilkhan-malek-392082377", tag: "@fazilkhan-malek" },
+    { label: "Personal GitHub", url: "https://github.com/fazilkhan0786", tag: "@fazilkhan0786" },
+    { label: "Personal Instagram", url: "https://www.instagram.com/fazilkhan_078?igsh=MXFlZnA3OWEzenQzZQ%3D%3D&utm_source=qr", tag: "@fazilkhan_078" },
+    { label: "Company Instagram", url: "https://www.instagram.com/nuroved.ai?igsh=emEzeWtqcTEwMmZl&utm_source=qr", tag: "@promacle" },
   ];
 
   return (
@@ -128,7 +128,7 @@ export default function ContactPage() {
 
           {submitted ? (
             <div className="bg-green-100 border-2 border-green-500 p-8 rounded-md text-center space-y-4 font-[Kalam]">
-              <div className="text-5xl">🎉</div>
+              <div className="text-4xl text-green-700 font-bold">✓</div>
               <h3 className="font-[Permanent_Marker] text-2xl text-green-800">Inquiry Delivered!</h3>
               <p className="text-green-900 text-lg">
                 Thank you, <strong>{formData.fullName}</strong>. Your message regarding{" "}
@@ -146,7 +146,7 @@ export default function ContactPage() {
                     honeypot: ""
                   });
                 }}
-                className="btn-hand btn-filled !py-2 !px-6 text-sm mt-4"
+                className="btn-hand btn-filled !py-2 !px-6 text-sm mt-4 min-h-[44px]"
               >
                 Send another message
               </button>
@@ -165,13 +165,13 @@ export default function ContactPage() {
 
               {rateLimitError && (
                 <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm font-[Kalam]">
-                  ⏳ Please wait a few seconds before submitting another request.
+                  Please wait a few seconds before submitting another request.
                 </div>
               )}
 
               {submitError && (
                 <div className="p-3 bg-red-50 border-2 border-red-400 text-red-800 rounded-md text-sm font-[Kalam]">
-                  ⚠️ {submitError}
+                  {submitError}
                 </div>
               )}
 
@@ -264,9 +264,9 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-hand btn-filled w-full text-xl !py-3 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="btn-hand btn-filled w-full text-xl !py-3 disabled:opacity-50 flex items-center justify-center gap-2 min-h-[44px]"
               >
-                {isSubmitting ? "⏳ Sending Inquiry..." : "✉️ Submit Enquiry →"}
+                {isSubmitting ? "Sending Inquiry..." : "Submit Enquiry"}
               </button>
             </form>
           )}
@@ -275,7 +275,7 @@ export default function ContactPage() {
         <div className="lg:col-span-5 space-y-8">
           <div className="reveal sketch-card !p-6 relative">
             <h3 className="font-[Permanent_Marker] text-2xl mb-2 flex items-center gap-2">
-              <span>✉️</span> Direct Mail &amp; Contact
+              Direct Mail &amp; Contact
             </h3>
             <p className="font-[Kalam] text-neutral-700 text-base mb-4">
               prefer direct email? click below to send or copy address directly:
@@ -284,25 +284,25 @@ export default function ContactPage() {
               <a
                 href={`mailto:${email}?subject=let's build something`}
                 onClick={() => analyticsActions.trackSendEmail()}
-                className="btn-hand btn-filled !py-2 !px-4 !text-sm"
+                className="btn-hand btn-filled !py-2 !px-4 !text-sm min-h-[44px] flex items-center"
               >
                 Send Email
               </a>
-              <button onClick={copyEmail} className="btn-hand !py-2 !px-4 !text-sm">
-                {copied ? "✓ Copied!" : "📋 Copy Address"}
+              <button onClick={copyEmail} className="btn-hand !py-2 !px-4 !text-sm min-h-[44px]">
+                {copied ? "Copied!" : "Copy Address"}
               </button>
               <a
                 href="tel:+917990632170"
-                className="btn-hand btn-red !py-2 !px-4 !text-sm"
+                className="btn-hand btn-red !py-2 !px-4 !text-sm min-h-[44px] flex items-center"
               >
-                📞 Call Me
+                Call Me
               </a>
             </div>
           </div>
 
           <div className="reveal wiggle-box bg-[#fffdf5] p-6 border-2 border-black rounded-lg shadow-[4px_5px_0_rgba(26,26,26,0.1)]">
             <h3 className="font-[Permanent_Marker] text-2xl mb-4 text-neutral-900 flex items-center gap-2">
-              <span>🌐</span> Social Matrix &amp; Profiles
+              Social Matrix &amp; Profiles
             </h3>
             <div className="space-y-3">
               {socialLinks.map((s) => (
@@ -312,25 +312,21 @@ export default function ContactPage() {
                   target="_blank"
                   rel="me noopener noreferrer"
                   onClick={() => analyticsActions.trackSocialClick(s.label, s.url)}
-                  className="flex items-center justify-between p-3 bg-white border-2 border-black rounded-md hover:bg-[#fff9b0] transition-colors"
+                  className="flex items-center justify-between p-3 bg-white border-2 border-black rounded-md hover:bg-[#fff9b0] transition-colors min-h-[44px]"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{s.icon}</span>
-                    <div>
-                      <span className="font-[Permanent_Marker] text-base block">{s.label}</span>
-                      <span className="font-[Patrick_Hand] text-xs text-neutral-500">{s.tag}</span>
-                    </div>
+                  <div>
+                    <span className="font-[Permanent_Marker] text-base block">{s.label}</span>
+                    <span className="font-[Patrick_Hand] text-xs text-neutral-500">{s.tag}</span>
                   </div>
-                  <span className="font-[Patrick_Hand] text-lg text-[#e63946]">↗</span>
                 </a>
               ))}
             </div>
           </div>
 
           <div className="reveal sticky-note sticky-orange !p-6" style={{ transform: "rotate(1.5deg)" }}>
-            <p className="font-[Permanent_Marker] text-xl mb-1">📍 Location</p>
+            <p className="font-[Permanent_Marker] text-xl mb-1">Location</p>
             <p className="font-[Kalam] text-base leading-snug">
-              Mohammad Fazil Malek (Fazilkhan)<br />
+              Fazil Malek<br />
               Ahmedabad, Gujarat, India<br />
               <span className="text-xs font-[Patrick_Hand] text-neutral-600">Computer Engineering Student @ GTU</span>
             </p>
