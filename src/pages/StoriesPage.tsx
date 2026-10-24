@@ -6,6 +6,7 @@
  */
 
 import { useState, useEffect } from "react";
+import Breadcrumbs from "../components/Breadcrumbs";
 import {
   stories,
   ALL_CATEGORIES,
@@ -13,7 +14,11 @@ import {
   Story,
 } from "../data/stories";
 
-export default function StoriesPage() {
+interface StoriesPageProps {
+  onNavigate?: (path: string) => void;
+}
+
+export default function StoriesPage({ onNavigate }: StoriesPageProps) {
   const [filterCategory, setFilterCategory] = useState<string>("All");
 
   useEffect(() => {
@@ -67,6 +72,13 @@ export default function StoriesPage() {
 
   return (
     <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Stories", path: "/stories/" }
+        ]}
+        onNavigate={onNavigate}
+      />
       {/* Editorial Page Header */}
       <div className="reveal text-center mb-12">
         <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">
@@ -128,7 +140,13 @@ export default function StoriesPage() {
 
             <h2 className="font-[Permanent_Marker] text-2xl sm:text-3xl md:text-5xl text-neutral-900 leading-tight mb-4">
               <a
-                href={`#/stories/${featuredStory.slug}`}
+                href={`/stories/${featuredStory.slug}/`}
+                onClick={(e) => {
+                  if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    onNavigate(`/stories/${featuredStory.slug}/`);
+                  }
+                }}
                 className="hover:text-[#e63946] transition-colors"
               >
                 {featuredStory.title}
@@ -148,7 +166,13 @@ export default function StoriesPage() {
                 ))}
               </div>
               <a
-                href={`#/stories/${featuredStory.slug}`}
+                href={`/stories/${featuredStory.slug}/`}
+                onClick={(e) => {
+                  if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    onNavigate(`/stories/${featuredStory.slug}/`);
+                  }
+                }}
                 className="text-[#e63946] font-bold text-base md:text-lg flex items-center gap-1 hover:underline underline-hand"
                 style={{ textDecorationColor: "#e63946" }}
               >
@@ -177,7 +201,13 @@ export default function StoriesPage() {
 
                 <h3 className="font-[Permanent_Marker] text-xl md:text-2xl leading-snug mb-3">
                   <a
-                    href={`#/stories/${post.slug}`}
+                    href={`/stories/${post.slug}/`}
+                    onClick={(e) => {
+                      if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                        e.preventDefault();
+                        onNavigate(`/stories/${post.slug}/`);
+                      }
+                    }}
                     className="hover:text-[#e63946] transition-colors"
                   >
                     {post.title}
@@ -194,7 +224,13 @@ export default function StoriesPage() {
                   {post.date} • {post.author}
                 </span>
                 <a
-                  href={`#/stories/${post.slug}`}
+                  href={`/stories/${post.slug}/`}
+                  onClick={(e) => {
+                    if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                      e.preventDefault();
+                      onNavigate(`/stories/${post.slug}/`);
+                    }
+                  }}
                   className="text-sm text-[#e63946] font-bold hover:underline"
                 >
                   Read entry

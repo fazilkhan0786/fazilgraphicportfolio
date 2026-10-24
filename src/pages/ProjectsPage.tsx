@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from "react";
 import { analyticsActions } from "../utils/analytics";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface Project {
   id: string;
@@ -194,7 +195,7 @@ const projects: Project[] = [
   }
 ];
 
-export default function ProjectsPage({ onNavigateContact }: { onNavigateContact: () => void }) {
+export default function ProjectsPage({ onNavigateContact, onNavigate }: { onNavigateContact?: () => void; onNavigate?: (path: string) => void }) {
   const [activeTab, setActiveTab] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
@@ -227,6 +228,13 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
 
   return (
     <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Projects", path: "/projects/" }
+        ]}
+        onNavigate={onNavigate}
+      />
       <div className="reveal text-center mb-12">
         <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">// CREATIONS & VENTURES</span>
         <h1 className="font-[Caveat] font-bold text-6xl md:text-8xl leading-none">
@@ -414,7 +422,11 @@ export default function ProjectsPage({ onNavigateContact }: { onNavigateContact:
                   <button
                     onClick={() => {
                       setSelectedProject(null);
-                      onNavigateContact();
+                      if (onNavigateContact) {
+                        onNavigateContact();
+                      } else if (onNavigate) {
+                        onNavigate("/contact/");
+                      }
                     }}
                     className="btn-hand btn-filled !py-2 !px-4 !text-sm w-full min-h-[44px]"
                   >

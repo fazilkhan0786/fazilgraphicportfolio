@@ -2,17 +2,17 @@
  * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
  * Author: Fazil Malek
- * Dynamic SEO & Article Structured Data (JSON-LD) Utility
+ * Dynamic SEO, Metadata & Structured Data (JSON-LD) Utility
  */
 
 import { Story } from "../data/stories";
+import { findRouteConfig } from "../routes";
 
-const BASE_TITLE = "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat";
-const BASE_DESC = "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.";
-const BASE_CANONICAL = "https://fazilportfolio.me/";
-const BASE_IMAGE = "https://fazilportfolio.me/images/portrait.png";
+const BASE_URL = "https://fazilportfolio.me";
+const BASE_IMAGE = `${BASE_URL}/images/portrait.png`;
 
 function setOrCreateMeta(attrName: "name" | "property", key: string, content: string) {
+  if (typeof document === "undefined") return;
   let el = document.querySelector(`meta[${attrName}="${key}"]`);
   if (!el) {
     el = document.createElement("meta");
@@ -23,6 +23,7 @@ function setOrCreateMeta(attrName: "name" | "property", key: string, content: st
 }
 
 function setOrCreateCanonical(href: string) {
+  if (typeof document === "undefined") return;
   let link = document.querySelector('link[rel="canonical"]');
   if (!link) {
     link = document.createElement("link");
@@ -32,14 +33,48 @@ function setOrCreateCanonical(href: string) {
   link.setAttribute("href", href);
 }
 
+export function updatePageSEO(path: string) {
+  if (typeof document === "undefined") return;
+
+  const config = findRouteConfig(path);
+  document.title = config.title;
+
+  setOrCreateMeta("name", "title", config.title);
+  setOrCreateMeta("name", "description", config.description);
+  setOrCreateCanonical(config.canonical);
+
+  // Open Graph
+  setOrCreateMeta("property", "og:title", config.title);
+  setOrCreateMeta("property", "og:description", config.description);
+  setOrCreateMeta("property", "og:url", config.canonical);
+  setOrCreateMeta("property", "og:type", config.ogType);
+  setOrCreateMeta("property", "og:image", config.ogImage);
+
+  // Twitter
+  setOrCreateMeta("name", "twitter:title", config.title);
+  setOrCreateMeta("name", "twitter:description", config.description);
+  setOrCreateMeta("name", "twitter:image", config.ogImage);
+
+  // Remove article schema if navigating away from a story
+  if (!path.startsWith("/stories/") || path === "/stories/") {
+    const scriptEl = document.getElementById("article-jsonld");
+    if (scriptEl && scriptEl.parentNode) {
+      scriptEl.parentNode.removeChild(scriptEl);
+    }
+  }
+}
+
 export function setStorySEO(story: Story) {
-  const storyUrl = `https://fazilportfolio.me/#/stories/${story.slug}`;
-  const fullTitle = `${story.title} — Fazil Malek`;
+  if (typeof document === "undefined") return;
+
+  const storyUrl = `${BASE_URL}/stories/${story.slug}/`;
+  const fullTitle = `${story.title} | Fazil Malek`;
 
   // Page Title
   document.title = fullTitle;
 
   // Standard Meta
+  setOrCreateMeta("name", "title", fullTitle);
   setOrCreateMeta("name", "description", story.excerpt);
   setOrCreateMeta("name", "author", story.author);
   setOrCreateCanonical(storyUrl);
@@ -90,13 +125,13 @@ export function setStorySEO(story: Story) {
     "image": BASE_IMAGE,
     "author": {
       "@type": "Person",
-      "@id": "https://fazilportfolio.me/#person",
+      "@id": `${BASE_URL}/#person`,
       "name": story.author,
       "url": story.authorUrl
     },
     "publisher": {
       "@type": "Person",
-      "@id": "https://fazilportfolio.me/#person",
+      "@id": `${BASE_URL}/#person`,
       "name": story.author,
       "url": story.authorUrl
     }
@@ -106,25 +141,5 @@ export function setStorySEO(story: Story) {
 }
 
 export function resetBaseSEO() {
-  document.title = BASE_TITLE;
-
-  setOrCreateMeta("name", "description", BASE_DESC);
-  setOrCreateMeta("name", "author", "Fazil Malek");
-  setOrCreateCanonical(BASE_CANONICAL);
-
-  setOrCreateMeta("property", "og:type", "profile");
-  setOrCreateMeta("property", "og:title", "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat");
-  setOrCreateMeta("property", "og:description", "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.");
-  setOrCreateMeta("property", "og:url", BASE_CANONICAL);
-  setOrCreateMeta("property", "og:image", BASE_IMAGE);
-
-  setOrCreateMeta("name", "twitter:title", "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat");
-  setOrCreateMeta("name", "twitter:description", "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.");
-  setOrCreateMeta("name", "twitter:image", BASE_IMAGE);
-
-  // Remove Article Schema
-  const scriptEl = document.getElementById("article-jsonld");
-  if (scriptEl && scriptEl.parentNode) {
-    scriptEl.parentNode.removeChild(scriptEl);
-  }
+  updatePageSEO("/");
 }

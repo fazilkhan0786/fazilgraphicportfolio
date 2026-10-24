@@ -6,6 +6,7 @@
  */
 
 import { useState } from "react";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface Service {
   title: string;
@@ -125,12 +126,19 @@ const methodologySteps = [
   }
 ];
 
-export default function ServicesPage({ onNavigateContact }: { onNavigateContact: () => void }) {
+export default function ServicesPage({ onNavigateContact, onNavigate }: { onNavigateContact?: () => void; onNavigate?: (path: string) => void }) {
   const [projectType, setProjectType] = useState<string>("Website Building & UI/UX");
   const [timeline, setTimeline] = useState<string>("1-3 Weeks");
 
   return (
     <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Services", path: "/services/" }
+        ]}
+        onNavigate={onNavigate}
+      />
       <div className="reveal text-center mb-12">
         <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">// FREELANCE &amp; CONSULTING</span>
         <h1 className="font-[Caveat] font-bold text-6xl md:text-8xl leading-none">

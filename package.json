@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:client": "vite build",
+    "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
+    "build:prerender": "node scripts/prerender.js",
+    "optimize-images": "node scripts/optimize-images.js",
+    "build": "node scripts/optimize-images.js && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.js",
+    "check": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from "react";
 import { analyticsActions } from "../utils/analytics";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface Certificate {
   id: string;
@@ -26,7 +27,7 @@ const certificatesData: Certificate[] = [
     title: "CS50x: Introduction to Computer Science",
     issuer: "Harvard University (HarvardX)",
     date: "Dec 2024",
-    image: "images/CS50_Computer-Science_Certificate.png",
+    image: "/images/CS50_Computer-Science_Certificate.png",
     category: "Computer Science",
     description: "Harvard University's flagship introduction to the intellectual enterprises of computer science and the art of programming. Covers algorithms, data structures, encapsulation, resource management, security, software engineering, and web development.",
     skills: ["C", "Python", "SQL", "HTML/CSS", "Algorithms", "Data Structures", "Memory Management"],
@@ -37,7 +38,7 @@ const certificatesData: Certificate[] = [
     title: "CS50: Introduction to Programming with Python",
     issuer: "Harvard University (HarvardX)",
     date: "Nov 2025",
-    image: "images/CS50_Introduction-Python_Certificate.png",
+    image: "/images/CS50_Introduction-Python_Certificate.png",
     category: "Computer Science",
     description: "An intensive introduction to programming using Python. Covered writing and testing code; functions, arguments, and return values; variables and types; conditionals and loops; exceptions; libraries; unit tests; file I/O; regular expressions; and object-oriented programming.",
     skills: ["Python", "Unit Testing", "Regex", "Object-Oriented Programming (OOP)", "File I/O", "APIs"],
@@ -48,7 +49,7 @@ const certificatesData: Certificate[] = [
     title: "AWS Academy Graduate - Machine Learning",
     issuer: "Amazon Web Services (AWS)",
     date: "Dec 2025",
-    image: "images/AWS_ML_Certificate.png",
+    image: "/images/AWS_ML_Certificate.png",
     category: "AI & Machine Learning",
     description: "In-depth academy course on the machine learning pipeline, focusing on AWS SageMaker. Hands-on learning of data engineering, exploratory data analysis, modeling (supervised and unsupervised), training, evaluation, and deploying ML models to production on cloud architecture.",
     skills: ["AWS SageMaker", "Machine Learning Pipeline", "Supervised Learning", "Model Deployment", "Cloud AI"],
@@ -59,7 +60,7 @@ const certificatesData: Certificate[] = [
     title: "AWS Academy Graduate - Cloud Foundations / AI & ML",
     issuer: "Amazon Web Services (AWS)",
     date: "Jan 2025",
-    image: "images/AWS_AI-ML_Certificate.png",
+    image: "/images/AWS_AI-ML_Certificate.png",
     category: "AI & Machine Learning",
     description: "Core cloud infrastructure conceptualization paired with AWS cloud AI services. Covered key services such as Amazon Rekognition, Polly, Lex, SageMaker Canvas, and foundation model deployment strategies.",
     skills: ["AWS Cloud Foundations", "AI/ML Services", "Computer Vision", "Natural Language Processing", "SageMaker Canvas"],
@@ -70,7 +71,7 @@ const certificatesData: Certificate[] = [
     title: "AWS Academy Graduate - Prompt Engineering",
     issuer: "Amazon Web Services (AWS)",
     date: "Feb 2025",
-    image: "images/AWS_Prompt_Engineering_Certificate.png",
+    image: "/images/AWS_Prompt_Engineering_Certificate.png",
     category: "AI & Machine Learning",
     description: "Focused study on designing and optimizing prompts for Large Language Models (LLMs). Explores zero-shot, few-shot prompting, chain-of-thought methodologies, security considerations like prompt injection, and deployment using AWS Bedrock.",
     skills: ["Prompt Engineering", "Large Language Models", "Generative AI", "Claude & Bedrock", "AI Safety"],
@@ -81,7 +82,7 @@ const certificatesData: Certificate[] = [
     title: "Lead Software Developer & IoT Intern",
     issuer: "Dprofiz Ltd",
     date: "Nov 2023",
-    image: "images/Internship_Fazil_Internship_Certificate.png",
+    image: "/images/Internship_Fazil_Internship_Certificate.png",
     category: "Experience & Vol.",
     description: "Awarded for successfully completing a software engineering and IoT development internship. Led implementation of clean-tech reporting, Geo-mapping features, and gamified community reward dashboards.",
     skills: ["IoT Systems", "Flutter", "Firebase Integration", "RESTful APIs", "Git & Team Collaboration"]
@@ -91,7 +92,7 @@ const certificatesData: Certificate[] = [
     title: "Dprofiz Internship Offer Letter",
     issuer: "Dprofiz Ltd",
     date: "Aug 2023",
-    image: "images/Dprofiz_Fazil_Internship-Offer_Letter.png",
+    image: "/images/Dprofiz_Fazil_Internship-Offer_Letter.png",
     category: "Experience & Vol.",
     description: "Official selection and appointment offer as a Software Developer Intern at Dprofiz Ltd. Marked the beginning of professional startup engineering collaborations.",
     skills: ["Lead Software Developer", "Professional Engineering", "Agile Methodologies", "Project Planning"]
@@ -101,7 +102,7 @@ const certificatesData: Certificate[] = [
     title: "Hack-x HTS25 Achievement Certificate",
     issuer: "Hack-x Hackathon Committee",
     date: "Mar 2025",
-    image: "images/HTS25_Hack-x_Certificate.png",
+    image: "/images/HTS25_Hack-x_Certificate.png",
     category: "Hackathons",
     description: "Recognition of active participation and prototype building under intense time constraints during the HTS25 Hack-x Hackathon, addressing real-world problem statements.",
     skills: ["Rapid Prototyping", "Full-Stack Development", "Team Coordination", "Hackathon"]
@@ -111,7 +112,7 @@ const certificatesData: Certificate[] = [
     title: "Hack-x HTS26 Achievement Certificate",
     issuer: "Hack-x Hackathon Committee",
     date: "Mar 2026",
-    image: "images/HTS26_Hack-x_Certificate.png",
+    image: "/images/HTS26_Hack-x_Certificate.png",
     category: "Hackathons",
     description: "Earned for pioneering software design, architectural viability, and coding execution under a 36-hour sprint at the HTS26 Hack-x Hackathon.",
     skills: ["Systems Engineering", "Pitching & Presentation", "Collaborative Coding"]
@@ -121,7 +122,7 @@ const certificatesData: Certificate[] = [
     title: "UNPLUGGED '26 Achievement & Hackathon",
     issuer: "Unplugged Tech Meetup & Hackathon",
     date: "Jan 2026",
-    image: "images/UNPLUGGED26_Certificate.png",
+    image: "/images/UNPLUGGED26_Certificate.png",
     category: "Hackathons",
     description: "Awarded for designing and building outstanding interactive software architectures under severe constraints at the UNPLUGGED '26 technology sprint.",
     skills: ["Product Design", "Hardware-Software Interface", "Innovative Thinking"]
@@ -131,7 +132,7 @@ const certificatesData: Certificate[] = [
     title: "Programming Relay Winner / Competitor",
     issuer: "GTU Computer Engineering Department",
     date: "Sep 2024",
-    image: "images/Programming_Relay.png",
+    image: "/images/Programming_Relay.png",
     category: "Computer Science",
     description: "Earned during the GTU Departmental Tech Fest for rapid-fire algorithmic problem solving, passing complex competitive programming challenges in a team-relay format.",
     skills: ["Competitive Programming", "C++", "Data Structures", "Speed Coding"]
@@ -141,7 +142,7 @@ const certificatesData: Certificate[] = [
     title: "SSIP Innovation & Start-up Awareness",
     issuer: "Student Start-up & Innovation Policy (SSIP), Gov. of Gujarat",
     date: "Oct 2024",
-    image: "images/SSIP_Awareness_Certificate.png",
+    image: "/images/SSIP_Awareness_Certificate.png",
     category: "Experience & Vol.",
     description: "Certified awareness of Gujarat's Student Start-up & Innovation Policy. Covers intellectual property rights (IPR), government incubation programs, and venture funding criteria.",
     skills: ["Entrepreneurship", "Incubation Pipelines", "Intellectual Property & Patents"]
@@ -151,14 +152,14 @@ const certificatesData: Certificate[] = [
     title: "PitchCraft Volunteering & Startup Engagement",
     issuer: "PitchCraft Startup Hub",
     date: "Feb 2025",
-    image: "images/PitchCraft_Volunteering_Certificate.png",
+    image: "/images/PitchCraft_Volunteering_Certificate.png",
     category: "Experience & Vol.",
     description: "Volunteered and collaborated with early-stage founders to support pitch deck designs, UI/UX conceptualizations, and tech architecture mapping during the regional startup meetup.",
     skills: ["Volunteering", "Startup Pitching", "UI/UX Feedback", "Ecosystem Collaboration"]
   }
 ];
 
-export default function CertificatesPage() {
+export default function CertificatesPage({ onNavigate }: { onNavigate?: (path: string) => void }) {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("All");
 
@@ -183,11 +184,11 @@ export default function CertificatesPage() {
             }
           });
         },
-        { threshold: 0.1 }
+        { threshold: 0.08 }
       );
       els.forEach((el) => io.observe(el));
       return () => io.disconnect();
-    }, 100);
+    }, 60);
     return () => clearTimeout(timer);
   }, [filterCategory]);
 
@@ -197,12 +198,18 @@ export default function CertificatesPage() {
 
   const openCert = (cert: Certificate) => {
     setSelectedCert(cert);
-
     analyticsActions.trackArticleRead(cert.id, cert.title);
   };
 
   return (
     <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Certificates", path: "/certificates/" }
+        ]}
+        onNavigate={onNavigate}
+      />
       {/* Header Section */}
       <div className="reveal text-center mb-12">
         <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">// CREDENTIALS &amp; HONORS</span>
@@ -251,14 +258,18 @@ export default function CertificatesPage() {
 
                   {/* Certificate Image Preview */}
                   <div className="relative overflow-hidden border border-black/10 rounded bg-neutral-100">
-                    <img
-                      src={cert.image}
-                      alt={cert.title}
-                      width="340"
-                      height="255"
-                      className="w-full aspect-[4/3] object-cover"
-                      loading="lazy"
-                    />
+                    <picture>
+                      <source srcSet={cert.image.replace(/\.(png|jpg)$/, ".webp")} type="image/webp" />
+                      <img
+                        src={cert.image}
+                        alt={cert.title}
+                        width="340"
+                        height="255"
+                        className="w-full aspect-[4/3] object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                     <div className="photo-inner-border" />
                   </div>
 
@@ -313,11 +324,16 @@ export default function CertificatesPage() {
               {/* Full Image Preview */}
               <div className="md:col-span-7 flex flex-col justify-center">
                 <div className="relative border-2 border-black rounded-lg overflow-hidden bg-neutral-100 shadow-md">
-                  <img
-                    src={selectedCert.image}
-                    alt={selectedCert.title}
-                    className="w-full h-auto object-contain max-h-[50vh]"
-                  />
+                  <picture>
+                    <source srcSet={selectedCert.image.replace(/\.(png|jpg)$/, ".webp")} type="image/webp" />
+                    <img
+                      src={selectedCert.image}
+                      alt={selectedCert.title}
+                      className="w-full h-auto object-contain max-h-[50vh]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
                 </div>
                 <p className="font-[Architects_Daughter] text-xs text-neutral-400 text-center mt-3">
                   Click outer overlay or ✕ to go back.

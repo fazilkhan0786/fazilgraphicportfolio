@@ -14,13 +14,15 @@ import {
 import { setStorySEO, resetBaseSEO } from "../utils/seo";
 import { analyticsActions } from "../utils/analytics";
 import portraitImg from "../assets/portrait.png";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 interface StoryDetailPageProps {
   slug: string;
   onNavigateHome?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
+export default function StoryDetailPage({ slug, onNavigate }: StoryDetailPageProps) {
   const story = getStoryBySlug(slug);
 
   useEffect(() => {
@@ -71,7 +73,13 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
             This notebook entry does not exist or may have been moved.
           </p>
           <a
-            href="#/stories"
+            href="/stories/"
+            onClick={(e) => {
+              if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                onNavigate("/stories/");
+              }
+            }}
             className="btn-hand btn-filled inline-block"
           >
             Return to All Stories
@@ -86,10 +94,25 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
 
   return (
     <article className="py-20 md:py-28 px-6 md:px-10 max-w-4xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Stories", path: "/stories/" },
+          { label: story.title, path: `/stories/${story.slug}/` }
+        ]}
+        onNavigate={onNavigate}
+      />
+
       {/* Back to archive link */}
       <div className="mb-8">
         <a
-          href="#/stories"
+          href="/stories/"
+          onClick={(e) => {
+            if (onNavigate && !e.ctrlKey && !e.metaKey) {
+              e.preventDefault();
+              onNavigate("/stories/");
+            }
+          }}
           className="inline-flex items-center gap-2 font-[Patrick_Hand] text-base md:text-lg text-neutral-600 hover:text-[#e63946] transition-colors"
         >
           <span className="underline-hand" style={{ textDecorationColor: "#e63946" }}>
@@ -277,7 +300,13 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
         <div className="mt-12 pt-8 border-t border-black/15 grid sm:grid-cols-2 gap-4">
           {prev ? (
             <a
-              href={`#/stories/${prev.slug}`}
+              href={`/stories/${prev.slug}/`}
+              onClick={(e) => {
+                if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                  e.preventDefault();
+                  onNavigate(`/stories/${prev.slug}/`);
+                }
+              }}
               className="p-4 bg-[#fffdf5] border-2 border-black rounded-lg hover:-translate-y-0.5 hover:shadow-[4px_5px_0_rgba(26,26,26,0.12)] transition-all group"
             >
               <span className="font-[Patrick_Hand] text-xs text-neutral-500 block mb-1">
@@ -295,7 +324,13 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
 
           {next ? (
             <a
-              href={`#/stories/${next.slug}`}
+              href={`/stories/${next.slug}/`}
+              onClick={(e) => {
+                if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                  e.preventDefault();
+                  onNavigate(`/stories/${next.slug}/`);
+                }
+              }}
               className="p-4 bg-[#fffdf5] border-2 border-black rounded-lg hover:-translate-y-0.5 hover:shadow-[4px_5px_0_rgba(26,26,26,0.12)] transition-all group text-right"
             >
               <span className="font-[Patrick_Hand] text-xs text-neutral-500 block mb-1">
@@ -327,7 +362,13 @@ export default function StoryDetailPage({ slug }: StoryDetailPageProps) {
             {related.map((rel) => (
               <a
                 key={rel.slug}
-                href={`#/stories/${rel.slug}`}
+                href={`/stories/${rel.slug}/`}
+                onClick={(e) => {
+                  if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    onNavigate(`/stories/${rel.slug}/`);
+                  }
+                }}
                 className="bg-[#fffef7] border-[2px] border-black rounded-lg p-6 shadow-[4px_5px_0_rgba(26,26,26,0.08)] hover:shadow-[6px_8px_0_rgba(26,26,26,0.14)] hover:-translate-y-1 transition-all flex flex-col justify-between group"
               >
                 <div>

@@ -8,10 +8,16 @@
 import React, { useState } from "react";
 import { analyticsActions } from "../utils/analytics";
 import { sanitizeInput, checkRateLimit } from "../utils/security";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "9af2abb9-1185-449c-9df9-320ba94e8808";
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ContactPage() {
+interface ContactPageProps {
+  onNavigate?: (path: string) => void;
+}
+
+export default function ContactPage({ onNavigate }: ContactPageProps) {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -36,18 +42,29 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return; // Prevent double submission
     if (formData.honeypot) return; 
     if (!checkRateLimit("enquiry_form_submit", 5000)) {
       setRateLimitError(true);
       return;
     }
 
-    const cleanName = sanitizeInput(formData.fullName, 100);
-    const cleanEmail = sanitizeInput(formData.email, 120);
-    const cleanMessage = sanitizeInput(formData.message, 2000);
+    const cleanName = sanitizeInput(formData.fullName.trim(), 100);
+    const cleanEmail = sanitizeInput(formData.email.trim(), 120);
+    const cleanMessage = sanitizeInput(formData.message.trim(), 2000);
 
-    if (!cleanName || !cleanEmail || !cleanMessage) {
-      setSubmitError("Please provide your name, a valid email address, and a brief project description.");
+    if (!cleanName || cleanName.length < 2) {
+      setSubmitError("Please enter your name or company name.");
+      return;
+    }
+
+    if (!cleanEmail || !EMAIL_REGEX.test(cleanEmail)) {
+      setSubmitError("Please provide a valid email address so I can reply to your inquiry.");
+      return;
+    }
+
+    if (!cleanMessage || cleanMessage.length < 10) {
+      setSubmitError("Please provide a brief description of what you would like to build (at least 10 characters).");
       return;
     }
 
@@ -72,7 +89,7 @@ export default function ContactPage() {
       const result = await response.json();
 
       if (result.success) {
-        analyticsActions.trackSendEmail();
+        analyticsActions.trackFormSubmissionSuccess(formData.serviceType, formData.budget);
         setSubmitted(true);
       } else {
         setSubmitError(result.message || "Message could not be sent. Please try again or reach out directly via email.");
@@ -82,7 +99,6 @@ export default function ContactPage() {
     } finally {
       setIsSubmitting(false);
     }
-
   };
 
   const copyEmail = () => {
@@ -106,6 +122,13 @@ export default function ContactPage() {
 
   return (
     <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: "Home", path: "/" },
+          { label: "Contact", path: "/contact/" }
+        ]}
+        onNavigate={onNavigate}
+      />
       <div className="reveal text-center mb-12">
         <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">// GET IN TOUCH</span>
         <h1 className="font-[Caveat] font-bold text-6xl md:text-8xl leading-none">

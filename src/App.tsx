@@ -25,6 +25,9 @@ import StoriesPage from "./pages/StoriesPage";
 import StoryDetailPage from "./pages/StoryDetailPage";
 import ContactPage from "./pages/ContactPage";
 import CertificatesPage from "./pages/CertificatesPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import { normalizeRoutePath } from "./routes";
+import { updatePageSEO } from "./utils/seo";
 
 
 const Wavy = ({ color = "#e63946", w = "100%", h = "8px", className = "" }: { color?: string; w?: string; h?: string; className?: string }) => (
@@ -144,7 +147,7 @@ function CustomCursor() {
 }
 
 
-function Nav({ currentRoute }: { currentRoute: string }) {
+function Nav({ currentRoute, onNavigate }: { currentRoute: string; onNavigate?: (path: string) => void }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -164,28 +167,41 @@ function Nav({ currentRoute }: { currentRoute: string }) {
   }, []);
 
   const navPages = [
-    { label: "home", href: "#/" },
-    { label: "projects", href: "#/projects" },
-    { label: "services", href: "#/services" },
-    { label: "stories & blog", href: "#/stories" },
-    { label: "certificates", href: "#/certificates" },
-    { label: "contact me", href: "#/contact" },
+    { label: "home", href: "/" },
+    { label: "projects", href: "/projects/" },
+    { label: "services", href: "/services/" },
+    { label: "stories & blog", href: "/stories/" },
+    { label: "certificates", href: "/certificates/" },
+    { label: "contact me", href: "/contact/" },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (onNavigate && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      e.preventDefault();
+      onNavigate(href);
+      setOpen(false);
+    }
+  };
 
   return (
     <nav className={`fixed top-0 inset-x-0 z-50 px-4 py-3 md:px-8 transition-all duration-300 ${scrolled ? "bg-[#faf6ee] shadow-[0_2px_10px_rgba(26,26,26,0.06)] border-b-2 border-dashed border-black/15" : "bg-transparent"}`}>
       <div className="mx-auto max-w-7xl flex items-center justify-between">
-        <a href="#/" className="flex items-center gap-2 group">
+        <a
+          href="/"
+          onClick={(e) => handleNavClick(e, "/")}
+          className="flex items-center gap-2 group"
+        >
           <span className="inline-flex items-center justify-center w-10 h-10 rounded-full border-[2.5px] border-black bg-[#fffef7] font-[Permanent_Marker] text-lg group-hover:bg-[#e63946] group-hover:text-white group-hover:border-[#e63946] transition-all duration-300" style={{ transform: "rotate(-4deg)" }}>F</span>
           <span className="hidden md:block font-[Caveat] font-bold text-2xl group-hover:text-[#e63946] transition-colors">fazil.</span>
         </a>
         <div className="hidden lg:flex items-center gap-1">
           {navPages.map((p) => {
-            const isActive = (currentRoute === "" && p.href === "#/") || (currentRoute !== "" && p.href.includes(currentRoute));
+            const isActive = (currentRoute === "/" && p.href === "/") || (p.href !== "/" && currentRoute.startsWith(p.href));
             return (
               <a
                 key={p.href}
                 href={p.href}
+                onClick={(e) => handleNavClick(e, p.href)}
                 className={`nav-link ${isActive ? "!text-[#e63946] font-bold underline decoration-[#e63946]" : ""}`}
               >
                 {p.label}
@@ -214,7 +230,7 @@ function Nav({ currentRoute }: { currentRoute: string }) {
               key={p.href}
               href={p.href}
               className="block font-[Patrick_Hand] text-xl px-3 py-2 hover:text-[#e63946] transition-colors min-h-[44px] flex items-center"
-              onClick={() => setOpen(false)}
+              onClick={(e) => handleNavClick(e, p.href)}
             >
               {p.label}
             </a>
@@ -228,7 +244,7 @@ function Nav({ currentRoute }: { currentRoute: string }) {
 
 
 
-function Hero() {
+function Hero({ onNavigate }: { onNavigate?: (path: string) => void }) {
   const mag = useMagnetic(0.22);
 
   const handleScrollToWork = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -236,8 +252,10 @@ function Hero() {
     const workEl = document.getElementById("work") || document.getElementById("projects") || document.getElementById("ventures");
     if (workEl) {
       workEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (onNavigate) {
+      onNavigate("/projects/");
     } else {
-      window.location.hash = "/projects";
+      window.location.assign("/projects/");
     }
   };
 
@@ -878,50 +896,14 @@ function Contact() {
   );
 }
 
+function Footer({ onNavigate }: { onPrivacyClick?: () => void; onNavigate?: (path: string) => void }) {
+  const handleFooterLink = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (onNavigate && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      e.preventDefault();
+      onNavigate(href);
+    }
+  };
 
-function PrivacyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-[#18130e]/80 animate-[fadeIn_0.2s_ease-out]">
-      <div className="relative w-full max-w-lg bg-[#fffdf5] border-[2.5px] border-black rounded-md p-6 md:p-8 shadow-[10px_12px_0_rgba(0,0,0,0.3)] font-[Patrick_Hand] text-lg text-neutral-800">
-        <div className="tape absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-6 rotate-[-1deg]" />
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-neutral-500 hover:text-black font-bold text-2xl"
-          aria-label="Close modal"
-        >
-          ✕
-        </button>
-        <h3 className="font-[Permanent_Marker] text-2xl text-[#e63946] mb-4">
-          Privacy &amp; Data Notice
-        </h3>
-        <div className="space-y-4">
-          <p>
-            Your privacy is highly respected. This website operates on a <strong>zero-data collection policy</strong>:
-          </p>
-          <ul className="list-disc list-inside space-y-2">
-            <li><strong>No Tracking Cookies:</strong> No persistent cookies are saved or used to track your browsing behavior.</li>
-            <li><strong>Form Submissions:</strong> Information sent via the Contact form is processed securely using end-to-end encryption via Web3Forms and is never shared or stored in a public database.</li>
-            <li><strong>Local Safety:</strong> All features run fully client-side inside your browser sandbox.</li>
-          </ul>
-          <p className="text-sm text-neutral-500 font-[Architects_Daughter] mt-4">
-            Fazil Malek — Ahmedabad, Gujarat
-          </p>
-        </div>
-        <div className="mt-6 text-center">
-          <button 
-            onClick={onClose}
-            className="btn-hand btn-filled text-base px-6 py-2 rounded font-bold min-h-[44px]"
-          >
-            I Understand
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Footer({ onPrivacyClick }: { onPrivacyClick: () => void }) {
   return (
     <footer className="relative px-6 md:px-10 py-10 border-t-[2.5px] border-black/80 bg-[#fffdf5]">
       <div className="mx-auto max-w-7xl space-y-6">
@@ -932,21 +914,21 @@ function Footer({ onPrivacyClick }: { onPrivacyClick: () => void }) {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 font-[Patrick_Hand] text-lg">
-          <a href="#/" className="hover:text-[#e63946] transition-colors">Home</a>
+          <a href="/" onClick={(e) => handleFooterLink(e, "/")} className="hover:text-[#e63946] transition-colors">Home</a>
           <span>•</span>
-          <a href="#/projects" className="hover:text-[#e63946] transition-colors">Projects Showcase</a>
+          <a href="/projects/" onClick={(e) => handleFooterLink(e, "/projects/")} className="hover:text-[#e63946] transition-colors">Projects Showcase</a>
           <span>•</span>
-          <a href="#/services" className="hover:text-[#e63946] transition-colors">Freelance &amp; Services</a>
+          <a href="/services/" onClick={(e) => handleFooterLink(e, "/services/")} className="hover:text-[#e63946] transition-colors">Freelance &amp; Services</a>
           <span>•</span>
-          <a href="#/stories" className="hover:text-[#e63946] transition-colors">Stories &amp; Blog</a>
+          <a href="/stories/" onClick={(e) => handleFooterLink(e, "/stories/")} className="hover:text-[#e63946] transition-colors">Stories &amp; Blog</a>
           <span>•</span>
-          <a href="#/certificates" className="hover:text-[#e63946] transition-colors">Certificates &amp; Achievements</a>
+          <a href="/certificates/" onClick={(e) => handleFooterLink(e, "/certificates/")} className="hover:text-[#e63946] transition-colors">Certificates &amp; Achievements</a>
           <span>•</span>
-          <a href="#/contact" className="hover:text-[#e63946] transition-colors">Contact &amp; Enquiry Form</a>
+          <a href="/contact/" onClick={(e) => handleFooterLink(e, "/contact/")} className="hover:text-[#e63946] transition-colors">Contact &amp; Enquiry Form</a>
           <span>•</span>
-          <button onClick={onPrivacyClick} className="hover:text-[#e63946] transition-colors cursor-pointer bg-transparent border-none p-0 font-[Patrick_Hand] text-lg">
-            Privacy &amp; Cookies
-          </button>
+          <a href="/privacy-policy/" onClick={(e) => handleFooterLink(e, "/privacy-policy/")} className="hover:text-[#e63946] transition-colors">
+            Privacy Policy &amp; Disclosures
+          </a>
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 font-[Patrick_Hand] text-base border-t border-black/10 pt-6">
@@ -972,7 +954,7 @@ function Footer({ onPrivacyClick }: { onPrivacyClick: () => void }) {
   );
 }
 
-function NotFoundPage() {
+function NotFoundPage({ onNavigate }: { onNavigate?: (path: string) => void }) {
   return (
     <div className="py-24 px-6 md:px-10 max-w-4xl mx-auto text-center flex flex-col items-center justify-center min-h-[65vh] font-[Kalam]">
       <div className="reveal wiggle-box bg-[#fffef7] p-10 md:p-14 border-[2.5px] border-black rounded-lg relative shadow-[6px_8px_0_rgba(26,26,26,0.12)]" style={{ transform: "rotate(-1deg)" }}>
@@ -987,7 +969,13 @@ function NotFoundPage() {
         </p>
         
         <a
-          href="#/"
+          href="/"
+          onClick={(e) => {
+            if (onNavigate && !e.ctrlKey && !e.metaKey) {
+              e.preventDefault();
+              onNavigate("/");
+            }
+          }}
           className="btn-hand btn-filled text-xl inline-block"
         >
           return to home page
@@ -1001,24 +989,69 @@ function NotFoundPage() {
   );
 }
 
-export default function App() {
+interface AppProps {
+  initialRoute?: string;
+}
+
+export default function App({ initialRoute }: AppProps = {}) {
   const [loaded, setLoaded] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(false);
-  const [route, setRoute] = useState<string>(() => window.location.hash.replace("#", ""));
+  const [route, setRoute] = useState<string>(() => {
+    if (initialRoute) return normalizeRoutePath(initialRoute);
+    if (typeof window === "undefined") return "/";
+    // Check legacy hash first
+    if (window.location.hash && (window.location.hash.startsWith("#/") || window.location.hash.startsWith("#"))) {
+      const clean = window.location.hash.replace(/^#\/?/, "/");
+      if (clean && clean !== "/" && !clean.startsWith("work") && !clean.startsWith("contact") && !clean.startsWith("top")) {
+        return normalizeRoutePath(clean);
+      }
+    }
+    return normalizeRoutePath(window.location.pathname);
+  });
+
   const progress = useScrollProgress();
   useReveal();
   const handleLoaded = useCallback(() => setLoaded(true), []);
 
-  useEffect(() => {
-    const handleHashChange = () => {
-      const currentHash = window.location.hash.replace("#", "");
-      setRoute(currentHash);
+  const handleNavigate = useCallback((toPath: string) => {
+    const normalized = normalizeRoutePath(toPath);
+    if (typeof window !== "undefined") {
+      if (window.location.pathname !== normalized) {
+        window.history.pushState(null, "", normalized);
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
-      analyticsActions.trackArticleRead("page_view", currentHash || "home");
+    }
+    setRoute(normalized);
+    updatePageSEO(normalized);
+    analyticsActions.trackPageView(normalized);
+  }, []);
+
+  // Backward-compatible redirect for legacy hash URLs upon mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash && (window.location.hash.startsWith("#/") || window.location.hash.startsWith("#"))) {
+      const clean = window.location.hash.replace(/^#\/?/, "/");
+      if (clean && clean !== "/" && !clean.startsWith("work") && !clean.startsWith("contact") && !clean.startsWith("top")) {
+        const normalized = normalizeRoutePath(clean);
+        window.history.replaceState(null, "", normalized);
+        setRoute(normalized);
+        updatePageSEO(normalized);
+        analyticsActions.trackPageView(normalized);
+      }
+    }
+  }, []);
+
+  // Synchronize browser history Back/Forward actions
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onPopState = () => {
+      const current = normalizeRoutePath(window.location.pathname);
+      setRoute(current);
+      updatePageSEO(current);
+      analyticsActions.trackPageView(current);
     };
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
   useEffect(() => {
@@ -1042,7 +1075,7 @@ export default function App() {
     if (route === "" || route === "/") {
       return (
         <>
-          <Hero />
+          <Hero onNavigate={handleNavigate} />
           <Marquee />
           <About />
           <Notebook />
@@ -1050,7 +1083,7 @@ export default function App() {
           <TrainWork />
           <Skills />
           <Journey />
-          <Articles />
+          <Articles onNavigate={handleNavigate} />
           <FAQ />
           <Currently />
           <FunFacts />
@@ -1060,40 +1093,42 @@ export default function App() {
       );
     }
     if (route.startsWith("/projects")) {
-      return <ProjectsPage onNavigateContact={() => { window.location.hash = "/contact"; }} />;
+      return <ProjectsPage onNavigate={handleNavigate} onNavigateContact={() => handleNavigate("/contact/")} />;
     }
     if (route.startsWith("/services")) {
-      return <ServicesPage onNavigateContact={() => { window.location.hash = "/contact"; }} />;
+      return <ServicesPage onNavigate={handleNavigate} onNavigateContact={() => handleNavigate("/contact/")} />;
     }
     if (route.startsWith("/stories")) {
       const storySlug = route.replace(/^\/stories\/?/, "").replace(/\/$/, "");
       if (storySlug) {
-        return <StoryDetailPage slug={storySlug} />;
+        return <StoryDetailPage slug={storySlug} onNavigate={handleNavigate} />;
       }
-      return <StoriesPage />;
+      return <StoriesPage onNavigate={handleNavigate} />;
     }
     if (route.startsWith("/certificates")) {
-      return <CertificatesPage />;
+      return <CertificatesPage onNavigate={handleNavigate} />;
     }
     if (route.startsWith("/contact")) {
-      return <ContactPage />;
+      return <ContactPage onNavigate={handleNavigate} />;
+    }
+    if (route.startsWith("/privacy-policy")) {
+      return <PrivacyPolicyPage onNavigate={handleNavigate} />;
     }
 
-    return <NotFoundPage />;
+    return <NotFoundPage onNavigate={handleNavigate} />;
   };
 
   return (
     <>
       {!loaded && <Loader onDone={handleLoaded} />}
-      <PrivacyModal isOpen={showPrivacy} onClose={() => setShowPrivacy(false)} />
       <CustomCursor />
       <div className="scroll-progress" style={{ width: `${progress}%` }} />
       <div className="paper-bg paper-noise margin-line relative min-h-screen">
-        <Nav currentRoute={route} />
+        <Nav currentRoute={route} onNavigate={handleNavigate} />
         <main className="pt-8">
           {renderPageContent()}
         </main>
-        <Footer onPrivacyClick={() => setShowPrivacy(true)} />
+        <Footer onNavigate={handleNavigate} />
         <FloatingWhatsApp />
       </div>
     </>

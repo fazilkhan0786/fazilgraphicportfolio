@@ -30,28 +30,29 @@ Fazil Malek publishes reflective first-person writings, startup chronicles, and 
 
 ### Published Articles & Notebook Entries:
 1. **Why I Started NuroVed** (Category: Startups)
-   - *URL*: https://fazilportfolio.me/#/stories/why-i-started-nuroved
+   - *URL*: https://fazilportfolio.me/stories/why-i-started-nuroved/
    - *Summary*: Why Promacle focused on medical record fragmentation from Ahmedabad, eliminating operational friction between patients and doctors.
 2. **Building While Being a Student** (Category: Lessons)
-   - *URL*: https://fazilportfolio.me/#/stories/building-while-being-a-student
+   - *URL*: https://fazilportfolio.me/stories/building-while-being-a-student/
    - *Summary*: How balancing GTU computer engineering studies with building Promacle teaches focus, energy management, and practical execution over exam theory.
 3. **How I Approach Building Products** (Category: Design)
-   - *URL*: https://fazilportfolio.me/#/stories/how-i-approach-building-products
+   - *URL*: https://fazilportfolio.me/stories/how-i-approach-building-products/
    - *Summary*: Tactile product design philosophy: starting on paper before code, focusing on human outcomes over vanity dwell time.
 4. **Architecting NuroVed** (Category: Technology)
-   - *URL*: https://fazilportfolio.me/#/stories/architecting-nuroved
+   - *URL*: https://fazilportfolio.me/stories/architecting-nuroved/
    - *Summary*: Asynchronous FastAPI backend microservices, Flutter cross-platform client architecture, and zero-trust health record security.
 5. **Building Technology with Purpose** (Category: Personal)
-   - *URL*: https://fazilportfolio.me/#/stories/building-technology-with-purpose
+   - *URL*: https://fazilportfolio.me/stories/building-technology-with-purpose/
    - *Summary*: Growing up playing football in Ahmedabad, resilience under pressure, family values, and long-term vision over temporary tech hype.
 
 ## Page Index & Canonical Links
 - Home: https://fazilportfolio.me/
-- Projects Showcase: https://fazilportfolio.me/#/projects
-- Services & Offerings: https://fazilportfolio.me/#/services
-- Stories & Articles Archive: https://fazilportfolio.me/#/stories
-- Certificates & Achievements: https://fazilportfolio.me/#/certificates
-- Contact & Enquiry Form: https://fazilportfolio.me/#/contact
+- Projects Showcase: https://fazilportfolio.me/projects/
+- Services & Offerings: https://fazilportfolio.me/services/
+- Stories & Articles Archive: https://fazilportfolio.me/stories/
+- Certificates & Achievements: https://fazilportfolio.me/certificates/
+- Contact & Enquiry Form: https://fazilportfolio.me/contact/
+- Privacy Policy: https://fazilportfolio.me/privacy-policy/
 
 ## Social Links
 - GitHub: https://github.com/fazilkhan0786

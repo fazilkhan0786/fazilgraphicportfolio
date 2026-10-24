@@ -7,7 +7,7 @@
 
 import { stories } from "./data/stories";
 
-export default function Articles() {
+export default function Articles({ onNavigate }: { onNavigate?: (path: string) => void }) {
   // Showcase top 3 featured / high-leverage stories on the home page
   const homeStories = stories.slice(0, 3);
 
@@ -40,7 +40,13 @@ export default function Articles() {
 
                 <h3 className="font-[Permanent_Marker] text-xl leading-snug mb-3">
                   <a
-                    href={`#/stories/${story.slug}`}
+                    href={`/stories/${story.slug}/`}
+                    onClick={(e) => {
+                      if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                        e.preventDefault();
+                        onNavigate(`/stories/${story.slug}/`);
+                      }
+                    }}
                     className="group-hover:text-[#e63946] transition-colors"
                   >
                     {story.title}
@@ -57,7 +63,13 @@ export default function Articles() {
                   {story.date} • {story.author}
                 </span>
                 <a
-                  href={`#/stories/${story.slug}`}
+                  href={`/stories/${story.slug}/`}
+                  onClick={(e) => {
+                    if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                      e.preventDefault();
+                      onNavigate(`/stories/${story.slug}/`);
+                    }
+                  }}
                   className="font-[Patrick_Hand] text-sm text-[#e63946] font-bold hover:underline underline-hand"
                   style={{ textDecorationColor: "#e63946" }}
                 >
@@ -71,7 +83,13 @@ export default function Articles() {
         {/* Link to view all categories in the Stories archive */}
         <div className="reveal mt-12 text-center">
           <a
-            href="#/stories"
+            href="/stories/"
+            onClick={(e) => {
+              if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                onNavigate("/stories/");
+              }
+            }}
             className="btn-hand btn-filled inline-flex items-center gap-2 text-base md:text-lg"
           >
             <span>Browse all notebook writings &amp; categories ({stories.length} published)</span>
