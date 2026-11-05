@@ -493,7 +493,7 @@ export default function TrainWork({ onNavigate }: { onNavigate?: (path: string) 
                 onNavigate("/projects/");
               }
             }}
-            className="btn-retro-primary !text-sm !py-3 !px-8 inline-flex items-center gap-2"
+            className="btn-retro-primary !text-sm !py-3 !px-4 sm:!px-8 inline-flex items-center justify-center text-center max-w-full whitespace-normal sm:whitespace-nowrap gap-2"
           >
             <span>Explore All 14 Projects &amp; Extended Case Studies</span>
             <span>→</span>

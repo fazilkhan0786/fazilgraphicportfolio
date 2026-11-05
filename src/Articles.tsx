@@ -93,7 +93,7 @@ export default function Articles({ onNavigate }: { onNavigate?: (path: string) =
                 onNavigate("/stories/");
               }
             }}
-            className="btn-retro-primary !text-sm !py-3 !px-8 inline-flex items-center gap-2"
+            className="btn-retro-primary !text-sm !py-3 !px-4 sm:!px-8 inline-flex items-center justify-center text-center max-w-full whitespace-normal sm:whitespace-nowrap gap-2"
           >
             <span>Browse All Engineering Essays ({stories.length} Published) →</span>
           </a>
