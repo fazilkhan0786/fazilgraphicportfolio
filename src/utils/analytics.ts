@@ -96,6 +96,10 @@ export const analyticsActions = {
     trackEvent("venture_click", { venture_name: ventureName });
   },
 
+  trackProjectView: (projectName: string, category?: string) => {
+    trackEvent("project_view", { project_name: projectName, category: category || "" });
+  },
+
   trackArticleRead: (articleId: string, articleTitle: string) => {
     trackEvent("article_view", { article_id: articleId, article_title: articleTitle });
   },

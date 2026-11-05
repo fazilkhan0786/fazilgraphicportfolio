@@ -15,7 +15,7 @@ import {
   STATIC_ROUTES,
   STORY_ROUTES
 } from "./routes";
-import { stories, Story } from "./data/stories";
+import { stories, type Story } from "./data/stories";
 
 export {
   ALL_CANONICAL_ROUTES,
@@ -24,6 +24,7 @@ export {
   STORY_ROUTES,
   stories
 };
+export type { Story };
 
 export interface RenderResult {
   appHtml: string;

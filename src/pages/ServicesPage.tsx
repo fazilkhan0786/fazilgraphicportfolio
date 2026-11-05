@@ -2,272 +2,412 @@
  * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
  * Author: Mohammad Fazil Firojkhan Malek
- * Dedicated Freelancing & Services Page (Updated with All Requested Offerings)
+ * Dedicated Services & Offerings Page
+ * Faithfully preserves media_1793862794281.jpg retro aesthetic
+ * Optimized for 60fps rendering, memoized cards, zero layout reflows, and hardware acceleration
  */
 
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Breadcrumbs from "../components/Breadcrumbs";
+import {
+  RetroComputerIllustration,
+  RetroHandshakeIcon,
+  GreenCheckIcon,
+  TechBadge,
+  ServiceCategoryIcon
+} from "../components/RetroServicesVisuals";
+import ServicePricingModal from "../components/ServicePricingModal";
+import {
+  servicesOfferings,
+  marqueeItems,
+  ServiceOffering
+} from "../data/servicesPricing";
 
-interface Service {
-  title: string;
-  subtitle: string;
-  deliverables: string[];
-  stack: string[];
-  recommendedFor: string;
+interface ServicesPageProps {
+  onNavigateContact?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-const services: Service[] = [
-  {
-    title: "UI/UX Designing",
-    subtitle: "User-centered interface design, wireframing, interactive prototypes & design systems.",
-    deliverables: [
-      "User journey mapping & UX friction audits",
-      "High-fidelity Figma wireframes & interactive prototypes",
-      "Design systems, typography & color token specification",
-      "Responsive layout design for web, mobile & tablet"
-    ],
-    stack: ["Figma", "UI/UX", "User Research", "Wireframing", "Design Systems"],
-    recommendedFor: "Startups & apps seeking intuitive, accessible, and high-converting interfaces."
-  },
-  {
-    title: "Graphic Designing",
-    subtitle: "Brand identity, logo design, marketing collateral & visual storytelling assets.",
-    deliverables: [
-      "Brand identity guidelines & vector logo design",
-      "Product showcase banners, pitch deck visuals & graphics",
-      "Social media design packs & vector illustrations",
-      "Print-ready & digital marketing assets"
-    ],
-    stack: ["Graphic Design", "Vector Illustration", "Branding", "Visual Identity"],
-    recommendedFor: "Brands needing distinct, memorable, and premium visual identities."
-  },
-  {
-    title: "Website Building",
-    subtitle: "Custom, ultra-fast, responsive websites built with modern web technologies & SEO.",
-    deliverables: [
-      "Full-stack React, Vite & Tailwind CSS website engineering",
-      "Rich micro-animations using GSAP & smooth transitions",
-      "Full Technical, On-Page & Schema SEO implementation",
-      "Mobile-responsive, accessible & high-performance load times"
-    ],
-    stack: ["React", "Vite", "Tailwind CSS", "GSAP", "TypeScript", "SEO"],
-    recommendedFor: "Businesses, founders, and creators needing high-impact, wowed web presence."
-  },
-  {
-    title: "Startup Collaboration",
-    subtitle: "Technical co-founding, MVP execution blueprinting & product architecture partnership.",
-    deliverables: [
-      "0-to-1 MVP architecture blueprinting & data modeling",
-      "Technical co-founder / CTO advisory support",
-      "Rapid sprint execution from concept to live deployment",
-      "Investor pitch deck technical documentation & demo prep"
-    ],
-    stack: ["Startup Advisory", "Product Architecture", "0-to-1 Engineering", "Strategy"],
-    recommendedFor: "Early-stage founders needing technical leadership & rapid execution."
-  },
-  {
-    title: "Video Editing",
-    subtitle: "Product demo trailers, motion graphics, video storytelling & promotional edits.",
-    deliverables: [
-      "Product launch trailers & feature walkthrough videos",
-      "Motion graphics & animated text/logo reveals",
-      "Reel / Short video editing for social engagement",
-      "Color grading, audio cleaning & sound design"
-    ],
-    stack: ["Video Editing", "Motion Graphics", "Storytelling", "Audio Design"],
-    recommendedFor: "Products launching campaigns or needing compelling video demos."
-  },
-  {
-    title: "Healthcare Systems & Clinical AI",
-    subtitle: "End-to-end clinical management, async microservices & patient data infrastructure.",
-    deliverables: [
-      "FastAPI microservices & async REST APIs (NuroVed architecture)",
-      "Flutter cross-platform iOS/Android/Web applications",
-      "Automated NLP transcription & medical record parsing",
-      "Zero-Trust role-based patient access control (RBAC)"
-    ],
-    stack: ["FastAPI", "Python", "Flutter", "PostgreSQL", "Supabase", "NLP"],
-    recommendedFor: "HealthTech founders, clinics, hospitals & medical automation startups."
-  },
-  {
-    title: "Flutter & Mobile App Development",
-    subtitle: "Cross-platform mobile apps for iOS and Android with single codebase efficiency.",
-    deliverables: [
-      "Native-feel cross-platform Flutter mobile applications",
-      "Real-time offline database sync & push notifications",
-      "Custom state management (Provider / Bloc / Riverpod)",
-      "App Store & Google Play Store release deployment"
-    ],
-    stack: ["Flutter", "Dart", "Firebase", "REST APIs", "Mobile Design"],
-    recommendedFor: "Founders needing iOS & Android apps without double budget."
-  }
-];
+/**
+ * Memoized Single Service Card
+ * Prevents re-rendering all 8 cards when modal opens/closes
+ */
+interface ServiceCardItemProps {
+  card: ServiceOffering;
+  onSelect: (card: ServiceOffering) => void;
+}
 
-const methodologySteps = [
-  {
-    num: "01",
-    name: "Friction Audit & Blueprint",
-    desc: "We analyze user needs, map core data entities, and define brand & UI goals before writing a single line of code."
-  },
-  {
-    num: "02",
-    name: "Architecture & Visual Design",
-    desc: "We craft high-fidelity UI/UX wireframes, design systems, data schemas, and API routes for seamless execution."
-  },
-  {
-    num: "03",
-    name: "Rapid 0-to-1 Production Build",
-    desc: "We code clean, secure TypeScript, Python, Dart, and CSS with daily staging previews and complete design fidelity."
-  },
-  {
-    num: "04",
-    name: "Polishing & Scaling",
-    desc: "We optimize load speeds, verify security headers, refine animations, and ensure 10x scalability."
-  }
-];
+const ServiceCardItem = React.memo(function ServiceCardItem({
+  card,
+  onSelect
+}: ServiceCardItemProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onSelect(card);
+  };
 
-export default function ServicesPage({ onNavigateContact, onNavigate }: { onNavigateContact?: () => void; onNavigate?: (path: string) => void }) {
-  const [projectType, setProjectType] = useState<string>("Website Building & UI/UX");
-  const [timeline, setTimeline] = useState<string>("1-3 Weeks");
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onSelect(card);
+    }
+  };
 
   return (
-    <div className="py-24 px-6 md:px-10 max-w-7xl mx-auto">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      className="relative group transition-all duration-200 hover:-translate-y-1.5 flex flex-col h-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#ffd93d] rounded-xl"
+      style={{ filter: `drop-shadow(6px 6px 0px ${card.shadowColor})` }}
+      aria-label={`View pricing and scope for ${card.categoryTitle}`}
+    >
+      {/* Black Border Outer Shell with Chamfered Top-Left & Top-Right Corners */}
+      <div
+        className="bg-[#1a1a1a] p-[2.5px] rounded-b-xl flex flex-col h-full"
+        style={{
+          clipPath: "polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%, 0 18px)"
+        }}
+      >
+        {/* Pastel Card Surface with Matching Chamfered Silhouette */}
+        <div
+          className={`${card.bgClass} p-5 sm:p-6 rounded-b-[10px] flex flex-col justify-between h-full`}
+          style={{
+            clipPath: "polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px)"
+          }}
+        >
+          <div>
+            {/* Large Illustrative Icon */}
+            <div className="mb-4">
+              <ServiceCategoryIcon iconType={card.iconType} />
+            </div>
+
+            {/* Bold Two-Line Heading */}
+            <h3 className="font-display font-extrabold text-2xl text-[#1a1a1a] leading-tight mb-2 tracking-tight">
+              {card.titleLine1}
+              <br />
+              {card.titleLine2}
+            </h3>
+
+            {/* Supporting Description */}
+            <p className="font-body text-xs sm:text-[13px] text-[#3e3832] font-bold leading-relaxed mb-4">
+              {card.description}
+            </p>
+
+            {/* Dashed Divider Line */}
+            <div className="border-t-2 border-dashed border-[#1a1a1a]/30 my-3.5" />
+
+            {/* Deliverables Section with Yellow Badge & Red Square Bullets */}
+            <div className="mb-4">
+              <span className="inline-block bg-[#ffd93d] border-2 border-[#1a1a1a] text-[#1a1a1a] text-[11px] font-display font-extrabold px-2 py-0.5 rounded shadow-[1px_1px_0px_#1a1a1a] mb-2.5">
+                Deliverables:
+              </span>
+              <ul className="space-y-1.5">
+                {card.deliverables.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="w-2.5 h-2.5 bg-[#e63946] border border-[#1a1a1a] shrink-0 inline-block mt-0.5" />
+                    <span className="font-sans text-xs font-bold text-[#1a1a1a] leading-tight">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Technology Badges & Interactive Action Pill */}
+          <div className="mt-auto pt-3.5 border-t-2 border-[#1a1a1a]/20 space-y-3">
+            <div className="flex flex-wrap gap-1.5">
+              {card.badges.map((b) => (
+                <TechBadge key={b.label} icon={b.icon} label={b.label} />
+              ))}
+            </div>
+
+            {/* View Scope & Pricing Button */}
+            <button
+              type="button"
+              onClick={handleClick}
+              className="w-full py-2 bg-white group-hover:bg-[#ffd93d] border-2 border-[#1a1a1a] rounded-lg font-mono text-xs font-black text-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a] group-hover:shadow-[3px_3px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>View Scope &amp; Pricing</span>
+              <span className="text-sm">↗</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+/**
+ * Memoized Continuous Retro Marquee Ticker
+ */
+const ServicesMarqueeTicker = React.memo(function ServicesMarqueeTicker() {
+  return (
+    <section className="mb-12 border-[2.5px] border-[#1a1a1a] rounded-xl bg-[#ffd93d] shadow-[4px_4px_0px_#1a1a1a] overflow-hidden select-none">
+      <div className="flex items-center overflow-hidden py-2.5 sm:py-3">
+        <div className="marquee-track flex shrink-0 items-center gap-6 whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+            <span
+              key={idx}
+              className="flex items-center gap-6 font-mono text-xs sm:text-sm font-black text-[#1a1a1a] tracking-wider"
+            >
+              <span>{item}</span>
+              <span className="text-[#e63946] text-base" aria-hidden="true">
+                ✳
+              </span>
+            </span>
+          ))}
+        </div>
+        <div
+          className="marquee-track flex shrink-0 items-center gap-6 whitespace-nowrap"
+          aria-hidden="true"
+        >
+          {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+            <span
+              key={`dup-${idx}`}
+              className="flex items-center gap-6 font-mono text-xs sm:text-sm font-black text-[#1a1a1a] tracking-wider"
+            >
+              <span>{item}</span>
+              <span className="text-[#e63946] text-base" aria-hidden="true">
+                ✳
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+});
+
+export default function ServicesPage({ onNavigateContact, onNavigate }: ServicesPageProps) {
+  const [selectedService, setSelectedService] = useState<ServiceOffering | null>(null);
+
+  const handleOpenModal = useCallback((card: ServiceOffering) => {
+    setSelectedService(card);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedService(null);
+  }, []);
+
+  const handleContactClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (onNavigateContact) {
+        onNavigateContact();
+      } else if (onNavigate) {
+        onNavigate("/contact/");
+      } else {
+        window.location.assign("/contact/");
+      }
+    },
+    [onNavigate, onNavigateContact]
+  );
+
+  const handleModalContact = useCallback(
+    (serviceTitle: string) => {
+      setSelectedService(null);
+      const target = `/contact/?service=${encodeURIComponent(serviceTitle)}`;
+      if (onNavigate) {
+        onNavigate(target);
+      } else if (onNavigateContact) {
+        onNavigateContact();
+      } else {
+        window.location.assign(target);
+      }
+    },
+    [onNavigate, onNavigateContact]
+  );
+
+  const checklistItems = [
+    "Product-focused & user-centric",
+    "Clean, scalable & maintainable code",
+    "Design + Development (end-to-end)",
+    "Clear communication & on-time delivery"
+  ];
+
+  return (
+    <div className="pt-28 pb-20 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto relative overflow-hidden">
+      {/* Decorative Pixel Checkerboard Accents in Corner */}
+      <div
+        className="hidden md:block w-12 h-10 rounded-sm pixel-checkerboard-purple border border-[#1a1a1a]/30 absolute right-6 top-28 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="hidden md:block w-10 h-8 rounded-sm pixel-checkerboard-coral border border-[#1a1a1a]/30 absolute left-6 top-64 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Semantic Breadcrumbs */}
       <Breadcrumbs
         items={[
           { label: "Home", path: "/" },
           { label: "Services", path: "/services/" }
         ]}
         onNavigate={onNavigate}
+        className="mb-8"
       />
-      <div className="reveal text-center mb-12">
-        <span className="font-[Patrick_Hand] text-lg text-[#e63946] block mb-2">// FREELANCE &amp; CONSULTING</span>
-        <h1 className="font-[Caveat] font-bold text-6xl md:text-8xl leading-none">
-          services &amp; <span className="text-[#e63946]">offerings</span>
-        </h1>
-        <p className="font-[Kalam] text-xl text-neutral-600 max-w-2xl mx-auto mt-4 leading-relaxed">
-          from UI/UX design &amp; graphic branding to full-stack website building, Flutter mobile apps, video editing, and startup collaboration.
-        </p>
-      </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-        {services.map((srv, idx) => (
-          <div
-            key={srv.title}
-            className="reveal wiggle-box bg-[#fffef7] p-6 border-2 border-black rounded-lg relative flex flex-col justify-between shadow-[4px_5px_0_rgba(26,26,26,0.1)] hover:shadow-[6px_8px_0_rgba(26,26,26,0.16)] hover:-translate-y-1 transition-all"
-            style={{ transform: `rotate(${idx % 2 === 0 ? -0.8 : 0.8}deg)` }}
-          >
-            <div className="tape absolute -top-4 right-6 w-20 h-6 rotate-[3deg]" />
-            <div>
-              <h2 className="font-[Permanent_Marker] text-2xl text-neutral-900 mb-1">
-                {srv.title}
-              </h2>
-              <p className="font-[Patrick_Hand] text-sm text-neutral-600 mb-4">{srv.subtitle}</p>
+      {/* =========================================================================
+          HERO SECTION — 2-Column Exact Composition matching Reference
+          ========================================================================= */}
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center mb-12">
+        {/* Left Column: Heading, Purple Tag, Red Block, and Description */}
+        <div className="lg:col-span-6 flex flex-col items-start z-10">
+          <span className="inline-block bg-[#c8b6ff] border-2 border-[#1a1a1a] text-[#1a1a1a] font-mono text-xs font-extrabold px-3 py-1 rounded shadow-[2px_2px_0px_#1a1a1a] uppercase mb-4 tracking-wider">
+            // SERVICES &amp; OFFERINGS
+          </span>
 
-              <div className="space-y-2 mb-6 font-[Kalam] text-sm">
-                <p className="font-[Permanent_Marker] text-xs uppercase text-[#e63946] tracking-wider">
-                  Key Deliverables:
-                </p>
-                <ul className="space-y-1">
-                  {srv.deliverables.map((d, dIdx) => (
-                    <li key={dIdx} className="flex items-start gap-1.5">
-                      <span className="text-[#e63946] font-bold">▸</span>
-                      <span>{d}</span>
-                    </li>
-                  ))}
-                </ul>
+          <h1 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-5xl text-[#1a1a1a] tracking-tight leading-[1.15] mb-5 comic-sparks">
+            WHAT I CAN{" "}
+            <span className="inline-block bg-[#e63946] text-white px-2.5 py-0.5 border-2 border-[#1a1a1a] shadow-[2.5px_2.5px_0px_#1a1a1a]">
+              BUILD FOR YOU.
+            </span>
+          </h1>
+
+          <div className="border-l-4 border-[#e63946] pl-3.5 py-1 max-w-xl">
+            <p className="font-body text-base sm:text-lg text-[#3e3832] font-bold leading-relaxed">
+              Product design, development and AI-driven solutions — from idea validation to real-world deployment.
+            </p>
+          </div>
+        </div>
+
+        {/* Right Column: Illustrated Retro Computer + Why Work With Me Window */}
+        <div className="lg:col-span-6 flex flex-col sm:flex-row items-center justify-end gap-5 z-10">
+          {/* Vintage Computer Illustration */}
+          <div className="shrink-0 flex items-center justify-center">
+            <RetroComputerIllustration className="max-w-[210px] sm:max-w-[230px]" />
+          </div>
+
+          {/* Window Panel: // Why Work With Me? */}
+          <div className="retro-window w-full sm:max-w-[280px] md:max-w-[300px] shadow-[6px_6px_0px_#7c3aed] bg-white shrink-0">
+            <div className="retro-window-header header-yellow !py-1.5 !px-3">
+              <div className="flex items-center gap-1.5 mr-1">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#e63946] border border-[#1a1a1a]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ffd93d] border border-[#1a1a1a]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#86efac] border border-[#1a1a1a]" />
+              </div>
+              <div className="retro-window-title font-mono font-bold text-xs text-[#1a1a1a] truncate">
+                <span>// Why Work With Me?</span>
+              </div>
+              <div className="retro-window-controls ml-auto">
+                <span className="win-btn win-btn-min">−</span>
+                <span className="win-btn win-btn-max">□</span>
+                <span className="win-btn win-btn-close">✕</span>
               </div>
             </div>
 
-            <div>
-              <div className="p-2.5 bg-amber-50 rounded-md border border-black/15 text-xs font-[Patrick_Hand] text-neutral-700 mb-3">
-                <strong>Ideal for:</strong> {srv.recommendedFor}
-              </div>
-
-              <div className="flex flex-wrap gap-1 mb-4">
-                {srv.stack.map((st) => (
-                  <span key={st} className="tag-pill !text-xs !py-0.5 !px-2">
-                    {st}
+            <div className="p-3.5 sm:p-4 bg-white space-y-2.5">
+              {checklistItems.map((item) => (
+                <div key={item} className="flex items-start gap-2.5">
+                  <GreenCheckIcon className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span className="font-display font-bold text-xs text-[#1a1a1a] leading-tight">
+                    {item}
                   </span>
-                ))}
-              </div>
-
-              <button
-                onClick={onNavigateContact}
-                className="btn-hand btn-filled w-full !py-2 !text-sm text-center min-h-[44px]"
-              >
-                Inquire about this service
-              </button>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
 
-      <div className="reveal mb-20 bg-[#fffdf5] p-8 md:p-12 border-[2.5px] border-black rounded-lg crosshatch-bg shadow-[6px_8px_0_rgba(26,26,26,0.1)]">
-        <div className="text-center mb-10">
-          <span className="font-[Patrick_Hand] text-base text-[#e63946] uppercase tracking-widest">// THE BLUEPRINT</span>
-          <h2 className="font-[Caveat] font-bold text-4xl md:text-6xl mt-1">
-            how i <span className="text-[#e63946]">work</span>
+      {/* =========================================================================
+          ANIMATED SERVICES MARQUEE — Continuous Retro Ticker (Memoized)
+          ========================================================================= */}
+      <ServicesMarqueeTicker />
+
+      {/* =========================================================================
+          SECTION HEADER & INTERACTIVE HINT
+          ========================================================================= */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+        <div>
+          <span className="font-mono text-xs font-bold text-[#e63946] uppercase tracking-wider block mb-1">
+            // 08 CORE CAPABILITIES
+          </span>
+          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1a1a1a] tracking-tight">
+            Explore Services &amp; Interactive Pricing
           </h2>
-          <p className="font-[Patrick_Hand] text-lg text-neutral-600 mt-1">
-            four structured steps for zero friction, high security, and maximum build speed.
-          </p>
         </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {methodologySteps.map((st) => (
-            <div key={st.num} className="sketch-card !p-6 relative">
-              <span className="font-[Permanent_Marker] text-4xl text-[#e63946]/30 block mb-2">{st.num}</span>
-              <h3 className="font-[Permanent_Marker] text-xl mb-2">{st.name}</h3>
-              <p className="font-[Kalam] text-sm text-neutral-700 leading-relaxed">{st.desc}</p>
-            </div>
-          ))}
+        <div className="inline-flex items-center gap-2 bg-white border-2 border-[#1a1a1a] px-3 py-1.5 rounded-lg shadow-[2px_2px_0px_#1a1a1a]">
+          <span className="text-sm">💡</span>
+          <span className="font-mono text-xs font-bold text-[#1a1a1a]">
+            Click any card to open Scope &amp; Pricing Spec
+          </span>
         </div>
       </div>
 
-      <div className="reveal bg-[#fffef7] p-8 md:p-10 border-[2.5px] border-black rounded-lg wiggle-box mb-16 shadow-[6px_8px_0_rgba(26,26,26,0.1)]">
-        <h2 className="font-[Caveat] font-bold text-4xl text-center mb-2">
-          project timeline <span className="text-[#e63946]">estimator</span>
-        </h2>
-        <p className="font-[Patrick_Hand] text-center text-neutral-600 mb-8">
-          select your requirement to see typical sprint execution windows.
-        </p>
+      {/* =========================================================================
+          SERVICE CARDS — 4-Column × 2-Row Grid (8 Offerings, Memoized Items)
+          ========================================================================= */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {servicesOfferings.map((card) => (
+          <ServiceCardItem
+            key={card.id}
+            card={card}
+            onSelect={handleOpenModal}
+          />
+        ))}
+      </section>
 
-        <div className="grid md:grid-cols-2 gap-6 items-center max-w-3xl mx-auto">
-          <div>
-            <label className="font-[Permanent_Marker] text-sm block mb-2">Select Project Scope:</label>
-            <select
-              value={projectType}
-              onChange={(e) => {
-                setProjectType(e.target.value);
-                if (e.target.value === "Healthcare Architecture") setTimeline("4-8 Weeks");
-                else if (e.target.value === "Website Building & UI/UX") setTimeline("1-3 Weeks");
-                else if (e.target.value === "Graphic Design & Branding") setTimeline("3-7 Days");
-                else if (e.target.value === "Video Editing") setTimeline("3-5 Days");
-                else setTimeline("2-4 Weeks");
-              }}
-              className="w-full p-3 border-2 border-black rounded-md font-[Patrick_Hand] text-lg bg-white"
+      {/* =========================================================================
+          BOTTOM CTA BANNER — 3-Segment Composition with Pink Offset Shadow
+          ========================================================================= */}
+      <section className="relative mt-8 mb-6">
+        <div className="border-[3px] border-[#1a1a1a] rounded-2xl shadow-[6px_6px_0px_#f472b6] bg-white overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">
+          {/* Left Segment: Yellow with Handshake */}
+          <div className="lg:col-span-4 bg-[#ffd93d] border-b-2 lg:border-b-0 lg:border-r-[3px] border-[#1a1a1a] p-5 sm:p-6 flex items-center gap-3.5">
+            <RetroHandshakeIcon className="w-12 h-10 shrink-0" />
+            <h3 className="font-display font-extrabold text-lg sm:text-xl text-[#1a1a1a] leading-tight">
+              Have a Project in Mind?
+            </h3>
+          </div>
+
+          {/* Middle Segment: Cream/White with Description */}
+          <div className="lg:col-span-5 bg-[#fbf8ef] sm:bg-white border-b-2 lg:border-b-0 lg:border-r-[3px] border-[#1a1a1a] p-5 sm:p-6 flex items-center">
+            <p className="font-body text-xs sm:text-sm font-bold text-[#3e3832] leading-relaxed">
+              Let's discuss your idea and turn it into a reliable, high-impact product.
+            </p>
+          </div>
+
+          {/* Right Segment: Red 'Get in Touch ↗' Button */}
+          <div className="lg:col-span-3 bg-white p-5 sm:p-6 flex items-center justify-center lg:justify-end">
+            <button
+              type="button"
+              onClick={handleContactClick}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#e63946] hover:bg-[#d90429] text-white border-2 border-[#1a1a1a] rounded-xl px-6 py-3 font-display font-extrabold text-sm shadow-[2px_2px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer"
             >
-              <option value="Website Building & UI/UX">Website Building &amp; UI/UX Design</option>
-              <option value="Graphic Design & Branding">Graphic Design &amp; Branding</option>
-              <option value="Video Editing">Video Editing &amp; Motion Graphics</option>
-              <option value="Startup Collaboration">Startup Collaboration &amp; MVP Build</option>
-              <option value="Healthcare Architecture">Healthcare System &amp; Microservices</option>
-            </select>
-          </div>
-
-          <div className="bg-amber-100/80 p-6 border-2 border-black rounded-md text-center">
-            <span className="font-[Patrick_Hand] text-sm text-neutral-600 block">Estimated Delivery Window:</span>
-            <span className="font-[Permanent_Marker] text-3xl text-[#e63946] block my-1">{timeline}</span>
-            <span className="font-[Kalam] text-xs text-neutral-700 block">Direct sprint execution from Ahmedabad, Gujarat, India</span>
+              <span className="text-base">✉️</span>
+              <span>Get in Touch</span>
+              <span className="text-base">↗</span>
+            </button>
           </div>
         </div>
 
-        <div className="text-center mt-8">
-          <button onClick={onNavigateContact} className="btn-hand btn-red text-xl">
-            get an exact project quote
-          </button>
+        {/* Decorative Pixel Checkerboard Motif outside bottom-right */}
+        <div
+          className="hidden md:grid grid-cols-4 grid-rows-2 w-10 h-5 border border-[#1a1a1a] overflow-hidden absolute -bottom-7 right-2"
+          aria-hidden="true"
+        >
+          <span className="bg-[#c8b6ff]" />
+          <span className="bg-transparent" />
+          <span className="bg-[#c8b6ff]" />
+          <span className="bg-transparent" />
+          <span className="bg-transparent" />
+          <span className="bg-[#c8b6ff]" />
+          <span className="bg-transparent" />
+          <span className="bg-[#c8b6ff]" />
         </div>
-      </div>
+      </section>
+
+      {/* Floating Interactive Scope & Pricing Spec Modal */}
+      <ServicePricingModal
+        service={selectedService}
+        isOpen={selectedService !== null}
+        onClose={handleCloseModal}
+        onContact={handleModalContact}
+      />
     </div>
   );
 }

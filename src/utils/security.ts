@@ -9,17 +9,16 @@
 export function sanitizeInput(input: string, maxLength = 1000): string {
   if (typeof input !== "string") return "";
 
-  
-  const truncated = input.slice(0, maxLength);
+  // 1. Remove dangerous control characters and null bytes
+  const cleaned = input
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+    // 2. Strip HTML tags to avoid tag injection while preserving legitimate punctuation
+    .replace(/<[^>]*>/g, "")
+    // 3. Normalize Unicode (canonical composition)
+    .normalize("NFC");
 
-  
-  return truncated
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;")
-    .replace(/\//g, "&#x2F;");
+  // 4. Enforce maximum length constraint and clean boundary whitespace
+  return cleaned.slice(0, maxLength).trim();
 }
 
 /* Cooldown-based rate limiting for form submissions */

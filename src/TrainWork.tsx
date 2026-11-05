@@ -1,382 +1,640 @@
 /**
  * © 2026 Mohammad Fazil Firojkhan Malek. All rights reserved.
  * Watermark-ID: MF-FIROJKHAN-MALEK-2026
- * This codebase is protected under intellectual property laws.
  * Author: Mohammad Fazil Firojkhan Malek
+ * Project Journey / Train Section — Shipped Work & Transit Track
+ * Faithfully matches Reference Image 3 (media_1793872802620.png)
  */
 
-import { useLayoutEffect, useRef, useState, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { analyticsActions } from "./utils/analytics";
+import { RetroPixelTrain, StationProjectVisual } from "./components/RetroHomeVisuals";
+import {
+  NuroVedIcon,
+  NuroCareIcon,
+  ActoraIcon,
+  TechocoreIcon,
+  TrasheeIcon,
+  GoatIcon,
+  FlutterLogoIcon,
+  DartLogoIcon,
+  SupabaseLogoIcon,
+  PythonLogoIcon
+} from "./components/RetroProjectsVisuals";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export type Project = {
+export type ProjectStation = {
+  id: string;
+  stationNum: string;
   name: string;
-  type: string;
-  tech: string;
-  note: string;
-  status: string;
-  station: string;
+  fullName: string;
+  category: string;
+  status: "Live" | "In Development" | "Shipped" | "R&D Phase";
+  tagline: string;
   problem: string;
-  build: string;
-  impact: string[];
+  architecture: string;
+  myContribution: string;
   stack: string[];
-  repo: string;
+  fullStack: string[];
+  metrics: string[];
+  repoUrl: string;
+  liveUrl?: string;
+  iconComponent: React.ComponentType<{ className?: string }>;
 };
 
-const projects: Project[] = [
+// 6 Primary Stations (Matching Reference Image 3: Junction 01 to 06)
+export const projectStations: ProjectStation[] = [
   {
-    name: "Air Drawing & 3D Canvas", type: "Computer Vision", tech: "MediaPipe · OpenCV · Depth Estimation",
-    note: "Gesture-to-drawing without hardware. Extended a 2D canvas into full 3D interactive space.", status: "Production", station: "Vision Junction",
-    problem: "Digital drawing tools all need a stylus, tablet, or touchscreen. I wanted people to draw in the air using just a webcam — no hardware at all.",
-    build: "Used MediaPipe hand-tracking + OpenCV to detect finger positions in real time, then mapped gestures to brush strokes. Added depth estimation to lift the 2D canvas into a rotatable 3D object you can manipulate with your hands.",
-    impact: ["Zero extra hardware — just a webcam", "Real-time gesture-to-drawing pipeline", "2D sketches become interactive 3D objects"],
-    stack: ["Python", "MediaPipe", "OpenCV", "NumPy"],
-    repo: "https://github.com/fazilkhan0786/3D_Interractive_Air_Drawing.git",
+    id: "nuroved",
+    stationNum: "01",
+    name: "NuroVed",
+    fullName: "NuroVed Healthcare Infrastructure",
+    category: "HEALTHCARE AI",
+    status: "Live",
+    tagline: "Patient-centric digital healthcare platform connecting patients, doctors and labs.",
+    problem: "Clinical consultations suffer from fragmented paper records, unsearchable PDF lab reports, and administrative data entry burdens that pull clinician attention away from patients.",
+    architecture: "Decoupled asynchronous architecture pairing a FastAPI microservice backend with reactive cross-platform Flutter applications. Features NLP entity extraction pipelines that parse lab PDFs into structured clinical timelines.",
+    myContribution: "Architected the core FastAPI REST endpoints, implemented AES-256 encrypted health payload storage schemas in PostgreSQL, and engineered reactive state management in Flutter.",
+    stack: ["Flutter", "Supabase", "Python"],
+    fullStack: ["FastAPI", "Python", "Flutter", "Dart", "PostgreSQL", "Supabase", "Docker"],
+    metrics: ["Async microservice pipeline for high concurrency", "AES-256 encrypted patient health records", "Unified cross-platform iOS, Android & Web codebase"],
+    repoUrl: "https://github.com/fazilkhan0786/Nurocare_patient_FE.git",
+    liveUrl: "https://fazilportfolio.me/stories/why-i-started-nuroved/",
+    iconComponent: NuroVedIcon
   },
   {
-    name: "Health Record Analyser", type: "NLP Clinical Engine", tech: "PyTorch · PDF Parsing",
-    note: "Multi-visit clinical pattern detection with anomaly flagging across visits.", status: "Deployed", station: "Clinic Halt",
-    problem: "Patients accumulate dozens of reports across visits, but no one connects the dots between them. Important trends get missed.",
-    build: "Built an NLP pipeline that parses PDF health records, extracts clinical entities, and tracks them across multiple visits. It flags anomalies and surfaces multi-visit patterns doctors would otherwise miss.",
-    impact: ["Cross-visit pattern detection", "Automatic anomaly flagging", "Turns scattered PDFs into a timeline"],
-    stack: ["Python", "PyTorch", "NLP", "PDF Parsing"],
-    repo: "https://github.com/fazilkhan0786/Nurocare_patient_FE.git",
+    id: "nurocare",
+    stationNum: "02",
+    name: "NuroCare",
+    fullName: "NuroCare Diabetes Management",
+    category: "HEALTHCARE",
+    status: "Live",
+    tagline: "Diabetes-first chronic disease companion with continuous blood glucose logging and diet feedback.",
+    problem: "Managing diabetes requires relentless daily vigilance across glucose monitoring, insulin timing, and dietary intake. Generic health trackers lack disease-specific contextual feedback.",
+    architecture: "Mobile-first Flutter client paired with Google HealthKit and Firebase sync. Features automated glycemic excursion risk scoring and meal logging.",
+    myContribution: "Designed the Flutter UI, implemented real-time glycemic data visualization, and configured secure encrypted cloud sync.",
+    stack: ["Flutter", "Dart", "Firebase"],
+    fullStack: ["Flutter", "Dart", "Firebase", "HealthKit", "REST API"],
+    metrics: ["Sub-second offline glucose logging", "Automated HbA1c estimation analytics", "Emergency hypo alerts to caregivers"],
+    repoUrl: "https://github.com/fazilkhan0786",
+    liveUrl: "https://fazilportfolio.me/projects/",
+    iconComponent: NuroCareIcon
   },
   {
-    name: "AI Symptom Analyser", type: "Diagnostic AI", tech: "Medical Ontologies · Inference",
-    note: "10,000+ disease patterns validated. Symptom co-occurrence modeling beyond keywords.", status: "Active", station: "Diagnose Central",
-    problem: "Most symptom checkers just keyword-match, so they're noisy and unreliable. I wanted something that actually reasons about how symptoms co-occur.",
-    build: "Modeled symptom co-occurrence using medical ontologies and contextual data, then validated against 10,000+ disease patterns. It weighs combinations of symptoms rather than matching single keywords.",
-    impact: ["10,000+ disease patterns validated", "Co-occurrence modeling, not keyword matching", "Context-aware, personalized insights"],
-    stack: ["Python", "PyTorch", "Medical Ontologies", "TypeScript"],
-    repo: "https://github.com/fazilkhan0786/Context_Aware_Ai_Symptom_Analyser.git",
+    id: "actora",
+    stationNum: "03",
+    name: "Actora",
+    fullName: "Actora Behavioral Focus Engine",
+    category: "PRODUCTIVITY AI",
+    status: "In Development",
+    tagline: "Offline-first habit engineering and cognitive feedback loop tracker.",
+    problem: "Most productivity applications act as passive checklists that fail to address the psychological triggers of procrastination and attention drift.",
+    architecture: "Offline-first Flutter engine with SQLite persistence, Riverpod state management, and algorithmic friction interventions.",
+    myContribution: "Architected local state machines, designed the behavioral progression algorithms, and built distraction-free UI components.",
+    stack: ["Flutter", "SQLite", "Riverpod"],
+    fullStack: ["Flutter", "SQLite", "Riverpod", "Local Notifications", "State Machines"],
+    metrics: ["100% offline functionality with zero cloud dependency", "Sub-16ms frame render times", "Deterministic state recovery"],
+    repoUrl: "https://github.com/fazilkhan0786",
+    liveUrl: "https://fazilportfolio.me/projects/",
+    iconComponent: ActoraIcon
   },
   {
-    name: "AI Diet Planner", type: "Nutrition AI", tech: "PyTorch · Personalization",
-    note: "500+ dietary scenarios handled with context-aware, personalized recommendations.", status: "Shipped", station: "Nutri Stop",
-    problem: "Generic diet plans ignore health conditions, lifestyle, and preferences — so people abandon them fast.",
-    build: "Created a personalization engine that generates diet plans from a user's context: conditions, goals, lifestyle & preferences. Handles 500+ dietary scenarios with adaptive recommendations.",
-    impact: ["500+ dietary scenarios handled", "Context-aware personalization", "Adapts to conditions & goals"],
-    stack: ["Python", "PyTorch", "TypeScript", "React"],
-    repo: "https://github.com/fazilkhan0786/Context_Aware_Ai_Diet_Planner.git",
+    id: "techocore",
+    stationNum: "04",
+    name: "Techocore",
+    fullName: "Techocore Systems & Engineering",
+    category: "SYSTEMS & WEB",
+    status: "Live",
+    tagline: "Freelance systems engineering agency delivering high-velocity web platforms.",
+    problem: "Small businesses and startups struggle with overpriced agencies and sluggish WordPress templates that fail on mobile devices.",
+    architecture: "High-performance React & Vite architecture with Tailwind CSS, edge routing, and automated WebP asset pipelines.",
+    myContribution: "Founded the development studio, architected client web systems, and configured automated Cloudflare edge deployment pipelines.",
+    stack: ["React", "TypeScript", "Tailwind"],
+    fullStack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Cloudflare"],
+    metrics: ["100/100 Google Lighthouse performance score", "Sub-1s first contentful paint", "Zero-downtime CI/CD deployment"],
+    repoUrl: "https://github.com/fazilkhan0786",
+    liveUrl: "https://fazilportfolio.me/projects/",
+    iconComponent: TechocoreIcon
   },
   {
-    name: "Food Product Scanner", type: "NLP + OCR", tech: "NLP · OCR · Ingredient Graph",
-    note: "Real-time, offline food label analysis right from your camera.", status: "Shipped", station: "Scanner Point",
-    problem: "Reading and understanding food labels in the store is slow, and most apps need internet to do it.",
-    build: "Combined OCR + NLP to read ingredient labels directly from the camera, then mapped them onto an ingredient graph for instant analysis — all working offline.",
-    impact: ["Real-time label scanning", "Works fully offline", "Ingredient-graph powered analysis"],
-    stack: ["Python", "OCR", "NLP", "Flutter"],
-    repo: "https://github.com/fazilkhan0786",
+    id: "trashee",
+    stationNum: "05",
+    name: "Trashee",
+    fullName: "CleanTech IoT Telemetry & Dispatch",
+    category: "SUSTAINABILITY & IOT",
+    status: "Shipped",
+    tagline: "Community-driven environmental reporting network with real-time geo-tagged IoT bin telemetry.",
+    problem: "Municipal waste collection relies on rigid, scheduled routes that leave overflowing bins unattended for days, leading to hygiene hazards in dense urban pockets.",
+    architecture: "Connected IoT telemetry sensors reporting fill-levels via MQTT to a Node.js/Express backend, dispatching real-time route optimization alerts to municipal collection trucks.",
+    myContribution: "Developed the cross-platform Flutter dispatcher application, integrated Mapbox spatial routes, and engineered telemetry ingestion listeners.",
+    stack: ["Flutter", "Node.js", "MongoDB"],
+    fullStack: ["Flutter", "React", "Node.js", "Express", "MongoDB", "IoT Telemetry"],
+    metrics: ["12+ monitored public disposal nodes in pilot", "35% faster municipal route response times", "Real-time fill-level alerting under 500ms"],
+    repoUrl: "https://github.com/fazilkhan0786",
+    liveUrl: "https://fazilportfolio.me/projects/",
+    iconComponent: TrasheeIcon
   },
   {
-    name: "MAVIS AI Assistant", type: "LLM Automation", tech: "LLM · Context Management",
-    note: "A multi-intent automation engine with context-aware task handling.", status: "Active", station: "Assist Yard",
-    problem: "Assistants break the moment you ask for more than one thing at once, or reference something you said earlier.",
-    build: "Built a multi-intent automation engine on top of an LLM with a context-management layer, so MAVIS can chain tasks, remember context, and route intents intelligently.",
-    impact: ["Handles multiple intents per request", "Context memory across the conversation", "Smart intent routing & automation"],
-    stack: ["Python", "LLM", "TypeScript", "Node.js"],
-    repo: "https://github.com/fazilkhan0786",
-  },
-  {
-    name: "Pharmacy Dashboard", type: "Operations", tech: "React · FastAPI · Supabase",
-    note: "78% operational uplift for pharmacies that use it every single day.", status: "In Prod", station: "Terminus",
-    problem: "Pharmacies were running operations on paper and spreadsheets — slow, error-prone, and impossible to scale.",
-    build: "Shipped an end-to-end operations dashboard: inventory, billing, and analytics in one place. Built on React + FastAPI + Supabase and hardened through real daily use.",
-    impact: ["78% operational uplift", "Used daily in production", "Inventory + billing + analytics unified"],
-    stack: ["React", "FastAPI", "Supabase", "PostgreSQL"],
-    repo: "https://github.com/fazilkhan0786",
-  },
+    id: "goat",
+    stationNum: "06",
+    name: "G.O.A.T",
+    fullName: "G.O.A.T Creative Agency Studio",
+    category: "DESIGN & DEVELOPMENT",
+    status: "Live",
+    tagline: "Creative agency studio platform crafting identity systems and conversion engines.",
+    problem: "Early-stage founders need distinctive digital brand presence and fast, accessible landing pages without bloated codebases.",
+    architecture: "Modern Next.js application with Framer Motion physics, responsive typography, and semantic SEO schema markup.",
+    myContribution: "Co-founded the agency branch, engineered the flagship portfolio web portal, and designed responsive interaction components.",
+    stack: ["Next.js", "TypeScript", "Tailwind"],
+    fullStack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
+    metrics: ["Sub-800ms Time-to-Interactive", "Full responsive accessibility across mobile/desktop", "Over 10+ client MVPs shipped"],
+    repoUrl: "https://github.com/fazilkhan0786",
+    liveUrl: "https://fazilportfolio.me/projects/",
+    iconComponent: GoatIcon
+  }
 ];
 
-export default function TrainWork() {
-  const rootRef = useRef<HTMLDivElement>(null);
+export default function TrainWork({ onNavigate }: { onNavigate?: (path: string) => void }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedStation, setSelectedStation] = useState<ProjectStation | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
-  const trainRef = useRef<HTMLDivElement>(null);
-  const smokeRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState<Project | null>(null);
 
+  const totalStations = projectStations.length;
+  const activeStation = projectStations[activeIndex];
+  const nextStationIndex = (activeIndex + 1) % totalStations;
+  const nextStation = projectStations[nextStationIndex];
+
+  // Calculate train position percentage along the railway track (from ~2% at start to ~62% at end)
+  const trainTranslatePercent = (activeIndex / (totalStations - 1)) * 58 + 2;
+
+  const navigateToStation = useCallback((newIndex: number) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setActiveIndex(newIndex);
+    analyticsActions.trackProjectView(projectStations[newIndex].name, projectStations[newIndex].category);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 350);
+  }, [isAnimating]);
+
+  const handleNext = useCallback(() => {
+    const nextIdx = (activeIndex + 1) % totalStations;
+    navigateToStation(nextIdx);
+  }, [activeIndex, totalStations, navigateToStation]);
+
+  const handlePrev = useCallback(() => {
+    const prevIdx = (activeIndex - 1 + totalStations) % totalStations;
+    navigateToStation(prevIdx);
+  }, [activeIndex, totalStations, navigateToStation]);
+
+  // Keyboard accessibility: Left / Right arrows
   useEffect(() => {
-    if (!active) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setActive(null); };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [active]);
-
-  useLayoutEffect(() => {
-    const mm = gsap.matchMedia();
-    const root = rootRef.current;
-
-    mm.add(
-      {
-        reduceMotion: "(prefers-reduced-motion: reduce)",
-        runCinematic: "(prefers-reduced-motion: no-preference)",
-      },
-      (context) => {
-        const conditions = context.conditions || {};
-        const reduceMotion = !!conditions.reduceMotion;
-
-        if (reduceMotion) {
-          root?.classList.add("tr-fallback");
-        } else {
-          root?.classList.remove("tr-fallback");
-
-          const track = trackRef.current!;
-          const train = trainRef.current!;
-          const wheels = gsap.utils.toArray<HTMLElement>(".tr-wheel");
-          const cards = gsap.utils.toArray<HTMLElement>(".tr-card");
-          const signs = gsap.utils.toArray<HTMLElement>(".tr-sign");
-          const smoke = smokeRef.current!;
-
-          const totalShift = () => track.scrollWidth - window.innerWidth;
-
-          const wheelSpin = gsap.to(wheels, { rotation: 360, repeat: -1, ease: "none", duration: 1.2, transformOrigin: "50% 50%" });
-
-          gsap.set(cards, { autoAlpha: 0, y: 46, scale: 0.9 });
-          gsap.set(signs, { autoAlpha: 0, y: -18 });
-          gsap.set(smoke, { autoAlpha: 0 });
-
-          const tl = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: {
-              trigger: root,
-              start: "top top",
-              end: () => "+=" + (totalShift() * 1.15 + window.innerHeight),
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-
-          tl.to(track, { x: () => -totalShift(), ease: "none", duration: projects.length }, 0);
-
-          const segment = projects.length;
-          projects.forEach((_, i) => {
-            const arrive = (i / (projects.length - 1)) * (segment - 0.001);
-            tl.to(signs[i], { autoAlpha: 1, y: 0, duration: 0.25, ease: "power2.out" }, Math.max(0, arrive - 0.28));
-            tl.to(cards[i], { autoAlpha: 1, y: 0, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, arrive);
-            tl.to(train, { y: -6, duration: 0.12, ease: "power1.out" }, arrive)
-              .to(train, { y: 0, duration: 0.18, ease: "power1.in" }, arrive + 0.12);
-            tl.fromTo(smoke, { autoAlpha: 0.75, y: 0, scale: 0.6 }, { autoAlpha: 0, y: -70, scale: 1.5, duration: 0.7, ease: "power1.out" }, arrive);
-          });
-
-          const velTrigger = ScrollTrigger.create({
-            trigger: root,
-            start: "top top",
-            end: () => "+=" + (totalShift() * 1.15 + window.innerHeight),
-            onUpdate: (self) => {
-              const v = Math.min(Math.abs(self.getVelocity()) / 800, 4) + 0.35;
-              gsap.to(wheelSpin, { timeScale: v, duration: 0.3, overwrite: true });
-            },
-          });
-
-          ScrollTrigger.refresh();
-
-          return () => {
-            wheelSpin.kill();
-            velTrigger.kill();
-            tl.scrollTrigger?.kill();
-            tl.kill();
-          };
-        }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (selectedStation) {
+        if (e.key === "Escape") setSelectedStation(null);
+        return;
       }
-    );
-
-    const t = setTimeout(() => ScrollTrigger.refresh(), 600);
-    return () => {
-      clearTimeout(t);
-      mm.revert();
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
     };
-  }, []);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleNext, handlePrev, selectedStation]);
+
+  const handleProjectLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/") && onNavigate && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      e.preventDefault();
+      onNavigate(href);
+    }
+  };
+
+  const IconComp = activeStation.iconComponent;
 
   return (
-    <section id="work" ref={rootRef} className="dark-section relative overflow-hidden">
-      <div className="tr-viewport relative h-screen w-full flex flex-col justify-center overflow-hidden">
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-30 text-center px-4">
-          <p className="font-[Gochi_Hand] text-[#e63946] text-lg">// all aboard</p>
-          <h2 className="font-[Caveat] font-bold text-5xl md:text-6xl leading-none">shipped work</h2>
-        </div>
+    <section id="work" className="relative py-20 md:py-28 px-4 sm:px-6 md:px-10 border-t-[2.5px] border-[#1a1a1a] overflow-hidden">
+      {/* Decorative Corner Checkerboards */}
+      <div className="hidden md:block w-12 h-10 rounded-sm pixel-checkerboard-purple border border-[#1a1a1a]/30 absolute left-6 top-10 pointer-events-none" aria-hidden="true" />
+      <div className="hidden md:block w-12 h-10 rounded-sm pixel-checkerboard-coral border border-[#1a1a1a]/30 absolute right-6 bottom-16 pointer-events-none" aria-hidden="true" />
 
-        <div className="tr-sky" />
-        <div className="tr-hills" />
-
-        <div ref={trackRef} className="tr-track">
-          {projects.map((p, i) => (
-            <div key={p.name} className="tr-station" style={{ ["--i" as string]: i }}>
-              <div className="tr-sign">
-                <div className="tr-sign-board"><span className="font-[Permanent_Marker] text-sm">{p.station}</span></div>
-                <div className="tr-sign-pole" />
-              </div>
-
-              <div className="tr-card">
-                <button type="button" className="tr-ticket tr-ticket-btn" onClick={() => setActive(p)} aria-label={`Read more about ${p.name}`}>
-                  <div className="flex items-start justify-end mb-2">
-                    <span className="font-[Patrick_Hand] text-[10px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
-                  </div>
-                  <h3 className="font-[Permanent_Marker] text-xl leading-tight text-[#1a1a1a] text-left">{p.name}</h3>
-                  <p className="font-[Architects_Daughter] text-sm text-neutral-600 italic text-left">{p.type}</p>
-                  <p className="font-[Kalam] text-sm mt-3 leading-snug text-[#2a2118] text-left">{p.note}</p>
-                  <div className="mt-3 pt-2 border-t-2 border-dashed border-neutral-400 flex items-center justify-between">
-                    <p className="font-[Patrick_Hand] text-xs text-neutral-600 text-left">{p.tech}</p>
-                  </div>
-                  <span className="tr-tap font-[Patrick_Hand]">tap to read</span>
-                  <span className="tr-punch tr-punch-l" />
-                  <span className="tr-punch tr-punch-r" />
-                </button>
-                <div className="tr-card-stem" />
-              </div>
-
-              <div className="tr-platform"><div className="tr-station-num font-[Gochi_Hand]">{i + 1}</div></div>
-            </div>
-          ))}
-
-          <div className="tr-rails">
-            <div className="tr-rail-line" />
-            <div className="tr-rail-line tr-rail-line-2" />
-            <div className="tr-sleepers" />
-          </div>
-        </div>
-
-        <div ref={trainRef} className="tr-train">
-          <div ref={smokeRef} className="tr-smoke" />
-
-          <div className="tr-consist">
-            <div className="tr-car tr-loco">
-              <div className="tr-loco-nose" />
-              <div className="tr-loco-body">
-                <div className="tr-stripe" />
-                <div className="tr-loco-window" />
-                <div className="tr-headlight" />
-                <span className="tr-loco-badge font-[Permanent_Marker]">F</span>
-              </div>
-              <div className="tr-bogie">
-                <div className="tr-wheel" /><div className="tr-wheel" />
-              </div>
-            </div>
-
-            <div className="tr-coupler" />
-
-            <div className="tr-car tr-coach">
-              <div className="tr-coach-body">
-                <div className="tr-stripe" />
-                <div className="tr-win-row">
-                  <span /><span /><span /><span />
-                </div>
-              </div>
-              <div className="tr-bogie">
-                <div className="tr-wheel" /><div className="tr-wheel" />
-              </div>
-            </div>
-
-            <div className="tr-coupler" />
-
-            <div className="tr-car tr-coach">
-              <div className="tr-coach-body">
-                <div className="tr-stripe" />
-                <div className="tr-win-row">
-                  <span /><span /><span /><span />
-                </div>
-              </div>
-              <div className="tr-bogie">
-                <div className="tr-wheel" /><div className="tr-wheel" />
-              </div>
-            </div>
-          </div>
-
-          <p className="tr-train-label font-[Permanent_Marker]">F-Express · shipping since 2021</p>
-        </div>
-      </div>
-
-      <div className="tr-fallback-grid mx-auto max-w-7xl px-6 py-20">
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* =====================================================================
+            1. SECTION HEADING (Matching Reference Image 3)
+            Lavender tag pill + Shipped [Work] with comic sparks on both sides
+            ===================================================================== */}
         <div className="text-center mb-10">
-          <p className="font-[Gochi_Hand] text-[#e63946] text-base">// shipped work</p>
-          <h2 className="font-[Caveat] font-bold text-5xl">every station, a project</h2>
-          <p className="font-[Architects_Daughter] text-neutral-400 mt-1">the stuff that actually left my laptop.</p>
+          <div className="inline-block px-4 py-1 rounded-full bg-[#e9d5ff] border-2 border-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a] mb-3">
+            <span className="font-mono text-xs font-bold text-[#1a1a1a] tracking-wider uppercase">
+              // PROJECT JOURNEY
+            </span>
+          </div>
+
+          <div className="flex items-center justify-center gap-3 sm:gap-5">
+            {/* Left comic action sparks */}
+            <div className="text-[#ffd93d] font-black text-2xl sm:text-3xl select-none" aria-hidden="true">
+              ⚡
+            </div>
+
+            <h2 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-[#1a1a1a] tracking-tight">
+              Shipped{" "}
+              <span className="inline-block bg-[#e63946] text-white px-3 sm:px-4 py-0.5 rounded-lg border-[2.5px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a]">
+                Work
+              </span>
+            </h2>
+
+            {/* Right comic action sparks */}
+            <div className="text-[#ffd93d] font-black text-2xl sm:text-3xl select-none" aria-hidden="true">
+              ⚡
+            </div>
+          </div>
+
+          <p className="font-body text-[#3e3832] text-sm sm:text-base mt-2.5 font-bold">
+            A track of the projects I've built — one station at a time.
+          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
-            <button type="button" key={p.name} className="tr-ticket tr-ticket-btn !static text-left" onClick={() => setActive(p)}>
-              <div className="flex items-start justify-end mb-2">
-                <span className="font-[Patrick_Hand] text-[10px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
+
+        {/* =====================================================================
+            2. MAIN STATION CARD & NAVIGATION ARROWS COMPOSITION
+            Left arrow + Window-Style Junction Station Card + Right arrow
+            ===================================================================== */}
+        <div className="relative flex items-center justify-center gap-3 sm:gap-6 mb-8">
+          {/* Left Arrow Button (Lavender/Pink) */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous Project Station"
+            className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#ede9fe] border-[2.5px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] flex items-center justify-center text-xl sm:text-2xl font-black text-[#1a1a1a] cursor-pointer hover:bg-[#ddd6fe] hover:translate-x-[-2px] active:translate-x-0 transition-all shrink-0"
+          >
+            ←
+          </button>
+
+          {/* Central Station Card (Window Frame) */}
+          <div className="w-full max-w-3xl retro-window bg-white border-[2.5px] border-[#1a1a1a] rounded-2xl shadow-[8px_8px_0px_#7c3aed] overflow-hidden transition-all duration-300">
+            {/* Window Title Bar */}
+            <div className="retro-window-header header-yellow !px-4 !py-2.5 flex items-center justify-between border-b-[2.5px] border-[#1a1a1a]">
+              <div className="retro-window-title font-mono font-bold text-xs sm:text-sm text-[#1a1a1a]">
+                <span>Junction {activeStation.stationNum} / 0{totalStations}</span>
               </div>
-              <h3 className="font-[Permanent_Marker] text-lg text-[#1a1a1a]">{p.name}</h3>
-              <p className="font-[Architects_Daughter] text-sm text-neutral-600 italic">{p.type}</p>
-              <p className="font-[Kalam] text-sm mt-2 text-[#2a2118]">{p.note}</p>
-              <div className="mt-2 pt-2 border-t-2 border-dashed border-neutral-400 flex items-center justify-between">
-                <p className="font-[Patrick_Hand] text-xs text-neutral-600">{p.tech}</p>
-                <span className="tr-tap-static font-[Patrick_Hand] text-xs text-[#e63946]">tap</span>
+              <div className="retro-window-controls flex items-center gap-1.5">
+                <span className="win-btn win-btn-min">−</span>
+                <span className="win-btn win-btn-max">□</span>
+                <span className="win-btn win-btn-close">✕</span>
               </div>
-            </button>
-          ))}
+            </div>
+
+            {/* Window Content Grid */}
+            <div className="p-5 sm:p-8 bg-white grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              {/* Left Column: Project Details */}
+              <div className="md:col-span-7 flex flex-col items-start space-y-3">
+                <div className="flex items-center gap-3.5">
+                  {/* Large Project Icon with Pink Offset Shadow */}
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-[2.5px] border-[#1a1a1a] shadow-[4px_4px_0px_#f472b6] flex items-center justify-center shrink-0">
+                    <IconComp className="w-10 h-10" />
+                  </div>
+
+                  <div>
+                    {/* Project Title with External Arrow */}
+                    <div className="flex items-center gap-1.5">
+                      <a
+                        href={activeStation.liveUrl || activeStation.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => handleProjectLinkClick(e, activeStation.liveUrl || activeStation.repoUrl)}
+                        className="font-display font-black text-2xl sm:text-3xl text-[#1a1a1a] hover:text-[#e63946] transition-colors"
+                      >
+                        {activeStation.name}
+                      </a>
+                      <span className="font-mono text-xl font-bold text-[#1a1a1a]">↗</span>
+                    </div>
+
+                    {/* Category Capsule Badge */}
+                    <div className="mt-1">
+                      <span className="inline-block bg-[#1a1a1a] text-white text-[10px] sm:text-xs font-mono font-bold px-2 py-0.5 rounded">
+                        {activeStation.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Short Project Description */}
+                <p className="font-body text-[#3e3832] text-xs sm:text-sm leading-relaxed font-bold pt-1">
+                  {activeStation.tagline}
+                </p>
+
+                {/* Technology Badges with Vector Logos */}
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  {activeStation.stack.map((tech) => (
+                    <div
+                      key={tech}
+                      className="px-2.5 py-1 rounded-lg bg-white border-2 border-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a] flex items-center gap-1.5 text-xs font-mono font-bold text-[#1a1a1a]"
+                    >
+                      {tech === "Flutter" && <FlutterLogoIcon className="w-3.5 h-3.5" />}
+                      {tech === "Dart" && <DartLogoIcon className="w-3.5 h-3.5" />}
+                      {tech === "Supabase" && <SupabaseLogoIcon className="w-3.5 h-3.5" />}
+                      {tech === "Python" && <PythonLogoIcon className="w-3.5 h-3.5" />}
+                      <span>{tech}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Status & Project Illustration */}
+              <div className="md:col-span-5 flex flex-col items-center md:items-end justify-center border-t-2 md:border-t-0 md:border-l-2 border-dashed border-[#1a1a1a]/20 pt-4 md:pt-0 md:pl-6">
+                {/* Live Status Badge */}
+                <div className="mb-2 self-center md:self-end">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#dcfce7] text-[#15803d] border-2 border-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a] font-mono text-xs font-bold">
+                    <span className="w-2 h-2 rounded-full bg-[#16a34a] animate-pulse" />
+                    <span>{activeStation.status}</span>
+                  </span>
+                </div>
+
+                {/* Project-Specific Vector Artwork */}
+                <div className="w-full flex justify-center md:justify-end">
+                  <StationProjectVisual stationId={activeStation.id} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Arrow Button (Yellow) */}
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next Project Station"
+            className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[#ffd93d] border-[2.5px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] flex items-center justify-center text-xl sm:text-2xl font-black text-[#1a1a1a] cursor-pointer hover:bg-[#facc15] hover:translate-x-[2px] active:translate-x-0 transition-all shrink-0"
+          >
+            →
+          </button>
+        </div>
+
+        {/* =====================================================================
+            3. RAILWAY TRACK, PIXEL TRAIN & NEXT STOP STATION SIGN
+            Horizontal track with wooden sleepers, moving pixel train,
+            and Next Stop roadsign matching Reference Image 3
+            ===================================================================== */}
+        <div className="relative mt-8 mb-6 py-6" ref={trackRef}>
+          {/* Decorative Green Bushes behind track */}
+          <div className="absolute left-2 bottom-6 z-0 select-none pointer-events-none opacity-90" aria-hidden="true">
+            <svg viewBox="0 0 100 40" className="w-24 h-10 fill-[#22c55e] stroke-[#1a1a1a] stroke-[2.5]">
+              <path d="M10 38 C4 30 14 18 26 22 C34 10 52 10 60 20 C70 14 86 18 90 38 Z" />
+            </svg>
+          </div>
+          <div className="absolute right-6 bottom-6 z-0 select-none pointer-events-none opacity-90" aria-hidden="true">
+            <svg viewBox="0 0 100 40" className="w-24 h-10 fill-[#22c55e] stroke-[#1a1a1a] stroke-[2.5]">
+              <path d="M10 38 C4 30 14 18 26 22 C34 10 52 10 60 20 C70 14 86 18 90 38 Z" />
+            </svg>
+          </div>
+
+          {/* "NEXT STOP" Station Sign on Twin Posts */}
+          <div className="absolute right-14 sm:right-28 bottom-9 z-10 select-none">
+            {/* Twin support posts */}
+            <div className="absolute left-3 top-8 w-1.5 h-6 bg-[#7c3aed] border border-[#1a1a1a]" />
+            <div className="absolute right-3 top-8 w-1.5 h-6 bg-[#7c3aed] border border-[#1a1a1a]" />
+            {/* Signboard */}
+            <div className="relative bg-[#fdfcf7] border-2 border-[#1a1a1a] rounded-lg px-3 py-1 shadow-[2px_2px_0px_#1a1a1a] text-center min-w-[110px]">
+              <div className="font-mono text-[9px] uppercase tracking-wider text-[#6b635b] font-bold">
+                NEXT STOP
+              </div>
+              <div className="font-display font-black text-xs text-[#1a1a1a] flex items-center justify-center gap-1">
+                <span>{nextStation.name}</span>
+                <span>→</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Moving Pixel-Art Train */}
+          <div
+            className="relative z-10 transition-transform duration-500 ease-out will-change-transform"
+            style={{
+              transform: `translateX(${trainTranslatePercent}%)`
+            }}
+          >
+            <RetroPixelTrain className="w-56 sm:w-64 h-auto" />
+          </div>
+
+          {/* Railway Track Ground Base */}
+          <div className="relative w-full h-7 mt-[-10px] z-20">
+            {/* Upper Rail */}
+            <div className="w-full h-1.5 bg-[#404040] border-y border-[#1a1a1a]" />
+            {/* Wooden Sleepers / Cross Ties */}
+            <div
+              className="w-full h-3 border-y border-[#1a1a1a] opacity-90"
+              style={{
+                backgroundImage: "repeating-linear-gradient(90deg, #5c4033 0px, #5c4033 10px, transparent 10px, transparent 24px)"
+              }}
+            />
+            {/* Lower Rail */}
+            <div className="w-full h-1.5 bg-[#404040] border-y border-[#1a1a1a]" />
+          </div>
+        </div>
+
+        {/* =====================================================================
+            4. NUMBERED PROJECT TIMELINE (Matching Reference Image 3)
+            Cream container, connecting rail, active yellow marker, stop labels
+            ===================================================================== */}
+        <div className="mt-4 bg-[#fdfbf7] border-[2.5px] border-[#1a1a1a] rounded-2xl p-4 sm:p-5 shadow-[6px_6px_0px_#f472b6] overflow-x-auto">
+          <div className="min-w-[620px] relative px-6 py-2">
+            {/* Connecting Horizontal Rail Line */}
+            <div className="absolute top-[22px] left-10 right-10 h-1 bg-[#1a1a1a]" />
+
+            {/* Stops Grid */}
+            <div className="relative flex justify-between items-center z-10">
+              {projectStations.map((station, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <button
+                    key={station.id}
+                    type="button"
+                    onClick={() => navigateToStation(idx)}
+                    className="flex flex-col items-center focus:outline-none cursor-pointer group"
+                    aria-label={`Jump to Station ${station.stationNum}: ${station.name}`}
+                  >
+                    {/* Stop Circle Marker */}
+                    <div
+                      className={`w-7 h-7 rounded-full border-2 border-[#1a1a1a] flex items-center justify-center transition-all ${
+                        isActive
+                          ? "bg-[#ffd93d] shadow-[2px_2px_0px_#1a1a1a] scale-125"
+                          : "bg-white group-hover:bg-[#fef08a]"
+                      }`}
+                    >
+                      <div
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
+                          isActive ? "bg-[#1a1a1a]" : "bg-[#1a1a1a]/60"
+                        }`}
+                      />
+                    </div>
+
+                    {/* Station Number & Name Badge */}
+                    <div className="mt-2 text-center">
+                      {isActive ? (
+                        <div className="bg-[#ffd93d] border-2 border-[#1a1a1a] rounded-md px-2 py-0.5 shadow-[2px_2px_0px_#1a1a1a] font-display font-extrabold text-xs text-[#1a1a1a]">
+                          {station.stationNum} {station.name}
+                        </div>
+                      ) : (
+                        <div className="font-mono text-xs font-bold text-[#1a1a1a] group-hover:text-[#e63946] transition-colors">
+                          <div className="text-[11px] text-[#6b635b]">{station.stationNum}</div>
+                          <div>{station.name}</div>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* View All Projects Deep-Dive Link */}
+        <div className="mt-10 text-center">
+          <a
+            href="/projects/"
+            onClick={(e) => {
+              if (onNavigate && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault();
+                onNavigate("/projects/");
+              }
+            }}
+            className="btn-retro-primary !text-sm !py-3 !px-8 inline-flex items-center gap-2"
+          >
+            <span>Explore All 14 Projects &amp; Extended Case Studies</span>
+            <span>→</span>
+          </a>
         </div>
       </div>
 
-      <ProjectModal project={active} onClose={() => setActive(null)} />
+      {/* Station Technical Specification Modal (Accessible if required) */}
+      {selectedStation && (
+        <StationModal
+          station={selectedStation}
+          onClose={() => setSelectedStation(null)}
+        />
+      )}
     </section>
   );
 }
 
-function ProjectModal({ project, onClose }: { project: Project | null; onClose: () => void }) {
-  if (!project) return null;
-  const p = project;
+function StationModal({ station, onClose }: { station: ProjectStation; onClose: () => void }) {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
   return (
-    <div className="pm-overlay" onClick={onClose}>
-      <div className="pm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-        <span className="pm-tape" />
-        <button className="pm-close" onClick={onClose} aria-label="close">✕</button>
-
-        <div className="flex items-start justify-between pr-8">
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-[Patrick_Hand] text-[11px] px-2 py-0.5 border border-black/40 rounded-full bg-[#ffd93d] text-[#1a1a1a]">{p.status}</span>
-              <span className="font-[Architects_Daughter] text-sm text-neutral-500 italic">{p.type}</span>
-            </div>
-            <h3 className="font-[Permanent_Marker] text-2xl md:text-3xl text-[#1a1a1a] leading-tight mt-1">{p.name}</h3>
+    <div
+      className="fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-[#1a1a1a]/70 backdrop-blur-xs animate-[fadeIn_0.15s_ease-out]"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="relative w-full max-w-2xl retro-window retro-window-yellow shadow-[10px_10px_0px_#1a1a1a] overflow-hidden max-h-[90vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="retro-window-header header-yellow">
+          <div className="retro-window-title font-mono font-bold text-xs text-[#1a1a1a]">
+            <span>station_spec.exe — STN {station.stationNum}: {station.name.toUpperCase()}</span>
+          </div>
+          <div className="retro-window-controls">
+            <button
+              type="button"
+              onClick={onClose}
+              className="win-btn win-btn-close cursor-pointer"
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
           </div>
         </div>
 
-        <div className="pm-divider" />
+        <div className="p-6 sm:p-8 bg-white overflow-y-auto space-y-5">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-[#ffd93d] text-[#1a1a1a] font-bold border border-[#1a1a1a] shadow-[1px_1px_0px_#1a1a1a]">
+              STATION {station.stationNum}
+            </span>
+            <span className="font-mono text-xs text-[#6b635b] font-bold">
+              {station.category}
+            </span>
+            <span className="badge-retro-live">
+              {station.status}
+            </span>
+          </div>
 
-        <div className="pm-body">
-          <div className="pm-block">
-            <h4 className="pm-h">the problem</h4>
-            <p className="pm-text">{p.problem}</p>
-          </div>
-          <div className="pm-block">
-            <h4 className="pm-h">what i built</h4>
-            <p className="pm-text">{p.build}</p>
-          </div>
-          <div className="pm-block">
-            <h4 className="pm-h">impact</h4>
-            <ul className="pm-list">
-              {p.impact.map((it) => (
-                <li key={it}><span className="pm-check">✓</span>{it}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="pm-block">
-            <h4 className="pm-h">built with</h4>
-            <div className="flex flex-wrap gap-2 mt-1">
-              {p.stack.map((s) => (<span key={s} className="pm-chip">{s}</span>))}
+          <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-[#1a1a1a]">
+            {station.fullName}
+          </h3>
+          <p className="font-body text-base text-[#3e3832] font-bold border-l-4 border-[#ffd93d] pl-3 py-1">
+            {station.tagline}
+          </p>
+
+          <div className="my-3 border-t-2 border-[#1a1a1a]" />
+
+          <div className="space-y-4 font-body text-sm text-[#3e3832]">
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-wider text-[#e63946] font-bold mb-1">
+                // Problem &amp; Context
+              </h4>
+              <p className="leading-relaxed">{station.problem}</p>
+            </div>
+
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-wider text-[#059669] font-bold mb-1">
+                // Architecture &amp; Implementation
+              </h4>
+              <p className="leading-relaxed">{station.architecture}</p>
+            </div>
+
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-wider text-[#7c3aed] font-bold mb-1">
+                // My Engineering Role
+              </h4>
+              <p className="leading-relaxed">{station.myContribution}</p>
+            </div>
+
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-wider text-[#1a1a1a] font-bold mb-2">
+                // Verified Technical Stack
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {station.fullStack.map((t) => (
+                  <span key={t} className="badge-retro-tech">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-mono text-xs uppercase tracking-wider text-[#1a1a1a] font-bold mb-2">
+                // Outcomes &amp; Performance Benchmarks
+              </h4>
+              <ul className="space-y-1.5 text-xs text-[#3e3832]">
+                {station.metrics.map((m) => (
+                  <li key={m} className="flex items-start gap-2">
+                    <span className="text-[#059669] font-bold">✓</span>
+                    <span>{m}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </div>
 
-        <a href={p.repo} target="_blank" rel="me noopener noreferrer" className="pm-repo-btn">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-            <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.5-.3-5.2-1.3-5.2-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.2 5.7.4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
-          </svg>
-          view on github
-        </a>
-        <p className="pm-hint font-[Architects_Daughter]">press <kbd>esc</kbd> or click outside to close</p>
+          <div className="mt-6 pt-4 border-t-2 border-[#1a1a1a] flex flex-wrap items-center justify-between gap-3">
+            <a
+              href={station.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-retro-primary !text-xs !py-2 !px-4 inline-flex items-center gap-2"
+            >
+              <span>View Source Code (GitHub) ↗</span>
+            </a>
+
+            <p className="font-mono text-xs text-[#6b635b] font-bold">
+              press <kbd className="px-1 py-0.5 rounded bg-white border border-[#1a1a1a] shadow-[1px_1px_0px_#1a1a1a]">esc</kbd> to close
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

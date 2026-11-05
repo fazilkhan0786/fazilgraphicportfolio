@@ -79,15 +79,15 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative py-28 px-6 md:px-10 bg-[#fffdf5] border-t-2 border-dashed border-black/20">
-      <div className="mx-auto max-w-5xl relative z-10">
+    <section id="faq" className="relative py-24 px-4 sm:px-6 md:px-10 border-t-[2.5px] border-[#1a1a1a]">
+      <div className="mx-auto max-w-4xl relative z-10">
         <div className="reveal text-center mb-10">
-          <span className="section-num block mb-2">08</span>
-          <h2 className="font-[Caveat] font-bold text-5xl md:text-7xl">
-            frequently asked <span className="text-[#e63946]">questions</span>
+          <span className="section-tag uppercase mb-2 inline-block">// SECTION 07</span>
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#1a1a1a] tracking-tight comic-sparks">
+            FREQUENTLY ASKED <span className="badge-word-yellow">QUESTIONS.</span>
           </h2>
-          <p className="font-[Patrick_Hand] text-lg text-neutral-600 max-w-xl mx-auto mt-2">
-            candid answers about my background, technical craft, and approach to building systems.
+          <p className="font-body text-sm sm:text-base text-[#3e3832] max-w-xl mx-auto mt-3">
+            Direct, verified answers about my engineering craft, founding Promacle, and approach to systems.
           </p>
         </div>
 
@@ -96,11 +96,7 @@ export default function FAQ() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`tag-pill !text-sm !px-4 !py-1.5 transition-all ${
-                activeCategory === cat
-                  ? "!bg-[#1a1a1a] !text-white"
-                  : "!bg-[#fffef7] text-black hover:!bg-amber-100"
-              }`}
+              className={`filter-btn-retro ${activeCategory === cat ? "filter-active" : ""}`}
             >
               {cat}
             </button>
@@ -113,19 +109,23 @@ export default function FAQ() {
             return (
               <div
                 key={faq.id}
-                className="wiggle-box bg-[#fffef7] p-5 md:p-6 transition-all duration-300 border-2 border-black rounded-xl"
+                className={`p-5 md:p-6 rounded-2xl bg-white border-[2.5px] border-[#1a1a1a] transition-all duration-200 ${
+                  isOpen ? "shadow-[6px_6px_0px_#ffd93d]" : "shadow-[3px_3px_0px_#1a1a1a]"
+                }`}
               >
                 <dt>
                   <button
                     onClick={() => toggle(faq.id)}
-                    className="w-full flex items-center justify-between text-left font-[Permanent_Marker] text-xl md:text-2xl gap-4 focus:outline-none"
+                    className="w-full flex items-center justify-between text-left font-display font-extrabold text-lg md:text-xl text-[#1a1a1a] gap-4 focus:outline-none cursor-pointer"
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${faq.id}`}
                   >
                     <span className="flex items-center gap-3">
-                      <span className="text-[#e63946]">Q.</span> {faq.question}
+                      <span className="text-[#e63946] font-mono text-sm font-bold">Q.</span> {faq.question}
                     </span>
-                    <span className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center font-[Inter] text-lg shrink-0 bg-[#fff9b0]">
+                    <span className={`w-8 h-8 rounded-lg border-2 border-[#1a1a1a] flex items-center justify-center font-mono text-sm font-bold shrink-0 transition-colors ${
+                      isOpen ? "bg-[#ffd93d] text-[#1a1a1a] shadow-[1px_1px_0px_#1a1a1a]" : "bg-[#fbf8ef] text-[#1a1a1a]"
+                    }`}>
                       {isOpen ? "−" : "+"}
                     </span>
                   </button>
@@ -133,24 +133,24 @@ export default function FAQ() {
 
                 <dd
                   id={`faq-answer-${faq.id}`}
-                  className={`mt-4 pt-4 border-t border-black/10 transition-all duration-300 ${
+                  className={`mt-4 pt-4 border-t-2 border-[#1a1a1a]/20 transition-all duration-300 ${
                     isOpen ? "block opacity-100" : "hidden opacity-0"
                   }`}
                 >
-                  <div className="bg-amber-50/80 p-4 border-l-4 border-[#e63946] rounded-r-lg mb-3 font-[Kalam] text-base md:text-lg">
-                    <strong className="font-[Permanent_Marker] text-[#e63946] block mb-1">
-                      Direct Summary (AEO Definition):
+                  <div className="bg-[#86efac]/20 p-4 border-2 border-[#1a1a1a] rounded-xl mb-3 text-sm text-[#1a1a1a] font-body shadow-[2px_2px_0px_#1a1a1a]">
+                    <strong className="font-mono text-xs text-[#059669] uppercase tracking-wider block mb-1 font-bold">
+                      // Direct Summary (AEO Definition):
                     </strong>
                     {faq.shortAnswer}
                   </div>
 
-                  <p className="font-[Kalam] text-base md:text-lg leading-relaxed text-neutral-800">
+                  <p className="font-body text-sm md:text-base leading-relaxed text-[#3e3832]">
                     {faq.fullAnswer}
                   </p>
 
-                  <div className="mt-3 flex flex-wrap gap-1.5">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {faq.tags.map((t) => (
-                      <span key={t} className="tag-pill !text-xs !py-0.5 !px-2 !bg-white/80">
+                      <span key={t} className="badge-retro-tech !text-[11px]">
                         #{t}
                       </span>
                     ))}

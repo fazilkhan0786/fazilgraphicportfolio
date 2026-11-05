@@ -92,7 +92,7 @@ export default function PrivacyPolicyPage({ onNavigate }: PrivacyPolicyPageProps
               4. Cookies and Local Storage
             </h2>
             <p>
-              This portfolio does not use persistent marketing or behavioral tracking cookies. Standard first-party session cookies may be placed by Google Analytics if tracking is active. All interactive features (notebook animation, tabs, search filters) run locally in your browser memory.
+              This portfolio does not use persistent marketing or behavioral tracking cookies. Standard first-party session cookies may be placed by Google Analytics if tracking is active. All interactive features (project journey, tabs, category filters, interactive modals) run locally in your browser memory.
             </p>
           </section>
 

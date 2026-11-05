@@ -12,33 +12,58 @@ export default function Articles({ onNavigate }: { onNavigate?: (path: string) =
   const homeStories = stories.slice(0, 3);
 
   return (
-    <section id="articles" className="relative py-28 px-6 md:px-10 crosshatch-bg">
+    <section id="articles" className="relative py-24 px-4 sm:px-6 md:px-10 border-t-[2.5px] border-[#1a1a1a]">
       <div className="mx-auto max-w-6xl relative z-10">
         <div className="reveal text-center mb-12">
-          <span className="section-num block mb-2">07</span>
-          <h2 className="font-[Caveat] font-bold text-5xl md:text-7xl">
-            stories &amp; <span className="text-[#e63946]">writings</span>
+          <span className="section-tag uppercase mb-2 inline-block">// SECTION 06</span>
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-[#1a1a1a] tracking-tight comic-sparks">
+            ENGINEERING ESSAYS &amp; <span className="badge-word-purple">REFLECTIONS.</span>
           </h2>
-          <p className="font-[Patrick_Hand] text-lg text-neutral-600 max-w-xl mx-auto mt-2">
-            first-person reflections on founding Promacle, building NuroVed, GTU engineering, and product craft.
+          <p className="font-body text-sm sm:text-base text-[#3e3832] max-w-xl mx-auto mt-3">
+            First-person technical reflections on founding Promacle, architecting NuroVed, GTU engineering, and product craft.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {homeStories.map((story) => (
-            <article
-              key={story.slug}
-              className="reveal wiggle-box bg-[#fffef7] p-6 border-[2px] border-black rounded-lg flex flex-col justify-between shadow-[4px_5px_0_rgba(26,26,26,0.1)] hover:shadow-[6px_8px_0_rgba(26,26,26,0.16)] hover:-translate-y-1 transition-all group"
-            >
-              <div>
-                <div className="flex items-center justify-between text-xs font-[Patrick_Hand] text-neutral-500 mb-3">
-                  <span className="bg-[#1a1a1a] text-white px-2.5 py-0.5 rounded font-bold">
-                    {story.category}
-                  </span>
-                  <span>{story.readTime}</span>
+        <div className="grid md:grid-cols-3 gap-6">
+          {homeStories.map((story, i) => {
+            const cardStyles = ["card-retro-purple", "card-retro-mint", "card-retro-pink"];
+            return (
+              <article
+                key={story.slug}
+                className={`reveal ${cardStyles[i % cardStyles.length]} flex flex-col justify-between group`}
+              >
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#1a1a1a] mb-3 font-bold">
+                    <span className="bg-white border border-[#1a1a1a] px-2.5 py-0.5 rounded shadow-[1px_1px_0px_#1a1a1a]">
+                      {story.category}
+                    </span>
+                    <span>{story.readTime}</span>
+                  </div>
+
+                  <h3 className="font-display font-extrabold text-xl text-[#1a1a1a] leading-snug mb-3">
+                    <a
+                      href={`/stories/${story.slug}/`}
+                      onClick={(e) => {
+                        if (onNavigate && !e.ctrlKey && !e.metaKey) {
+                          e.preventDefault();
+                          onNavigate(`/stories/${story.slug}/`);
+                        }
+                      }}
+                      className="hover:text-[#e63946] transition-colors"
+                    >
+                      {story.title}
+                    </a>
+                  </h3>
+
+                  <p className="font-body text-xs sm:text-sm text-[#3e3832] leading-relaxed">
+                    {story.excerpt}
+                  </p>
                 </div>
 
-                <h3 className="font-[Permanent_Marker] text-xl leading-snug mb-3">
+                <div className="mt-6 pt-4 border-t-2 border-[#1a1a1a]/20 flex items-center justify-between font-mono text-xs">
+                  <span className="text-[#6b635b] font-bold">
+                    {story.date}
+                  </span>
                   <a
                     href={`/stories/${story.slug}/`}
                     onClick={(e) => {
@@ -47,37 +72,15 @@ export default function Articles({ onNavigate }: { onNavigate?: (path: string) =
                         onNavigate(`/stories/${story.slug}/`);
                       }
                     }}
-                    className="group-hover:text-[#e63946] transition-colors"
+                    className="font-bold text-[#1a1a1a] hover:text-[#e63946] inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
                   >
-                    {story.title}
+                    <span>Read Essay</span>
+                    <span>→</span>
                   </a>
-                </h3>
-
-                <p className="font-[Kalam] text-sm text-neutral-700 leading-relaxed">
-                  {story.excerpt}
-                </p>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-black/10 flex items-center justify-between">
-                <span className="font-[Patrick_Hand] text-xs text-neutral-500">
-                  {story.date} • {story.author}
-                </span>
-                <a
-                  href={`/stories/${story.slug}/`}
-                  onClick={(e) => {
-                    if (onNavigate && !e.ctrlKey && !e.metaKey) {
-                      e.preventDefault();
-                      onNavigate(`/stories/${story.slug}/`);
-                    }
-                  }}
-                  className="font-[Patrick_Hand] text-sm text-[#e63946] font-bold hover:underline underline-hand"
-                  style={{ textDecorationColor: "#e63946" }}
-                >
-                  Read entry
-                </a>
-              </div>
-            </article>
-          ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {/* Link to view all categories in the Stories archive */}
@@ -90,9 +93,9 @@ export default function Articles({ onNavigate }: { onNavigate?: (path: string) =
                 onNavigate("/stories/");
               }
             }}
-            className="btn-hand btn-filled inline-flex items-center gap-2 text-base md:text-lg"
+            className="btn-retro-primary !text-sm !py-3 !px-8 inline-flex items-center gap-2"
           >
-            <span>Browse all notebook writings &amp; categories ({stories.length} published)</span>
+            <span>Browse All Engineering Essays ({stories.length} Published) →</span>
           </a>
         </div>
       </div>

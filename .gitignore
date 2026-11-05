@@ -46,3 +46,4 @@ id_rsa.pub
 # Temporary / Agent files
 .gemini/
 .agents/
+scratch/

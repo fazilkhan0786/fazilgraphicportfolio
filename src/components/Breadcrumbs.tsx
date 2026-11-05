@@ -27,7 +27,7 @@ export default function Breadcrumbs({ items, className = "", onNavigate }: Bread
   return (
     <nav
       aria-label="Breadcrumbs"
-      className={`font-[Patrick_Hand] text-sm md:text-base text-neutral-500 mb-6 flex items-center flex-wrap gap-1.5 ${className}`}
+      className={`font-mono text-xs font-bold text-[#6b635b] flex items-center flex-wrap gap-1.5 ${className}`}
     >
       <ol className="flex items-center flex-wrap gap-1.5 list-none p-0 m-0">
         {items.map((item, index) => {
@@ -35,10 +35,10 @@ export default function Breadcrumbs({ items, className = "", onNavigate }: Bread
 
           return (
             <li key={item.path} className="flex items-center gap-1.5">
-              {index > 0 && <span className="text-neutral-400 select-none">/</span>}
+              {index > 0 && <span className="text-[#1a1a1a]/40 select-none">/</span>}
               {isLast ? (
                 <span
-                  className="text-[#e63946] font-bold truncate max-w-[240px] sm:max-w-md inline-block"
+                  className="bg-[#ffd93d] text-[#1a1a1a] border border-[#1a1a1a] px-2 py-0.5 rounded shadow-[1px_1px_0px_#1a1a1a] truncate max-w-[240px] sm:max-w-md inline-block"
                   aria-current="page"
                 >
                   {item.label}
@@ -47,7 +47,7 @@ export default function Breadcrumbs({ items, className = "", onNavigate }: Bread
                 <a
                   href={item.path}
                   onClick={(e) => handleClick(e, item.path)}
-                  className="hover:text-[#e63946] underline-hand transition-colors"
+                  className="text-[#1a1a1a] hover:text-[#e63946] hover:underline transition-colors"
                 >
                   {item.label}
                 </a>

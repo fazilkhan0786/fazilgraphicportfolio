@@ -32,8 +32,8 @@ export const STATIC_ROUTES: RouteConfig[] = [
   {
     path: "/",
     cleanPath: "/",
-    title: "Fazil Malek | Web Developer for Local Businesses, Ahmedabad & Gujarat",
-    description: "Computer Engineering student at GTU building fast, mobile-friendly websites and full-stack apps for clinics, cafes, gyms and shops in Gujarat. Free sample design before you pay.",
+    title: "Fazil Malek | Software Engineer & Product Architect | Ahmedabad, Gujarat",
+    description: "Computer Engineering student at GTU & founder of Promacle. Engineering full-stack web platforms, mobile systems with Flutter, and applied AI applications for companies and ambitious local businesses.",
     canonical: `${BASE_URL}/`,
     ogType: "profile",
     ogImage: DEFAULT_IMAGE,
